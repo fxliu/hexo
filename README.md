@@ -32,3 +32,5 @@
   + `hexo init code`：代码保存文件夹
 + 主题
   + [fexo](https://github.com/forsigner/fexo)
++ 功能页面：居然木有默认demo，被坑了
+  + `hexo new page category`
