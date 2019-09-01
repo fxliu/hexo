@@ -1,6 +1,6 @@
 # 个人博客
 
- hexo
+业精于勤荒于嬉
 
 ## 原则
 
@@ -30,4 +30,5 @@
 + [hexo](https://hexo.io/zh-cn/docs/)
   + `cnpm install -g hexo-cli`
   + `hexo init code`：代码保存文件夹
-
++ 主题
+  + [fexo](https://github.com/forsigner/fexo)
