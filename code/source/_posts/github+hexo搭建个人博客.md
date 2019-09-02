@@ -127,7 +127,7 @@ comments: false
 ---
 ```
 
-## 启用项目页面
+## fexo: 启用项目页面
 
 + 根目录执行`hexo new page project`
 + 修改`my-blog/source/project/index.md`内容
@@ -139,6 +139,11 @@ layout: project
 comments: false
 ---
 ```
+
+## fexo: 自定义样式
+
++ 未自定义样式情况，屏蔽`personal_style: /css/personal-style.css`
++ 需要自定义样式，官网文档有实例
 
 ## 启用搜索页面
 

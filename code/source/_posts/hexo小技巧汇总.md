@@ -7,7 +7,9 @@ categories:
   - 博客
 ---
 
-## 代码块不显示行号
+## hexo
+
+### 代码块不显示行号
 
 + 调整根目录`_config.yml`配置文件
 + `line_number`默认`true`显示行号，影响代码复制
@@ -16,3 +18,13 @@ categories:
 highlight:
   line_number: false
 ```
+
+## fexo
+
++ 调整根目录`_config.yml`配置文件
++ `busuanzi: true`开启网站统计
+  + js代码：`fexo\layout\_partial\head.ejs`
++ `baidu_analytics: ****`百度网站统计
+  + js代码：`fexo\layout\_partial\baidu-analytics.ejs`
+    + 补充类型字段`hm.type = "*.*";`，避免部分浏览器加载失败
+  + 百度推送：`fexo\layout\_partial\baidu-analytics.ejs`
