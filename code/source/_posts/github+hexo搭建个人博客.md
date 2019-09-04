@@ -32,8 +32,8 @@ categories:
 + 微软官网[下载](https://code.visualstudio.com/)安装
 + 推荐插件
   + `Ctrl+Shift+P`->`configure Display Language`安装简体中文
-  + `Ctrl+Shift+P`->`Markdown All in One`
-  + `Ctrl+Shift+P`->`Markdown Preview Github Styling`
+  + `Ctrl+Shift+X`->`Markdown All in One`
+  + `Ctrl+Shift+X`->`Markdown Preview Github Styling`
     + [规则翻译](https://www.jianshu.com/p/51523a1c6fe1)
 
 ## [hexo](https://hexo.io/zh-cn/docs/)
