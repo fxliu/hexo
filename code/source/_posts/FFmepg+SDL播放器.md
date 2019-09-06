@@ -3,8 +3,9 @@ title: FFmepg(4.2)+SDL(2.0)播放器
 tags: 
   - FFmepg
   - SDL 
+  - UI
 categories: 
-  - 博客
+  - VC
 ---
 
 ## FFmepg环境(4.2)
