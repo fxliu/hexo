@@ -74,9 +74,16 @@ printf("%s", avcodec_configuration());
 + 裁剪：从30秒开始到40秒
   + `ffmpeg -i input.wmv -ss 30 -t 10 output.wmv`
   + `ffmpeg -i input.wmv -ss 30 -to 40 output.wmv`
+    + 把-ss, -t参数放在-i参数之后，是对输出文件执行的seek操作; 逐帧解码，直到-ss设置的时间点为止，这么操作会很慢，虽然时间点是准确的，但是很容易出现黑屏问题。
+    + 将-ss，-t参数放在-i参数之前，对输入文件执行seek操作，会seek到-ss设置的时间点前面的关键帧上，时间不精确，但是不会出现黑屏。
+      + 可以补充accurate_seek 参数，让剪切时间更加精准，但seek要放在-i之前
+      + `ffmpeg -ss 10 -t 15 -accurate_seek -i test.mp4 cut.mp4`
+      + 如果编码格式采用的copy 最好加上 -avoid_negative_ts 1参数
+      + `ffmpeg -ss 10 -t 15 -accurate_seek -i test.mp4 -codec copy -avoid_negative_ts 1 cut.mp4`
   + `-c copy`：复制所有的流
   + `-vcodec copy`：使用跟原视频一样的视频编解码器
   + `-acodec copy`：使用跟原视频一样的音频编解码器
+  + ``
 + 音量：音贝
   + `.\ffmpeg -i s1.mp4 -af "volumedetect" -f null /dev/null`：查看`mean_volume`->`max_volume`
   + `ffmpeg  -i input.mp3 -af "volume=0.5" output.mp3`：减半
