@@ -58,7 +58,6 @@ date: 2019-09-01 15:31:49
 
 * [转换格式大全](https://cn.office-converter.com/): 文件视频音乐统统有
   * [文件转换器](https://convertio.co/zh/)
-* [微软Ai识图]()
 * [临时邮箱](http://24mail.chacuo.net/)
   * 用于填写邮箱时候，不想使用您的真实邮箱情况。不需要注册，邮箱持续24小时。
   * 发送匿名邮件

@@ -23,6 +23,22 @@ categories:
   + 该函数指令返回时，仅说明Windows接收到该指令并开始执行，不保证能连接成功
 + `WlanDisconnect`: 终止WIFI连接
 
+## 命令行
+
++ 查看所有配置名称: `netsh wlan show profile`
++ 连接到无线WIFI: `wlan connect name=PROFILE`
+  + 指定SSID: `netsh wlan connect ssid=SSID name=PROFILE`
++ 断开无线: `netsh wlan disconnect`
++ 添加配置: `Netsh WLAN add profile filename="存放路径"`
++ 导出配置：`Netsh WLAN export profile key=clear folder="存放路径"`
+  + 导出的 XML 配置文件是明文存储，而且会导出 WIFI 连接密码
++ 删除配置: `Netsh WLAN delete profile name="无线名称"`
++ 无线网卡配置，状态: `Netsh WLAN show interfaces`
++ 查看指定网卡: `Netsh WLAN show interface name="网卡名称"`
++ 查看已存储密码: `Netsh WLAN show profile name="无线名称" key=clear`
++ 查看无线网卡信息: `Netsh WLAN show drivers`
++ 无线网卡兼容/支持的功能: `Netsh WLAN show wirelesscapabilities`
+
 ## 备注
 
 + 都是Windows标准API，懒得解释了，需要的时候直接看Demo把
@@ -32,4 +48,4 @@ categories:
 
 ## Demo
 
-[WLan]()
+[WLan](https://github.com/fxliu/VCDemo/tree/master/SYSTEM/WLan)
