@@ -67,6 +67,8 @@ feed:
 + 我是fork到我仓库使用的
   + 打开大佬的github，点击右上角的fork按钮
   + 然后回到自己的github->Repositories，同名的仓库已经存在了，就是这么简单
+  + 直接把fexo放到`my-blog/themes/`目录下即可
+    + 该目录下默认存在一个`landscape`文件夹，这个就是dexo自带的默认主题，更换主题后可以考虑删除
 + 打开根目录的`_config.yml`，设为`theme: fexo`
 + 主题配置全部在`theme/fexo`里面完成，所以下面所有配置指的是配置`theme/fexo/_config.yml`
 + 名称`blog_name`，标语`slogan`，头像`avatar`什么的一笔带过
