@@ -56,6 +56,10 @@ date: 2019-09-01 15:31:49
 
 ### 工具
 
+* [人脸识别](https://www.arcsoft.com.cn/)
+  * 人脸识别，人证比对，活体检测，还支持人物属性检测（性别，年龄等）
+  * 支持个人身份申请，免费
+  * 支持Window,linux,安卓,接口还是比较简单的
 * [转换格式大全](https://cn.office-converter.com/): 文件视频音乐统统有
   * [文件转换器](https://convertio.co/zh/)
 * [临时邮箱](http://24mail.chacuo.net/)
