@@ -1,0 +1,22 @@
+---
+title: Git
+tags: 
+  - Git
+  - Github
+categories: 
+  - Tools
+---
+
+## 常规指令
+
++ 恢复误删除文件(尚未提交到本地库情况)：`git checkout -- file`
+  + `git status` 查看删除文件，中文会转码，但git checkout时，直接用中文使用转码文件名不好使
+
+## gihub
+
+### fork
+
+分支别人的仓库到自己仓库
+
++ 打开大佬的github，点击右上角的fork按钮
++ 然后回到自己的github->Repositories，同名的仓库已经存在了，就是这么简单
