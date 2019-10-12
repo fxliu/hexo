@@ -9,6 +9,11 @@ categories:
 
 ## hexo
 
+### 常用命令
+
++ 新文章
+  + `hexo new [layout] <title>`：`layout`默认`post`
+
 ### 代码块不显示行号
 
 + 调整根目录`_config.yml`配置文件
