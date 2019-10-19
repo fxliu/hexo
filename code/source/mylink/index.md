@@ -65,6 +65,8 @@ date: 2019-09-01 15:31:49
   * 用于填写邮箱时候，不想使用您的真实邮箱情况。不需要注册，邮箱持续24小时。
   * 发送匿名邮件
 * [临时接收手机验证码](https://www.pdflibr.com/)
+* [不正经Logo生成器](https://logoly.pro/#/)
+  * [github项目](https://github.com/bestony)
 
 ### 赚钱
 
