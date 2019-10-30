@@ -1,10 +1,13 @@
 ---
 title: github+hexo搭建个人博客
+description: hexo,github
 tags: 
   - hexo
   - github 
 categories: 
   - 博客
+date: 2019-09-01 17:14:57
+updated: 2019-09-01 17:14:57
 ---
 
 + [Hexo官网](https://hexo.io/)

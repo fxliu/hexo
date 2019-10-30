@@ -4,6 +4,9 @@ tags:
   - opencv
 categories: 
   - VC
+description: opencv
+date: 2019-09-07 16:51:20
+updated: 2019-09-07 ‏‎16:51:20
 ---
 
 ## opencv2部署

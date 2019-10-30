@@ -6,6 +6,9 @@ tags:
   - UI
 categories: 
   - VC
+description: FFmepg, SDL, UI
+date: 2019-09-16 ‏‎17:55:53
+updated: 2019-09-16 ‏‎17:55:53
 ---
 
 ## FFmepg环境(4.2)

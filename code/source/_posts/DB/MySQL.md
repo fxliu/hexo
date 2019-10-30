@@ -4,6 +4,9 @@ tags:
   - SQL
 categories: 
   - MySQL
+description: SQL
+date: 2019‎-10‎-27‎ 13:53:32
+updated: 2019‎-10‎-27‎ 13:53:32
 ---
 
 ## 常规Demo

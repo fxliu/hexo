@@ -7,6 +7,9 @@ tags:
 categories: 
   - Tools
   - IDE
+description: IntelliJ IDEA, PyCharm, PhpStorm
+date: 2019‎-10-27 ‏‎12:35:32
+updated: 2019‎-10-27 ‏‎12:35:32
 ---
 
 ## IntelliJ IDEA

@@ -2,9 +2,13 @@
 title: 加解密
 tags: 
   - openssl
+  - SM2
+  - SM4
 categories: 
   - PHP
-  - SM2/SM4
+description: openssl, SM2, SM4
+date: 2019‎-10-03 ‏‎16:03:34
+updated: 2019‎-10-03 ‏‎16:03:34
 ---
 
 ## openssl(1.1.1)

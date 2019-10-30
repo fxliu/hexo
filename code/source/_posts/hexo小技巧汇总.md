@@ -1,10 +1,12 @@
 ---
 title: hexo小技巧汇总
-date: 2019-09-01 17:14:57
-tags: 
+tags:
   - hexo
-categories: 
+categories:
   - 博客
+description: hexo
+date: 2019-09-01 00:00:00
+updated: 2019-09-01 10:00:00
 ---
 
 ## hexo

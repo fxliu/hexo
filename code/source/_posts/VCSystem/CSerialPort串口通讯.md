@@ -5,6 +5,9 @@ tags:
   - 通讯
 categories: 
   - VC
+description: 串口
+date: 2019-10-27 ‏‎15:35:33
+updated: 2019-10-27 ‏‎15:35:33
 ---
 
 ## API
