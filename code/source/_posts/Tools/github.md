@@ -19,6 +19,9 @@ updated: 2019‎-09-28 ‏‎‏‎‏‎‏‎11:04:52
 
 ## gihub
 
+[git-简明指南](http://rogerdudler.github.io/git-guide/index.zh.html)
+[猴子都能懂得GIT入门](https://backlog.com/git-tutorial/cn/)
+
 ### fork
 
 分支别人的仓库到自己仓库
