@@ -1,12 +1,13 @@
 ---
 title: 测试页
-tags:           # 标签
+tags:
   - hexo
 categories:
-  - 博客        # 一级分类 
-  - test        # 二级分类
+  - 博客          # 一级分类 
+  - test          # 二级分类
+indexing: false   # 避免被索引
 comments: false
-description: hexo, test
+description: 测试页
 date: 2019-09-01 17:53:32
 updated: 2019-10-30 10:24:17
 ---

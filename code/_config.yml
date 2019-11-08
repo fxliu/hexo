@@ -52,6 +52,13 @@ index_generator:
   path: ''
   per_page: 20
   order_by: -date
+
+# https://github.com/theme-next/hexo-generator-searchdb
+search:
+  path: search.json
+  field: post
+  content: true
+  format: html
   
 # Category & Tag
 default_category: uncategorized
