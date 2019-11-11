@@ -22,3 +22,18 @@ updated: 2019-10-31 09:07:37
       + -p：指定python安装包路径
       + -i：指定图标
       + –noconsole，就是无窗口运行
++ 加速
+  + psyco：
+    + 只需要附加指定的头即可
++ HTML解析
+  + PyQuery
+  + BeautifulSoup
++ Web框架
+  + web2py: 小巧灵活但功能强大
+    + 全栈框架
+    + [中文文档](http://www.web2py.com/books/default/chapter/35)
+  + web.py
+    + [中文文档](http://webpy.org/cookbook/index.zh-cn)
+  + Django
++ fabric: 服务器管理+应用发布
+  + 命令行集合
