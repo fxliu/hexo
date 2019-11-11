@@ -1,53 +1,55 @@
 ---
-title: Django
+title: web.py
 tags: 
-  - Django
+  - web.py
 categories: 
   - Python
-description: Django
-date: 2019-11-09 14:25:09
-updated: 2019-11-09 14:25:09
+description: web.py
+date: 2019-11-11 13:51:44
+updated: 2019-11-11 13:51:44
 ---
 
 ## 安装
 
-`pip install Django`
+`pip install web.py`
 
-+ 命令行测试`python -m django --version`
-+ Py脚本测试
+## hello world
+
++ 端口: 默认`8080`, 可以通过命令行修改 `python test.py 8081`
++ 发现HTTP请求时，创建新进程，所以**脚本更新，即时生效**
 
 ```py
-# py测试安装是否成功
-import django
-django.get_version()
+# Hello world
+import web
+
+urls = ("/.*", "hello")   # 与类名相对应，大小写敏感
+app = web.application(urls, globals())
+
+class hello:
+    def GET(self):
+        return 'Hello, world!'
+
+if __name__ == "__main__":
+    app.run()
 ```
 
-## HelloWorld
-
-+ 创建项目：`django-admin startproject mysite`
-+ 启动项目：`python manage.py runserver`
-  + 指定IP端口：`python manage.py runserver 127.0.0.1:8000`
-+ 创建视图
+## 常规用法
 
 ```py
-# hello.py
-from django.http import HttpResponse
-
-def hello(request):
-    return HttpResponse("Hello world ! ")
+class hello:
+  def GET(self):
+    data = web.input()  # URL上报所有参数，包含post，get，表单
+    return 'Hello, world!'
 ```
 
-+ 映射路径
-  + 修改：urls.py
+## 数据库
 
 ```py
-# 导入 hello
-from . import hello
-# 映射路径
-urlpatterns = [
-    path('', hello.hello),
-]
-# 映射说明：正则写法
-from django.urls import re_path
-re_path('^hello.*$', view.hello)    # 所有hello开头的URI, 均映射到view.hello
+db = web.database(
+    dbn='mysql', host='localhost', port=3306,
+    db='test_db', user='test', passwd='123456')
+
+data = db.select("test_table")
+for d in data:
+    print(d['name'])
 ```
