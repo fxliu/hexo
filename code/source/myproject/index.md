@@ -24,7 +24,7 @@ updated: 2019-11-08 12:13:37
   + CEF3可以直接替换成CEF3完整版使用
   + 已知：简化版不支持打印
 
-### Web框架
+### JS
 
 + 饿了么前端
   + [Web桌面](https://github.com/ElemeFE/vue-desktop)
@@ -86,3 +86,4 @@ updated: 2019-11-08 12:13:37
   + 最终输入 exit 命令结束录制，本地会生成一份 SVG 动画，可用于分享、展示终端操作
 + [loguru](https://github.com/Delgan/loguru)
   + 日志，线程安全，有多进程解决方案
++ pywifi: wifi控制模块
