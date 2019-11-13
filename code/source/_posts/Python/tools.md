@@ -23,8 +23,6 @@ updated: 2019-10-31 09:07:37
       + -i：指定图标
       + –noconsole，就是无窗口运行
 + 加速
-  + psyco：
-    + 只需要附加指定的头即可
 + HTML解析
   + PyQuery
   + BeautifulSoup
