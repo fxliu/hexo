@@ -11,6 +11,9 @@ updated: 2019-10-31 09:07:37
 
 ## 工具集
 
++ 重试机制
+  + [retry](https://github.com/invl/retry/)
+  + [retrying](https://github.com/rholder/retrying)
 + 脚本编译成可执行文件
   + pyinstaller: `pip install pyinstaller`
     + 编译成单个文件
