@@ -166,6 +166,18 @@ comments: false
 + *然后安装 Hexo 插件`hexo-search`*
   + `cd my-blog(hexo根目录)`
   + `npm install hexo-search --save`
++ `npm install hexo-generator-searchdb --save`
+  + 全局配置文件`_config.yml`，新增如下内容
+
+```yml
+# https://github.com/theme-next/hexo-generator-searchdb
+# git上有也使用说明
+search:
+  path: search.json
+  field: post
+  content: true
+  format: html
+```
 
 ## 安装完成，享受成果把
 
