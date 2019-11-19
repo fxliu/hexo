@@ -13,6 +13,13 @@ updated: 2019‎-10‎-27‎ 13:53:32
 
 + 表复制: `INSERT INTO t1 SELECT * FROM t2`
 
+## 字符串
+
+```SQL
+-- REPLACE
+SELECT REPLACE('aaa.mysql.com','a','w');
+```
+
 ## SELECT
 
 ```SQL
@@ -26,7 +33,7 @@ SELECT k1,
 FROM t1
 ```
 
-## Insert
+## INSERT/REPLACE
 
 ```SQL
 -- INSERT INTO
@@ -34,6 +41,7 @@ INSERT INTO t1 SELECT * FROM t2;
 -- INSERT INTO
 INSERT INTO t1 (k1, k2)
 SELECT k1, k2 FROM t2
+
 -- REPLACE INTO: 用法与Insert相同
 -- 当KEY不存在时，等价于Delete
 -- 当KEY存在时，先Delete然后Insert，未设定的字段按照默认值处理
