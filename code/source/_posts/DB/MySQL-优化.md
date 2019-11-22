@@ -1,120 +1,16 @@
 ---
-title: MySQL
+title: MySQL-优化
 tags: 
   - SQL
+  - 优化
 categories: 
   - MySQL
-description: SQL
-date: 2019-10-27 13:53:32
-updated: 2019-10-27 13:53:32
+description: SQL, 优化
+date: 2019-11-22 11:48:05
+updated: 2019-11-22 11:48:05
 ---
 
-## 常规Demo
-
-+ 表复制: `INSERT INTO t1 SELECT * FROM t2`
-
-## 字符串
-
-```SQL
--- REPLACE
-SELECT REPLACE('aaa.mysql.com','a','w');
-```
-
-## SELECT
-
-```SQL
--- CASE
-SELECT k1,
-  CASE
-    WHEN k2 > 150 THEN '>150'
-    WHEN k2 > 120 THEN '120< k2 >150'
-    ELSE '<120'
-  END as v
-FROM t1
-```
-
-## INSERT/REPLACE
-
-```SQL
--- INSERT INTO
-INSERT INTO t1 SELECT * FROM t2;
--- INSERT INTO
-INSERT INTO t1 (k1, k2)
-SELECT k1, k2 FROM t2
-
--- REPLACE INTO: 用法与Insert相同
--- 当KEY不存在时，等价于Delete
--- 当KEY存在时，先Delete然后Insert，未设定的字段按照默认值处理
-
--- INSERT INTO ** ON DUPLICATE KEY UPDATE
--- 当KEY存在时，只更新指定字段
-INSERT INTO t1 (k1, k2)
-SELECT k1, k2 FROM t2
-ON DUPLICATE KEY UPDATE t1.k1=t2.k1
-```
-
-## Update
-
-```SQL
--- 联表更新：方式1
-UPDATE t1 as a
-SET a.test_key=(SELECT test_key FROM t2 as b WHERE a.id=b.id);
--- 联表更新：方式2
-UPDATE t1 as a
-LEFT JOIN t2 as b ON a.id=b.id
-SET a.test_key=b.test_key
--- 联表更新： 方式3
-UPDATE t1 as a, t2 as b
-SET a.test_key=b.test_key
-WHERE a.id=b.id
-```
-
-## 时间
-
-```SQL
-SET @d1='2019-10-20';
-SET @d2='2019-10-27';
-SET @dc=TIMESTAMPDIFF(DAY, @d1, @d2);   -- 时间差：日
-
-SELECT tkey, count(1) / @dc FROM t
-WHERE uptime BETWEEN @d1 AND @d2
-GROUP BY tkey
-
--- 时间差
-set @dt = now();
-
-select date_add(@dt, interval 1 day); -- add 1 day
-select date_add(@dt, interval 1 hour); -- add 1 hour
-select date_add(@dt, interval 1 minute); -- ...
-select date_add(@dt, interval 1 second);
-select date_add(@dt, interval 1 microsecond);
-select date_add(@dt, interval 1 week);
-select date_add(@dt, interval 1 month);
-select date_add(@dt, interval 1 quarter);
-select date_add(@dt, interval 1 year);
-
-select date_add(@dt, interval -1 day); -- sub 1 day
--- 时间差
-SELECT TIMESTAMPDIFF(DAY,'2012-10-01','2013-01-13');
-SELECT TIMESTAMPDIFF(MONTH,'2012-10-01','2013-01-13');
-```
-
-```SQL
--- 时间 -> 字符串
-SET @DB := CONCAT('database.database_', DATE_FORMAT(now(), '%Y%m%d'));
-SET @LIST := CONCAT('netbaropt.list_', DATE_FORMAT(now(), '%Y%m%d'));
--- 字符串 -> 时间
-select str_to_date('2008-08-09 08:09:30', '%Y-%m-%d %h:%i:%s');
-
--- 时间戳
-select unix_timestamp('2008-08-08 12:30:00');    -- 1218169800
-select from_unixtime(1218169800);                -- 2008-08-08 12:30:00
-select from_unixtime(1218169800, '%Y-%m-%d %h:%i:%s');    -- 2008-08-08 12:30:00
-```
-
-## 优化
-
-### SELECT优化
+## SELECT优化
 
 频繁操作的库不适合开启查询缓存
 
@@ -124,13 +20,13 @@ select from_unixtime(1218169800, '%Y-%m-%d %h:%i:%s');    -- 2008-08-08 12:30:00
 SELECT * FROM tn where id = 1 LIMIT 1
 ```
 
-### 表优化
+## 表优化
 
 + VARCHAR -> ENUM
   + ENUM 类型是非常快和紧凑的。在实际上，其保存的是 TINYINT，但其外表上显示为字符串。
   + 这样一来，用这个字段来做一些选项列表变得相当的完美; 比如“性别”，“国家”，“民族”，“状态”或“部门”，字段的取值是有限而且固定的
 
-#### 查询缓存检查是否开启
+### 查询缓存检查是否开启
 
 ```sql
 show variables like '%cache%';
@@ -175,7 +71,7 @@ mysql_unbuffered_query()
 -- 而且， mysql_num_rows() 或 mysql_data_seek() 将无法使用。
 ```
 
-### 索引优化
+## 索引优化
 
 ```sql
 EXPLAIN SELECT COUNT(*) FROM shengyibao.icafe_services WHERE id="1";
@@ -212,7 +108,7 @@ EXPLAIN SELECT COUNT(*) FROM shengyibao.icafe_services WHERE id="1";
 | | using filesort | 外部排序
 | | Using temporary | 使用到临时表
 
-### 配置优化
+## 配置优化
 
 + table_open_cache
   + 该值比较大时, 占用内存较多
@@ -236,7 +132,7 @@ show global status like 'uptime';
 show open tables;
 ```
 
-### 碎片整理
+## 碎片整理
 
 ```sql
 -- 在OPTIMIZE TABLE运行过程中，MySQL会锁定表
