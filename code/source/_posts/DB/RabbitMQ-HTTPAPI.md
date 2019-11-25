@@ -1,6 +1,7 @@
 ---
 title: RabbitMQ
 tags: 
+  - RabbitMQ
   - httpapi
 categories: 
   - RabbitMQ
@@ -9,14 +10,14 @@ date: 2019-11-23 15:41:11
 updated: 2019-11-23 15:41:11
 ---
 
-## Demo
+## HTTP API
 
 ```py
 # coding=utf8
 """
 RabbitMQ
 无效队列: RabbitMQ 会自动清理长时间不使用的队列
-所谓的永久队列仅仅是指如果有数据的话，数据不会被清理掉
+    猜测：所谓的持久队列仅仅是数据持久，如果队列无数据且无消费者/生产者，还是会被自动清理掉的
 """
 import requests
 import json
