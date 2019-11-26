@@ -5,7 +5,7 @@ tags:
 categories: 
   - VC
 description: String
-date: 2019-10-10 ‏‎15:21:28
+date: 2019-10-10 15:21:28
 updated: 2019-10-10 15:21:28
 ---
 
