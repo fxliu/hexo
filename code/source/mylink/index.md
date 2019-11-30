@@ -53,6 +53,9 @@ updated: 2019-11-08 12:13:37
 + [GitHub免费变成图书](https://github.com/aluismoya/EbookFoundation-free-programming-books)
   + EbookFoundation/free-programming-book
   + [中文版](https://github.com/aluismoya/EbookFoundation-free-programming-books/blob/master/free-programming-books-zh.md)
++ [HelloGitHub](https://github.com/521xueweihan/HelloGitHub)
+  + 分享 GitHub 上有趣、入门级的开源项目
+  + 流行项目、入门级项目、让生活变得更美好的工具、书籍、学习心得笔记、企业级项目
 
 ### 娱乐
 
