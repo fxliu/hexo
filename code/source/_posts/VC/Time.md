@@ -12,6 +12,16 @@ updated: 2019-12-12 14:09:05
 ## 常规
 
 ```C++
+// 当前时间
+CTime tNow = CTime::GetCurrentTime(); // 当前系统时间（北京时间）
+CString tNow = CTime::GetCurrentTime().Format(_T("%Y-%m-%d %H:%M:%S"));
+CString strYesterday = (tNow - CTimeSpan(0, 0, 0, 1)).Format(_T("%Y-%m-%d %H:%M:%S"));  // 时间差：昨天
+// COM: 当前时间
+COleDateTime oleTime;
+oleTime.ParseDateTime("2012-02-10 12:20:20");
+COleDateTime tNow = COleDateTime::GetCurrentTime();
+COleDateTimeSpan span = tNow - oleTime;
+
 // 当前时间：精确到毫秒
 CString GetTime()
 {
@@ -22,6 +32,12 @@ CString GetTime()
     st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
   return strTime;
 }
+
+// 设置时间
+SYSTEMTIME st;
+oleTime.GetAsSystemTime(st);
+SetLocalTime(&st);
+
 // 系统启动时长，单位：毫秒
 DWORD GetTickCount();
 ULONGLONG GetTickCount64();
