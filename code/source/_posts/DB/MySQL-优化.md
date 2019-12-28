@@ -138,7 +138,7 @@ show open tables;
 -- 在OPTIMIZE TABLE运行过程中，MySQL会锁定表
 -- delete 操作不能够直接回收被删除数据占用的数据文件空间
 OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name [, tbl_name] ...
-ALTER TABLE 表名 ENGINE = Innodb;		-- 空alter语句，但是也会达到优化的效果，它会重建整个表
+ALTER TABLE 表名 ENGINE = Innodb; -- 空alter语句，但是也会达到优化的效果，它会重建整个表
 -- 表数据状态
 show table status;
 show table STATUS like '表名';
@@ -149,6 +149,45 @@ ANALYZE TABLE 表名;    -- 分析表, 关键字分布等，确保show查询的�
 ```
 
 ## 状态检查
+
+### 磁盘占用
+
+```sql
+-- 重新统计: 否则磁盘占用分析可能不准
+ANALYZE TABLE 表名;    -- 分析表, 关键字分布等
+OPTIMIZE TABLE 表名;   -- 优化表, 索引碎片等(重建索引)
+-- 遍历库大小
+SELECT
+  table_schema,
+  sum(data_length + index_length + data_free) / 1024 / 1024 AS total_mb,
+  sum(data_length) / 1024 / 1024 AS data_mb,
+  sum(index_length) / 1024 / 1024 AS index_mb,
+  sum(data_free) / 1024 / 1024 AS free_mb,
+  count(*) AS TABLES,
+  curdate() AS today
+FROM
+  information_schema. TABLES
+GROUP BY
+  table_schema
+ORDER BY total_mb DESC;
+
+-- 指定库 表大小
+SELECT
+  table_name,
+  (data_length / 1024 / 1024) AS data_mb,
+  (index_length / 1024 / 1024) AS index_mb,
+  (data_free / 1024 / 1024) AS free_mb,
+  ((data_length + index_length + data_free) / 1024 / 1024) AS all_mb,
+  table_rows
+FROM
+  information_schema.TABLES
+WHERE
+  table_schema = 'netbaropt'
+ORDER BY all_mb DESC;
+
+-- 实际磁盘占用: 要包含空洞 data_free
+select sum(data_length + index_length + data_free) / 1024 / 1024 from information_schema.tables;
+```
 
 ### 内存占用
 
