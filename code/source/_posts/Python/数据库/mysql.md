@@ -39,3 +39,8 @@ cur.fetchall()
 cur.rowcount
 cur.rownumber
 ```
+
+## Demo
+
+[mysql](https://github.com/fxliu/Python/tree/master/%E6%95%B0%E6%8D%AE%E5%BA%93)
+[sqlserver](https://github.com/fxliu/Python/tree/master/%E6%95%B0%E6%8D%AE%E5%BA%93)
