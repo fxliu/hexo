@@ -4,12 +4,12 @@ tags:
   - Web服务
 categories: 
   - linux
-description: Web服务, apache, PHP
+description: Web服务, apache, PHP, nginx
 date: 2019-11-25 15:14:42
 updated: 2019-11-25 15:14:42
 ---
 
-## 部署
+## APACHE 部署
 
 ```sh
 # yum封装
@@ -109,4 +109,249 @@ systemctl enable httpd.service
 
 # 查看端口
 # netstat -lntp
+```
+
+## NGINX 部署
+
++ 环境: Centos6.5
++ 软件: [nginx-1.6.0](http://nginx.org/en/download.html)
++ 位置: /usr/local/nginx
++ 方式: 源码编译安装
+
+### 安装
+
+```sh
+# 编译环境
+yum -y install gcc-c++
+yum -y install zlib zlib-devel openssl openssl-devel pcre pcre-devel
+# 卸载旧版本
+cd /usr/local
+find -name nginx
+yum remove nginx
+# 安装
+tar -zxv -f nginx-1.6.0.tar.gz
+cd nginx-1.6.0
+./configure --prefix=/usr/local/nginx
+make
+make install
+```
+
+#### configure 参数
+
+参数 | 说明
+-------- | ---
+--with-http_gzip_static_module | 启用HTTPGzip模块
+--with-http_stub_status_module | 启用Nginxtatus功能，可以用来监控Nginx的当前状态
+--with-http_realip_module | 获取真实IP
+--with-http_addition_module | 向响应内容中追加内容
+--with-http_sub_module | 替换相应内容（过滤器）
+--with-http_dav_module | HTTP扩展动作支持（PUT, DELETE, MKCOL, COPY和MOVE）
+--with-http_flv_module | FLV点播
+--with-http_mp4_module | mp4点播
+--with-http_gunzip_module --with-http_gzip_static_module | Gz压缩支持
+--with-http_random_index_module | 随机首页配置
+--with-http_secure_link_module | 安全连接检查
+--with-mail --with-mail_ssl_module | 邮箱协议
+
+#### 维护
+
+```sh
+#版本信息
+/usr/local/nginx/sbin/nginx -V
+#-t检查配置正确性
+/usr/local/nginx/sbin/nginx -t
+#-c指定配置文件位置
+/usr/local/nginx/sbin/nginx -t -c /usr/local/nginx/conf/nginx.conf
+```
+
+### 配置 nginx.conf
+
+```sh
+# Linux最大连接数调整
+ulimit -n 65536
+```
+
+```conf
+#运行用户，默认是nobody
+user nobody nobody;
+#指定Nginx要开启的进程数
+#worker_processes auto;
+worker_processes 4;
+#日志。日志输出级别：debug、info、notice、warn、error、crit
+#error_log logs/error.log notice;
+#pid
+#pid logs/nginx.pid
+#更改worker进程的最大打开文件数限制。如果没设置的话，这个值为操作系统的限制。
+#设置后你的操作系统和Nginx可以处理比“ulimit -a”更多的文件，
+#所以把这个值设高，这样nginx就不会有“too many open files”问题了。
+worker_rlimit_nofile 65535;
+
+
+#events模块中包含nginx中所有处理连接的设置
+events {
+    #设置可由一个worker进程同时打开的最大连接数。默认1024
+    #最大客户数也由系统的可用socket连接数限制（~ 64K），所以设置不切实际的高没什么好处。
+    worker_connections 2048;
+    #告诉nginx收到一个新连接通知后接受尽可能多的连接
+    multi_accept on;
+    #设置用于复用客户端线程的轮询方法：epoll、select、poll、kqueue、rtsig、/dev/poll
+    use epoll;
+}
+
+http {
+  #包含其他配置选项，一般要包含Nginx默认配置
+  include       mime.types;
+  #指定默认为二进制流
+  default_type  application/octet-stream;
+  #开启搞笑文件传输模式。将tcp_nopush和tcp_nodelay两个命令设置为“on”防止网络阻塞
+  sendfile        on;
+  tcp_nopush      on;
+  tcp_nodelay     on;
+  #客户端连接保持活动的超时时间
+  keepalive_timeout     60;
+  #客户端请求头读取超时时间
+  client_header_timeout 10;
+  #客户端请求主体读取超时时间
+  client_body_timeout   10;
+  #相应客户端的超时时间
+  send_timeout          10;
+  #是否启用gzip模块
+  #gzip  on;
+
+  #虚拟主机
+  server {
+      #端口
+      listen       80;
+      #IP或域名，多个域名之间用空格分开
+      server_name  localhost;
+      #设置网页的默认编码格式: gb2312
+      #charset koi8-r;
+      #访问日志存放路径
+      #access_log  logs/host.access.log  main;
+
+      #默认访问的首页地址
+      index index.html index.htm index.jsp
+      #网页根目录
+      root /web/wwwroot/www.ixdba.net
+
+      #地址匹配，支持正则
+      location / {
+          #对应网页根目录
+          root   html;
+          #默认首页
+          index  index.html index.htm;
+      }
+  }
+}
+
+location /NginxStatus{
+  #启用StubStatus的工作状态统计功能
+  stub_status        on;
+  #StubStatus日志
+  access_log           logs/NginxStatus.log;
+  #Nginx的一种认证机制（htpasswd命令）
+  auth_basic           "NginxStatus"
+  #用来制定认证的密码文件
+  auth_basic_user_file ../htpasswd;
+}
+
+# 各种错误信息返回页面
+error_page  404              /404.html;
+error_page  500 502 503 504  /50x.html;
+location = /50x.html {
+  root   html;
+}
+```
+
+#### 反向代理
+
+```conf
+http {
+  server {
+    location / {
+      proxy_pass http://localhost:8000/;
+    }
+  }
+}
+```
+
+#### 路径配置
+
+```conf
+# /i/logo.gif <==> /var/www/html/images/logo.gif
+location /i {
+  # 相对路径
+  alias /var/www/html/images/;
+}
+
+# /download/ebook.tar.gz <==> /home/webdata/www/ebook.tar.gz
+location ~ ^/download/(.*)$ {
+  # 根路径
+  root /home/webdata/www/$1
+}
+
+# 正则
+#只匹配对/目录的额查询
+location = / {...}
+#匹配所有/开始的查询
+location / {...}
+#匹配已/images/开头的查询
+location ^~ /images/ {...}
+#匹配以gif、jpg、jpeg、swf结尾的文件
+location ~* \.(gif|jpg|jpeg|swf)$ {...}
+
+Location [=|~\~*|^~|@] /uri/{
+  ..
+}
+# = ：完全匹配
+# ~ ：字母大小写敏感
+# ~*：忽略字母大小写
+# ^~：只匹配前半部分
+# @ ：内部重定向
+```
+
+#### 权限
+
+```conf
+location /images {
+  root /var/....
+  #允许目录遍历
+  autoindex on；
+  #显示文件字节数
+  autoindex_exact_size off;
+  #显示文件时间为服务器时间
+  autoindex_localtime on;
+}
+
+# IP访问控制：依次匹配检查
+location / {
+  deny 192.168.66.80;
+  allow 192.168.66.0/24;
+  allow 192.16.88.0/16;
+  deny all;
+}
+
+# 禁止访问某目录
+location ~ ^/(WEB-INF)/ {
+  deny all;
+}
+
+# 禁止访问某文件
+location ~* \.(txt|doc)$ {
+  root /data/www/wwwroot
+  deny all
+}
+
+#限制GET请求：GET、POST、PUT、HEAD、OPTIONS...
+limit_except GET{
+  deny all;
+}
+```
+
+#### SSL硬件加速
+
+```sh
+ssl_engine device;
+#测试是否支持
+openssl engine -t
 ```
