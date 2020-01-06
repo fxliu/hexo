@@ -6,7 +6,7 @@ categories:
   - VC
 description: VC, openssl
 date: 2019-09-07 16:51:20
-updated: 2019-09-07 16:51:20
+updated: 2020-01-04 18:01:30
 ---
 
 ## 编译
@@ -21,17 +21,26 @@ updated: 2019-09-07 16:51:20
 ### 编译过程
 
 ```bat
+:: 启动VS"开发人员命令提示"工具：nmake等指令环境
+:: 文件位置：C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio 2015\Visual Studio Tools\VS2015 开发人员命令提示.lnk
+:: 快捷方式指向位置：%comspec% /k ""E:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat""
+
 :: perl编译根目录必须是openssl的根目录
 cd c:\openssl-1.0.1e
-:: 运行configure，--prefix 指定编译目录(保存编译结果)
-perl Configure VC-WIN32 --prefix=D:/openssl/lib
-:: 创建MakeFile
+:: 运行configure，--prefix 指定编译目录(保存编译结果), no-asm表示不用汇编
+:: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
+perl Configure VC-WIN32 --prefix=.\build_release
+:: 创建MakeFile, perl中如果使用no-asm，这里替换为 ms\do_nasm.bat
 ms\do_ms.bat
-:: VS环境目录下有下面需要的nmake: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin
 
-:: 编译动态库
+:: 64位
+:; Configure参数调整：VC-WIN64A、debug-VC-WIN64A
+:: ms\do_win64a.bat
+
+
+:: 编译动态库- 默认/MD
 nmake -f ms\ntdll.mak
-:: 编译静态库
+:: 编译静态库 - 默认/MT
 nmake -f ms\nt.mak
 :: 测试动态库
 nmake -f ms\ntdll.mak test
@@ -53,6 +62,7 @@ nmake -f ms\nt.mak clean
 
 ```bat
 :: 编辑文件 ms\nt.mak，将该文件第19行与工程编译：C/C++ -> 代码生成 -> 运行库 相匹配
+:: 搜索替换即可：CFLAG= /MD .....
 :: 编辑选项=/MD->/MT
 
 C Runtime Library：
