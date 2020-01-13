@@ -6,7 +6,7 @@ categories:
   - RabbitMQ
 description: RabbitMQ, httpapi
 date: 2019-11-25 14:32:34
-updated: 2019-11-25 14:32:34
+updated: 2020-01-13 15:09:10
 ---
 
 ## 常用
@@ -175,9 +175,10 @@ firewall-cmd --reload
 + 最大内存占用 `/etc/rabbitmq/rabbitmq.config`
   + `vm_memory_high_watermark` 改为 `0.8`
   + `heartbeat` 改为 `600`
+  + `rabbitmqctl set_vm_memory_high_watermark 0.8`: 命令行即时生效, 不写入配置文件，重启就无效了
 + 通过修改sysctl配置，提高系统的打开文件数量
   + `vi /etc/sysctl.conf` 添加 `fs.file-max = 65535`
-+ 系统配置重载 `sysctl -p`
+  + 系统配置重载 `sysctl -p`
 + 修改rabbitmq配置
   + `vi /etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`
   + 在[Service]中，增加 `LimitNOFILE=20000`
