@@ -9,6 +9,16 @@ date: 2019-11-25 14:32:34
 updated: 2019-11-25 14:32:34
 ---
 
+## 常用
+
+```sh
+# 队列数据量
+rabbitmqctl list_queues
+rabbitmqctl list_queues | awk '{if($2!=0) {print $0}}'
+rabbitmqctl list_queues | grep 3701028953
+rabbitmqctl list_connections | awk '{if($1=="weixin_new") {print $0}}'
+```
+
 ## 安装
 
 `pip install pika`

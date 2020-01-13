@@ -18,6 +18,7 @@ updated: 2019-11-20 19:20:44
 
 + 注册码: [http://idea.lanyus.com/](http://idea.lanyus.com/)
   + 也可以到[PHP中文网](http://www.php.cn/)找
+  + [http://medeming.com/](http://medeming.com/)
 + 配置
   + `Appearance`->`Theme`->选择`Darcula`，暗色调看着比较舒服
     + 字体 -> 微软雅黑，14
