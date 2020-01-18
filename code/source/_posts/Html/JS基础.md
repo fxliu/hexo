@@ -18,6 +18,8 @@ let b = `${a} world`;
 
 // json字符串 -> js对象
 js_obj = JSON.parse(json_str);
+// json对象 -> js字符串
+json_str = JSON. stringify(js_obj);
 
 // encodeUrl
 function urlEncode(param) {
