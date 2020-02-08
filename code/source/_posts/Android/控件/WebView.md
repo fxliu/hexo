@@ -12,7 +12,7 @@ updated: 2020-02-07 22:12:34
 ## 基础
 
 ```xml
-<!--联网权限-->
+<!--AndroidManifest.xml：联网权限-->
 <uses-permission android:name="android.permission.INTERNET"/>
 ```
 

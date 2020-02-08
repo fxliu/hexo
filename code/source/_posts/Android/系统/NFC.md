@@ -107,3 +107,35 @@ updated: 2020-02-03 08:44:37
         startActivity(intent);
     }
 ```
+
+```java
+// enableReaderMode 设置事件回调
+NfcAdapter m_nfcAdapter;
+private static final int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_NFC_B;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    m_nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+}
+private NfcAdapter.ReaderCallback mReaderCallback = new NfcAdapter.ReaderCallback() {
+    @Override
+    public void onTagDiscovered(Tag tag) {
+        Log.d("test", "onTagDiscovered: " + Arrays.toString(tag.getTechList()));
+    }
+};
+@Override
+protected void onResume() {
+    super.onResume();
+    Log.e("test", "onResume");
+    if (m_nfcAdapter != null) // 绑定NFC事件
+        m_nfcAdapter.enableReaderMode(this, mReaderCallback, READER_FLAGS, null);
+}
+@Override
+protected void onPause() {
+    super.onPause();
+    Log.e("test", "onPause");
+    if (m_nfcAdapter != null) // 解绑NFC
+        m_nfcAdapter.disableReaderMode(this);
+}
+```

@@ -14,6 +14,9 @@ updated: 2019‎-09-28 ‏‎‏‎‏‎‏‎11:04:52
 
 + 恢复误删除文件(尚未提交到本地库情况)：`git checkout -- file`
   + `git status` 查看删除文件，中文会转码，但git checkout时，直接用中文使用转码文件名不好使
+  + 恢复所有
+    + `git reset head ./`
+    + `git checkout ./`
 + 恢复误删除文件(已提交到本地库/远程库情况)
   + `git reset --hard + 版本号`版本回溯, 再`git checkout -- file`
 
