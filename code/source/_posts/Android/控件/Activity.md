@@ -37,6 +37,63 @@ protected void onCreate(Bundle savedInstanceState) {
 <activity android:name=".MainActivity" android:launchMode="singleInstance" > ... </activity>
 ```
 
+### 生命周期
+
+```java
+// 完整生存期
+onCreate();     // 启动
+onDestroy();    // 销毁
+// 可见生存期
+onStart();      // 对用户可见
+onStop();       // 对用户不可见
+// 前台生存期
+onPause();      // 暂停, 离开前台
+onResume()      // 继续, 进入前台
+// 其他
+onRestart()     // 停止(onStop)->运行(onStart), 该函数在onStart之前调用
+onBackPressed() // 回退键处理, 可以当做用户强制退出
+```
+
+```java
+// 终止生命周期
+Activity.finish();      // 将最上面的Activity移出栈, 占用资源并不即时释放. 系统会在必要时调用onDestroy()完全销毁.
+Activity.onDestory()    // 系统销毁这个Activity的实例在内存中占据的空间. onDestory是activity生命周期的最后一步.
+System.exit(0)          // 退出整个应用程序
+```
+
+### 翻转
+
+```java
++ activity: 屏幕翻转会完全销毁activity,并重建
++ layout: 系统自动匹配最佳layout并加载, 默认加载layout, 横屏自动加载layout-land
+```
+
+```java
+// 禁止横版
+1. onCreate()中增加:
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+2，Manifest.xml文件中为所有Activity加上配置属性android:screenOrientation="portrait"
+```
+
+```java
+// activity 回收前数据存储
+private static final String KEY_INDEX = "index";
+private int mCurrentIndex = 0;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if(savedInstanceState != null)  # 首次启动为空
+        mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+    ...
+}
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt(KEY_INDEX, mCurrentIndex);
+}
+```
+
 ## 手动创建控件
 
 ```java
