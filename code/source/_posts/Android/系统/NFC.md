@@ -109,7 +109,7 @@ updated: 2020-02-03 08:44:37
 ```
 
 ```java
-// enableReaderMode 设置事件回调
+// enableReaderMode 设置NFC读事件回调
 NfcAdapter m_nfcAdapter;
 private static final int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_NFC_B;
 @Override
