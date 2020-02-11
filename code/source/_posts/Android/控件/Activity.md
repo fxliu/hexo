@@ -37,6 +37,15 @@ protected void onCreate(Bundle savedInstanceState) {
 <activity android:name=".MainActivity" android:launchMode="singleInstance" > ... </activity>
 ```
 
+```xml
+<!-- 背景图：activity_main.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@drawable/复制main_background"
+    tools:context=".MainActivity">
+</androidx.constraintlayout.widget.ConstraintLayout>
+<!-- 复制文件“main_background.png”到“res/drawable”下即可-->
+```
+
 ### 生命周期
 
 ```java

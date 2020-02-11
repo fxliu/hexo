@@ -1,9 +1,9 @@
 ---
 title: WebView
 tags: 
-  - WebView
+    - WebView
 categories: 
-  - Android
+    - Android
 description: WebView
 date: 2020-02-07 22:12:34
 updated: 2020-02-07 22:12:34
@@ -23,6 +23,11 @@ mWebView.setWebViewClient(new WebViewClient() {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         view.loadUrl(url);
+        return true;
+    }
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        view.loadUrl(request.getUrl().toString());
         return true;
     }
     // 页面加载完成事件
