@@ -40,6 +40,7 @@ mWebView.setWebViewClient(new WebViewClient() {
 mWebView.getSettings().setJavaScriptEnabled(true);
 // 调用loadUrl方法为WebView加入链接
 mWebView.loadUrl("https://www.baidu.com/");
+mWebView.loadUrl("file:///android_asset/html/idcard.html");
 ```
 
 ## 常用API
