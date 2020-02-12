@@ -107,3 +107,13 @@ char* CHidServer::Recv(int &len)
 }
 
 ```
+
+## 特殊参数
+
+### TCP_NODELAY
+
+```C++
+// 默认开启
+int enable = 0;
+setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (void*)&enable, sizeof(enable));
+```
