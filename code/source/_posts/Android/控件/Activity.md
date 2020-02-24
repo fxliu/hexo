@@ -46,6 +46,20 @@ protected void onCreate(Bundle savedInstanceState) {
 <!-- 复制文件“main_background.png”到“res/drawable”下即可-->
 ```
 
+```xml
+<!-- 基础 Layout -->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+</LinearLayout>
+```
+
 ### 生命周期
 
 ```java
@@ -68,6 +82,40 @@ onBackPressed() // 回退键处理, 可以当做用户强制退出
 Activity.finish();      // 将最上面的Activity移出栈, 占用资源并不即时释放. 系统会在必要时调用onDestroy()完全销毁.
 Activity.onDestory()    // 系统销毁这个Activity的实例在内存中占据的空间. onDestory是activity生命周期的最后一步.
 System.exit(0)          // 退出整个应用程序
+```
+
+### 通讯
+
+```java
+// 调用Activity
+void start() {
+    // 当前Activity.this, 目标Activity.class
+    Intent intent = new Intent(MainActivity.this, CheatActivity.class);
+    intent.putExtra(key, value);
+    // 无回调方式调用
+    startActivity(intent);
+    // 该函数非阻塞: 标记返回值标识
+    startActivityForResult(intent, REQUEST_CODE_CHEAT);
+}
+// 接收Activity
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String value = getIntent().getStringExtra(key);
+    // 设置返回值
+    Intent result = new Intent(this, ThisActivity.class);
+    result.putExtra(key, value);
+    setResult(RESULT_OK, result);
+}
+// 调用方Activity接收返回值
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    // REQUEST_CODE_CHEAT 对应startActivityForResult 第二个参数
+    if(REQUEST_CODE_CHEAT == requestCode) {
+        if(resultCode == Activity.RESULT_OK)
+            Sting value = intent.getStringExtra(key));
+    }
+}
 ```
 
 ### 翻转
