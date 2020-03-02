@@ -123,3 +123,8 @@ client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new Fi
     }
 });
 ```
+
+## APP升级
+
++ [自动升级组件](https://weiku.co/article/318/)
++ [AutoUpdateProject](https://github.com/MZCretin/AutoUpdateProject)
