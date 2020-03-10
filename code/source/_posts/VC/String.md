@@ -12,6 +12,18 @@ updated: 2019-10-10 15:21:28
 ## 小函数封装
 
 ```C++
+#include<shlwapi.h>
+CString GetRunPath()
+{
+    TCHAR szPath[MAX_PATH] = {0};
+    GetModuleFileName(NULL,szPath,sizeof(szPath));
+    PathRemoveFileSpec(szPath);
+    return szPath;
+}
+```
+
+```C++
+// UNICODE 编码转换
 char H2I(char ch)
 {
   if (ch >= '0' && ch <= '9')
