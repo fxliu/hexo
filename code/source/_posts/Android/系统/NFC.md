@@ -45,6 +45,17 @@ updated: 2020-02-03 08:44:37
     <tech-list>
         <tech>android.nfc.tech.IsoDep</tech>
     </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.IsoDep</tech>
+        <tech>android.nfc.tech.NfcA</tech>
+        <tech>android.nfc.tech.NfcB</tech>
+        <tech>android.nfc.tech.NfcF</tech>
+        <tech>android.nfc.tech.NfcV</tech>
+        <tech>android.nfc.tech.Ndef</tech>
+        <tech>android.nfc.tech.NdefFormatable</tech>
+        <tech>android.nfc.tech.MifareClassic</tech>
+        <tech>android.nfc.tech.MifareUltralight</tech>
+    </tech-list>
 </resources>
 ```
 
@@ -78,6 +89,7 @@ updated: 2020-02-03 08:44:37
         super.onResume();
         if (m_nfcAdapter != null) // 绑定NFC事件
             m_nfcAdapter.enableForegroundDispatch(this, m_nfcPi, m_nfcIfs, m_techLists);
+            // m_nfcAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
     }
     @Override
     protected void onPause() {
@@ -97,6 +109,8 @@ updated: 2020-02-03 08:44:37
             for (String tech : techList) {
                 Log.w("test", tech);
             }
+            byte[] id = tag.getId();     // 卡片ID
+            // byte[] id = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -139,3 +153,9 @@ protected void onPause() {
         m_nfcAdapter.disableReaderMode(this);
 }
 ```
+
+## 读卡
+
+[nfcard](https://github.com/sinpolib/nfcard)
+    + Support PBOC/EMV,北京市政一卡通,武汉通,长安通,Felica,ISO14443
+[nfcard-android](https://github.com/PlatformaSoft/nfcard-android)

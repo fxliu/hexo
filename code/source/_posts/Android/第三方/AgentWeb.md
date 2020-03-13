@@ -37,43 +37,94 @@ implementation 'com.download.library:Downloader:4.1.2'// (可选)
 
 ## 使用
 
-```java
-// 附加对象从Demo获取即可
-AgentWeb mAgentWeb;
-public void Init(AppCompatActivity app) {
-    mAgentWeb = AgentWeb.with(app)
-            .setAgentWebParent((LinearLayout) app.findViewById(R.id.webLayout), new LinearLayout.LayoutParams(-1, -1))
-            .useDefaultIndicator()
-            .setAgentWebWebSettings(new CustomSettings())
-            .setWebChromeClient(mWebChromeClient)
-            .setWebViewClient(mWebViewClient)
-            .setAgentWebUIController(mAgentWebUIController)
-            .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
-            .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-            .setWebLayout(new WebLayout(app))
-            .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
-            .interceptUnkownUrl() //拦截找不到相关页面的Scheme
-            .createAgentWeb()
-            .ready()
-            .go(Config.WebUrl.get(app));
-    addBGChild((FrameLayout) mAgentWeb.getWebCreator().getWebParentLayout());
-}
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/webLayout"
+    tools:context=".WebActivity">
 
-private com.just.agentweb.WebViewClient mWebViewClient = new WebViewClient() {
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return super.shouldOverrideUrlLoading(view, request);
+</LinearLayout>
+```
+
+```java
+public class AgentWebUtil {
+    private static String TAG = AgentWebUtil.class.getSimpleName();
+    private static AgentWebUtil mAgentWebUtil;
+    AgentWeb.PreAgentWeb mPreAgentWeb;
+    private AgentWeb mAgentWeb;
+    private AlertDialog mAlertDialog;
+    private AppCompatActivity app;
+    private boolean mIsFinish = false;
+    private boolean mIsMainFrameError = false;
+    // ------------------------------------------------------------------------
+    public void init(AppCompatActivity app) {
+        AgentWebUtil.mAgentWebUtil = this;
+        this.app = app;
+        mPreAgentWeb = AgentWeb.with(app)
+                .setAgentWebParent((LinearLayout) app.findViewById(R.id.webLayout), new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator() //设置进度条颜色与高度，-1为默认值，高度为2，单位为dp。
+                .setAgentWebWebSettings(new CustomSettings()) //设置 IAgentWebSettings。
+                .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(mWebViewClient)
+                .setPermissionInterceptor(mPermissionInterceptor) //权限拦截 2.0.0 加入。
+                .setAgentWebUIController(mAgentWebUIController) //自定义UI  AgentWeb3.0.0 加入
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+                // .setWebLayout(new WebLayout(app)) // 下拉刷新显示内容
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
+                .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+                .createAgentWeb();
+
+        mAgentWeb = mPreAgentWeb.get();
+        mAgentWeb.clearWebCache();
+        AgentWebConfig.debug();
+        mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        mPreAgentWeb.go(Config.WebUrl.get(app));
+        addBGChild((FrameLayout) mAgentWeb.getWebCreator().getWebParentLayout());
     }
+
+    public AgentWeb Web() {
+        return mAgentWeb;
+    }
+    public boolean IsFinish() {
+        return mIsFinish;
+    }
+    public void go(String url){
+        mPreAgentWeb.go(url);
+    };
+
+    private com.just.agentweb.WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+        }
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            Log.e("onConsoleMessage",  String.format("%s(%d): %s", consoleMessage.sourceId(),
+                    consoleMessage.lineNumber(), consoleMessage.message()));
+            return true;
+        }
+    };
+    private com.just.agentweb.WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             Log.i(TAG, "onPageStarted: " + url);
+            // 错误页隐藏，源码这里处理有漏洞
+            // 当遇到页面跳转时：onPageStarted中的url和onPageFinished的url可能不一致
+            // 源码校验url必须一致才会隐藏错误页
+            // 自己强制处理下
             if(mIsMainFrameError) {
-                // 错误页隐藏，源码这里处理有漏洞
-                // 当遇到页面跳转时：onPageStarted中的url和onPageFinished的url可能不一致
-                // 源码校验url必须一致才会隐藏错误页
-                // 自己强制处理下
                 mAgentWebUIController.onShowMainFrame();
                 mIsMainFrameError = false;
             }
@@ -84,13 +135,65 @@ private com.just.agentweb.WebViewClient mWebViewClient = new WebViewClient() {
             Log.i(TAG, "onPageFinished: " + url);
             mIsFinish = true;
         }
-};
-private AgentWebUIControllerImplBase mAgentWebUIController = new AgentWebUIControllerImplBase() {
-    @Override
-    public void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
-        super.onMainFrameError(view, errorCode, description, failingUrl);
-        Log.i(TAG, "onMainFrameError: " + failingUrl);
-        mIsMainFrameError = true;
+    };
+    private AgentWebUIControllerImplBase mAgentWebUIController = new AgentWebUIControllerImplBase() {
+        @Override
+        public void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onMainFrameError(view, errorCode, description, failingUrl);
+            Log.e(TAG, "onMainFrameError: " + failingUrl);
+            mIsMainFrameError = true;
+        }
+    };
+    protected PermissionInterceptor mPermissionInterceptor = new PermissionInterceptor() {
+
+        /**
+         * PermissionInterceptor 能达到 url1 允许授权， url2 拒绝授权的效果。
+         * @return true 该Url对应页面请求权限进行拦截 ，false 表示不拦截。
+         */
+        @Override
+        public boolean intercept(String url, String[] permissions, String action) {
+            Log.i(TAG, "mUrl:" + url + "  permission:" + new Gson().toJson(permissions) + " action:" + action);
+            return false;
+        }
+    };
+
+    private void addBGChild(FrameLayout frameLayout) {
+        TextView mTextView = new TextView(frameLayout.getContext());
+        mTextView.setText("技术由 哈尔滨赛奥科技 提供");
+        mTextView.setTextSize(16);
+        mTextView.setPadding(10, 20, 10, 0);
+        mTextView.setTextColor(Color.parseColor("#727779"));
+        frameLayout.setBackgroundColor(Color.parseColor("#272b2d"));
+        FrameLayout.LayoutParams mFlp = new FrameLayout.LayoutParams(-2, -2);
+        mFlp.gravity = Gravity.CENTER_HORIZONTAL;
+        final float scale = frameLayout.getContext().getResources().getDisplayMetrics().density;
+        mFlp.topMargin = (int) (15 * scale + 0.5f);
+        frameLayout.addView(mTextView, 0, mFlp);
     }
-};
+
+    public void showDialog(final AppCompatActivity app) {
+        if (mAlertDialog == null) {
+            mAlertDialog = new AlertDialog.Builder(app)
+                    .setMessage("您确定要关闭该页面吗?")
+                    .setNegativeButton("再逛逛", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (mAlertDialog != null) {
+                                mAlertDialog.dismiss();
+                            }
+                        }
+                    })
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (mAlertDialog != null) {
+                                mAlertDialog.dismiss();
+                            }
+                            app.finish();
+                        }
+                    }).create();
+        }
+        mAlertDialog.show();
+    }
+}
 ```

@@ -51,6 +51,8 @@ void test() {
     requestParams.put("password", "123");
 
     AsyncHttpClient client = new AsyncHttpClient();
+    // 文本数据
+    // JsonHttpResponseHandler, TextHttpResponseHandler
     client.post("https://*/test.php", requestParams, new AsyncHttpResponseHandler() {
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -82,7 +84,7 @@ paramMap.put("key","value");
 RequestParams params=new RequestParams(paramMap);
 ```
 
-### android-async-http / 上传文件
+### android-async-http / 文件上传 / 文件下载
 
 ```java
 // 文件流
@@ -102,16 +104,6 @@ try {
 ```
 
 ```java
-// 文本数据
-// JsonHttpResponseHandler, TextHttpResponseHandler
-client.post("https://*/test.php", requestParams, new AsyncHttpResponseHandler() {
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-    }
-    @Override
-    public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
-    }
-});
 // 文件下载
 client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new File(path)) {
     @Override
@@ -126,5 +118,4 @@ client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new Fi
 
 ## APP升级
 
-+ [自动升级组件](https://weiku.co/article/318/)
 + [AutoUpdateProject](https://github.com/MZCretin/AutoUpdateProject)
