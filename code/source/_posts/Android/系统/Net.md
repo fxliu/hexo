@@ -11,6 +11,13 @@ updated: 2020-02-11 15:38:28
 
 ## 简单GET
 
+```xml
+<application>
+    <!-- 联网权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+</application>
+```
+
 ```java
 import org.apache.commons.io.IOUtils;
 import java.net.URL;
@@ -114,6 +121,120 @@ client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new Fi
     public void onFailure(int statusCode, Header[] headers,Throwable throwable, File file) {
     }
 });
+```
+
+## okhttp
+
+```java
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okio.BufferedSink;
+
+public class OkHttpUtil {
+    private static String TAG = OkHttpUtil.class.getSimpleName();
+    private static OkHttpClient client = new OkHttpClient();
+
+    public static void startSync(final Request request) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // 注意Android不允许主线程访问网络，execute方法必须在线程中执行
+                    Response response = client.newCall(request).execute();
+                    Log.e(TAG, Objects.requireNonNull(response.body()).string());
+                } catch (IOException e) {
+                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                }
+            }
+        }).start();
+    }
+
+    public static void start(final Request request) {
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Headers responseHeaders = response.headers();
+                for (int i = 0; i < responseHeaders.size(); i++) {
+                    Log.e(TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }
+                Log.e(TAG, Objects.requireNonNull(response.body()).string());
+            }
+        });
+    }
+
+    public static Request getRequest(String url) {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("search", "lala")
+                .build();
+        return new Request.Builder()
+                .url("url")
+                .get()      // 默认get
+                .build();
+    }
+
+    public static Request myHeaderRequest(String url) {
+        // 自定义头
+        return new Request.Builder()
+                .url("url")
+                .header("User-Agent", "OkHttp Headers.java")
+                .addHeader("Accept", "application/json; q=0.5")
+                .addHeader("Accept", "application/vnd.github.v3+json")
+                .build();
+    }
+
+    public static Request textRequest(String url) {
+        // 自定义格式字符串
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        String body = "{}";
+        return new Request.Builder()
+                .url("https://testurl")
+                .post(RequestBody.create(body, JSON))
+                .build();
+    }
+
+    public static Request streamRequest(String url) {
+        RequestBody requestBody = new RequestBody() {
+            @Nullable
+            @Override
+            public MediaType contentType() {
+                return MediaType.parse("application/json; charset=utf-8");
+            }
+
+            @Override
+            public void writeTo(BufferedSink sink) throws IOException {
+                sink.writeUtf8("{}");
+            }
+        };
+
+        return new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+    }
+
+    public static Request formRequest() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("search", "Jurassic Park")
+                .build();
+        return new Request.Builder()
+                .url("https://en.wikipedia.org/w/index.php")
+                .post(requestBody)
+                .build();
+    }
+}
 ```
 
 ## APP升级

@@ -299,3 +299,32 @@ EXP()   --指数
 PI()    --圆周率
 RAND()  --随机数
 ```
+
+## AES加密
+
+```sql
+-- 参考 http://blog.itpub.net/29773961/viewspace-2142305/
+-- 将密文十六进制化，再存入varchar/char列。
+-- 此处需要用到HEX()来存入，用UNHEX()取出。
+
+INSERT INTO `authentication_esdemo`.`card_num_real` (
+  `card_num`,
+  `name`,
+  `type`
+)
+VALUES
+(
+  HEX(aes_encrypt('230125202001010000', '1234567890123456')),
+  HEX(aes_encrypt('张三', '1234567890123456')),
+  '111'
+);
+
+
+SELECT
+  aes_decrypt(UNHEX(card_num),'1234567890123456') AS card_num,
+  aes_decrypt(UNHEX(name),'1234567890123456') AS name,
+  type
+FROM
+  card_num_real
+WHERE  aes_decrypt(UNHEX(card_num),'nrewso41yh9u0xjb')='230125198402221036'
+```

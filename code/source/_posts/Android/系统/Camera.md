@@ -13,12 +13,24 @@ updated: 2020-02-26 16:57:38
 
 + [camera安卓开发文档](https://developer.android.google.cn/training/camera)
 
-+ [PictureSelector](https://github.com/LuckSiege/PictureSelector)
-
 + [camerakit-android](https://github.com/CameraKit/camerakit-android)
 + [boxing](https://github.com/bilibili/boxing)
 + [CameraView](https://github.com/natario1/CameraView)
 + [CameraView](https://github.com/CJT2325/CameraView)
+
++ [SampleCamera](https://github.com/qingmei2/SampleCamera)
+  + 简单案例 - 学习使用
++ [cameraview](https://github.com/qingmei2/cameraview)
+  + 自定义相机视图
+
+### 图片选择器
+
++ [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+  + 相机 + 相册 + 多种主题
+  + 持续更新
++ [图片选择器](https://github.com/qingmei2/RxImagePicker)
+  + 响应式图片选择器，支持相机+相册， 灵活应用于各种需求嵌入
+  + 知乎主题 + 微信主题
 
 ## PictureSelector
 
