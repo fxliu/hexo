@@ -125,18 +125,42 @@ client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new Fi
 
 ## okhttp
 
-```java
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.BufferedSink;
+[官方文档](https://square.github.io/okhttp/)
 
+```java
+// 超时、证书等管理
+OkHttpClient.Builder builder = new OkHttpClient.Builder();
+builder.connectTimeout(30 * 1000, TimeUnit.SECONDS)
+        .readTimeout(30 * 1000, TimeUnit.SECONDS)
+        .writeTimeout(30 * 1000, TimeUnit.SECONDS)
+        //如果你需要信任所有的证书，可解决根证书不被信任导致无法下载的问题 start
+        .sslSocketFactory(SSLUtils.createSSLSocketFactory())
+        .hostnameVerifier(new SSLUtils.TrustAllHostnameVerifier())
+        //如果你需要信任所有的证书，可解决根证书不被信任导致无法下载的问题 end
+        .retryOnConnectionFailure(true);
+```
+
+### 拦截器
+
+```java
+mOkHttpClient = new OkHttpClient().newBuilder()
+    .addInterceptor(new LoggerInterceptor())
+// 拦截器：继承 Interceptor 接口即可
+public class LoggerInterceptor implements Interceptor {
+
+    @Override
+    public Response intercept(@NonNull Chain chain) throws IOException {
+        // 返回请求对象，也可以重定向（重新创建一个新的）
+        return chain.request();
+    }
+}
+
+```
+
+### Demo
+
+```java
+// Demo
 public class OkHttpUtil {
     private static String TAG = OkHttpUtil.class.getSimpleName();
     private static OkHttpClient client = new OkHttpClient();
@@ -155,7 +179,6 @@ public class OkHttpUtil {
             }
         }).start();
     }
-
     public static void start(final Request request) {
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -173,37 +196,33 @@ public class OkHttpUtil {
             }
         });
     }
-
     public static Request getRequest(String url) {
         RequestBody requestBody = new FormBody.Builder()
                 .add("search", "lala")
                 .build();
         return new Request.Builder()
-                .url("url")
+                .url(url)
                 .get()      // 默认get
                 .build();
     }
-
     public static Request myHeaderRequest(String url) {
         // 自定义头
         return new Request.Builder()
-                .url("url")
+                .url(url)
                 .header("User-Agent", "OkHttp Headers.java")
                 .addHeader("Accept", "application/json; q=0.5")
                 .addHeader("Accept", "application/vnd.github.v3+json")
                 .build();
     }
-
     public static Request textRequest(String url) {
         // 自定义格式字符串
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         String body = "{}";
         return new Request.Builder()
-                .url("https://testurl")
+                .url(url)
                 .post(RequestBody.create(body, JSON))
                 .build();
     }
-
     public static Request streamRequest(String url) {
         RequestBody requestBody = new RequestBody() {
             @Nullable
@@ -223,7 +242,6 @@ public class OkHttpUtil {
                 .post(requestBody)
                 .build();
     }
-
     public static Request formRequest() {
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
