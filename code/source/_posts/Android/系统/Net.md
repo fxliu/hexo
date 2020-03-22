@@ -157,6 +157,13 @@ public class LoggerInterceptor implements Interceptor {
 
 ```
 
+#### MediaType
+
++ text/html | text/plain | text/xml
++ image/gif | image/jpeg | image/png
++ application/xhtml+xml | application/xml | application/atom+xml
++ application/json | application/pdf | application/octet-stream
+
 ### Demo
 
 ```java
@@ -165,6 +172,7 @@ public class OkHttpUtil {
     private static String TAG = OkHttpUtil.class.getSimpleName();
     private static OkHttpClient client = new OkHttpClient();
 
+    // 同步
     public static void startSync(final Request request) {
         new Thread(new Runnable() {
             @Override
@@ -179,6 +187,7 @@ public class OkHttpUtil {
             }
         }).start();
     }
+    // 异步
     public static void start(final Request request) {
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -196,10 +205,8 @@ public class OkHttpUtil {
             }
         });
     }
+    // GET
     public static Request getRequest(String url) {
-        RequestBody requestBody = new FormBody.Builder()
-                .add("search", "lala")
-                .build();
         return new Request.Builder()
                 .url(url)
                 .get()      // 默认get
@@ -243,9 +250,23 @@ public class OkHttpUtil {
                 .build();
     }
     public static Request formRequest() {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        // 常规参数
         RequestBody requestBody = new FormBody.Builder()
                 .add("search", "Jurassic Park")
+                .build();
+        // 文件
+        File file = new File(Environment.getExternalStorageDirectory() + "test.txt");
+        MediaType MEDIATYPE = MediaType.parse("text/plain; charset=utf-8");
+        RequestBody requestBody = RequestBody.create(MEDIATYPE, file);
+        // 表单
+        File file = new File(Environment.getExternalStorageDirectory(), "zhuangqilu.png");
+         RequestBody  requestBody = new MultipartBody.Builder()
+                //设置类型是表单
+                .setType(MultipartBody.FORM)
+                //添加数据
+                .addFormDataPart("username","zhangqilu")
+                .addFormDataPart("age","25")
+                .addFormDataPart("image", "zhangqilu.png", RequestBody.create(MediaType.parse("image/png"),file))
                 .build();
         return new Request.Builder()
                 .url("https://en.wikipedia.org/w/index.php")
