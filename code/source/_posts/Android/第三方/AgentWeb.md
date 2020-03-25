@@ -197,3 +197,123 @@ public class AgentWebUtil {
     }
 }
 ```
+
+## jsbridge
+
+`implementation 'com.github.lzyzsd:jsbridge:1.0.4'`
+
+```js
+function $(objId) {
+    return document.getElementById(objId);
+}
+//注册事件监听，初始化
+function setupWebViewJavascriptBridge(callback) {
+   if (window.WebViewJavascriptBridge) {
+       callback(WebViewJavascriptBridge)
+   } else {
+       document.addEventListener(
+           'WebViewJavascriptBridgeReady'
+           , function() {
+               callback(WebViewJavascriptBridge)
+           },
+           false
+       );
+   }
+}
+//回调函数，接收java发送来的数据
+setupWebViewJavascriptBridge(function(bridge) {
+   // 默认接收
+   bridge.init(function(msg, responseCallback) {
+        $("msg").innerHTML = msg;
+        responseCallback("ok"); //回传数据给java
+   });
+
+   // 指定接收，参数 java 保持一致
+   bridge.registerHandler("jsTestFunc", function(msg, responseCallback) {
+        $("msg").innerHTML = msg;
+        responseCallback("ok"); //回传数据给java
+   });
+})
+// 发送数据
+<button style="width:30%;" type="button" onclick="send();">打开蓝牙</button>
+function android_bleOpen() {
+    // 发送数据到 java 默认接口，反馈数据一定是字符串，Json不会被自动转换为对象
+    window.WebViewJavascriptBridge.send(
+        "from js msg"
+        , function(responseData) {
+            $("msg").innerHTML = responseData;
+        }
+    );
+    // 发送数据到 java 指定接口
+    window.WebViewJavascriptBridge.callHandler(
+        'javaTestFunc'
+        , "hello"
+        , function(responseData) {
+            $("msg").innerHTML = responseData;
+        }
+    );
+}
+```
+
+```java
+public class AgentWebUtil {
+    private AgentWeb.PreAgentWeb mPreAgentWeb;
+
+    public void init(AppCompatActivity app) {
+        mBridgeWebView = new BridgeWebView(app);
+        mAgentWeb = AgentWeb.with(this)
+                .setWebViewClient(getWebViewClient())
+                // ...
+                .go(getUrl());
+        // 默认接收
+        mBridgeWebView.setDefaultHandler(new BridgeHandler() {
+            public void handler(String data, CallBackFunction function) {
+                Log.e(TAG, data);
+                function.onCallBack("ok");
+            }
+        });
+        // 指定接收
+        mBridgeWebView.registerHandler("javaTestFunc", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                function.onCallBack("ok");
+            }
+        });
+        // 默认发送
+        mBridgeWebView.send("hello", new CallBackFunction(){
+            public void onCallBack(String data) {
+                Log.e(TAG, "反馈：" + data);
+            }
+        });
+        // 指定发送
+        mBridgeWebView.callHandler("jsTestFunc", new Gson().toJson(user), new CallBackFunction() {
+            @Override
+            public void onCallBack(String data) {
+                Log.e(TAG, "反馈：" + data);
+            }
+        });
+    }
+    private WebViewClient getWebViewClient() {
+        return new WebViewClient() {
+            // 事件拦截
+            BridgeWebViewClient mBridgeWebViewClient = new BridgeWebViewClient(mBridgeWebView);
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return mBridgeWebViewClient.shouldOverrideUrlLoading(view, request.getUrl().toString());
+                // return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mBridgeWebViewClient.onPageFinished(view, url);
+            }
+        };
+    };
+}
+```

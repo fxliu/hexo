@@ -164,8 +164,9 @@ Observable.create(new ObservableOnSubscribe<Integer>() {
         emitter.onComplete();
     }
 })
-.observeOn(Schedulers.io())
-.subscribeOn(Schedulers.mainThread())
+.distinct()
+.subscribeOn(Schedulers.io())
+.observeOn(AndroidSchedulers.mainThread())
 .subscribe(new Observer<Integer>() {
     // 2. 通过通过订阅（subscribe）连接观察者和被观察者
     // 3. 创建观察者 & 定义响应事件的行为
