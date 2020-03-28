@@ -60,8 +60,8 @@ updated: 2020-03-10 11:30:30
 
 ```java
 // 挂在 TestFragment 到 FrameLayout
-FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-transaction.replace(R.id.frameLayout, new TestFragment());
-// transaction.add(R.id.frameLayout, new TestFragment());
-transaction.commit();
+getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.frameLayout, new TestFragment())
+        .commit();
 ```

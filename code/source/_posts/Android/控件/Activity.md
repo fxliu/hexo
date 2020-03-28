@@ -118,6 +118,65 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 }
 ```
 
+```java
+// 回调封装
+public class ResultFragment extends Fragment {
+    public interface IListener {
+        void onActivityResult(int requestCode, int resultCode, Intent intent);
+    }
+
+    private static final String TAG = ResultFragment.class.getSimpleName();
+    private static final int mRequestCode = 1;
+    private FragmentManager mFragmentManager;
+    private IListener mListener;
+
+    private ResultFragment(IListener listener) {
+        mListener = listener;
+    }
+
+    private void create(FragmentActivity activity) {
+        mFragmentManager = activity.getSupportFragmentManager();
+        mFragmentManager
+                .beginTransaction()
+                .add(this, "")
+                .commitAllowingStateLoss();
+        mFragmentManager.executePendingTransactions();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (null != mListener) {
+            mListener.onActivityResult(requestCode, resultCode, intent);
+        }
+        Log.i(TAG, String.format("requestCode: %d, resultCode: %d", requestCode, resultCode));
+        // 回调之后自动释放
+        mFragmentManager.beginTransaction()
+                .remove(this).commit();
+        onDestroy();
+    }
+
+    public static void startActivityForResult(FragmentActivity activity, Intent intent, IListener listener) {
+        ResultFragment resultFragment = new ResultFragment(listener);
+        resultFragment.create(activity);
+        resultFragment.startActivityForResult(intent, mRequestCode);
+    }
+}
+// 使用：TestActivity未设置返回值时会使用默认值，onActivityResult一定会触发
+Intent intent = new Intent(app, TestActivity.class);
+ResultFragment.startActivityForResult(app, intent, new ResultFragment.IListener() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if(resultCode == Activity.RESULT_OK) {
+            String content = intent.getStringExtra("v");
+            cbf.onCallBack(JsBridge.getSuccessObj(content).toString());
+        } else {
+            cbf.onCallBack(JsBridge.getError(-1, "cancel").toString());
+        }
+    }
+});
+```
+
 ### 翻转
 
 ```java
