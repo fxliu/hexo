@@ -27,6 +27,9 @@ updated: 2019-11-08 12:13:37
 ### JS
 
 + 饿了么前端
+  + [awesome](https://github.com/ElementUI/awesome-element)
+    + [admin](https://taylorchen709.github.io/vue-admin/#/table)
+      + [github](https://github.com/taylorchen709/vue-admin)
   + [Web桌面](https://github.com/ElemeFE/vue-desktop)
     + 页面显示Window桌面样式
     + [简易版](https://github.com/ElemeFE/vue-desktop-starter)
@@ -51,7 +54,7 @@ updated: 2019-11-08 12:13:37
   + [vue-Element-Admin](https://github.com/PanJiaChen/vue-element-admin)
     + 较为完整的封装，包含分块, 列表, 图等
   + [AdminLTE](https://github.com/ColorlibHQ/AdminLTE)
-    + 基于 Bootstrap 3.x 的免费的后台 UI 框架
+    + 基于 Bootstrap 3 / 4 的免费的后台 UI 框架
   + [tabler](https://github.com/tabler/tabler)
     + 构建在 BootStrap 4 之上的免费的 HTML 控制面板框架
   + [Gentelella](https://github.com/ColorlibHQ/gentelella)
@@ -60,6 +63,14 @@ updated: 2019-11-08 12:13:37
     + 基于 Vue 和 Bulma 的控制面板
   + [iview-admin](https://github.com/iview/iview-admin)
     + 基于 iView 的 Vue 2.0 控制面板
++ 权限管理
+  + [Vue-Access-Control](https://github.com/tower1229/Vue-Access-Control)
+    + Vue2.0用户权限控制解决方案
+    + 基于Vue实现后台系统权限控制
+    + 用addRoutes实现动态路由
++ bootstrap
+  + [bootstrap-vue](https://bootstrap-vue.js.org/)
+  + [adminlte-vue](https://nejinn.github.io/nly-adminlte-vue-demo/#/)
 
 ### Python
 
