@@ -1,10 +1,10 @@
 ---
 title: vue-cli
 tags: 
-    - vue-cli
+  - vue-cli
 categories: 
-    - JS
-    - vue
+  - JS
+  - vue
 description: vue-cli
 date: 2019-12-02 10:56:59
 updated: 2019-12-02 10:56:59
@@ -17,21 +17,32 @@ updated: 2019-12-02 10:56:59
 
 ## 常规组件
 
++ less, less-loader
+  + `npm install less less-loader --save-dev`
 + [postcss-px-to-viewport](https://www.npmjs.com/package/postcss-px-to-viewport)
   + [淘宝镜像-中文](https://npm.taobao.org/package/postcss-px-to-viewport)
   + postcss插件，自动转化px为vw,vh,vmin,vmax
 + postcss:
-  + Vue CLI 项目天生支持 PostCSS 、CSS Modules 和包含 Sass 、Less 、Stylus 在内的预处理器
+  + Vue CLI 项目默认支持 PostCSS 、CSS Modules 和包含 Sass 、Less 、Stylus 在内的预处理器
   + 默认开启了 autoprefixer
   + 如果要配置目标浏览器，可使用 package.json 的 browserslist 字段。
   + 安装：`npm install postcss-px-to-viewport --save-dev`
 + element
 + bootstrap4
++ bootstrapvue
+  + 响应式移动框架，基于bootstrap4，
 + jquery
   + `npm install jquery --save`
   + 配置到`vue.config.js`，见常规配置
-  + 代码引用：`import $ from 'jquery'`
+  + 代码引用：
+    + `import $ from 'jquery'`
 + lodash
++ fastclick
+  + `npm install --save fastclick`
+  + `import FastClick from 'fastclick';`
+  + `FastClick.attach(document.body);`
++ vue-router
++ vuex: 前台数据缓存
 
 ## 常规配置
 
@@ -41,6 +52,15 @@ let path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      filename: 'index.html',
+      template: process.env.NODE_ENV === 'production' ? 'public/index_dev.html' : 'public/index_build.html'
+    },
+    // 多页
+    // subpage: 'src/subpage.js',       // 默认对应 public/subpage.html
+  },
   devServer: {
     port: 9000,
     open: true, // 编译后自动打开
