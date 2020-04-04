@@ -46,8 +46,27 @@ export default new Vuex.Store({
         // Vue.set(state,"age",15)  设置，不存在则创建
         // Vue.delete(state,'age')  删除
     },
+    getters:{
+        // 数据查询：通常用于数据联合查询
+        userName(state, getters){
+            // 默认参数：state => store.state, getters => store.getters
+            // 组件调用：this.$store.getters.userName
+            return "姓名:" + state.user.name;
+        }
+    },
     mutations: {
         // 成员操作
+        // state数据增删改入口
+        hello(state, name) {
+            // 组件调用：this.$store.commit('hello',"world")
+            state.hello = "hello " + name;
+        },
+        // 用户信息入口
+        user(userInfo) {
+            // 组件调用：this.$store.commit('user',{"name":"","cert":""})
+            state.user.name = userInfo.name;
+            state.user.cert = userInfo.cert;
+        }
     },
     actions: {
         // 异步操作：直接在modules中使用setTimeout等异步，会引起数据失效
@@ -70,28 +89,6 @@ export default new Vuex.Store({
                 },2000)
             })
         },
-    },
-    getters:{
-        // 数据查询：通常用于数据联合查询
-        userName(state, getters){
-            // 默认参数：state => store.state, getters => store.getters
-            // 组件调用：this.$store.getters.userName
-            return "姓名:" + state.user.name;
-        }
-    },
-    modules: {
-        // state数据增删改入口
-        hello(name) {
-            // 组件调用：this.$store.commit('hello',"world")
-            this.state.hello = "hello " + name;
-        },
-        // 用户信息入口
-        user(userInfo) {
-            // 组件调用：this.$store.commit('user',{"name":"","cert":"",icafe:[]})
-            this.state.user.name = userInfo.name;
-            this.state.user.cert = userInfo.cert;
-            this.memberIcafes = userInfo.icafe;
-        }
     },
     models:{
         // 可以内封装模块，执行动作是，会自动查找拥有该动作的所有模块并执行
@@ -140,6 +137,9 @@ const store = new Vuex.Store({
 
 ```js
 // store 映射
+// 引用的大括号必须有
+import {mapState, mapMutations} from 'vuex'
+
 export default {
     computed: mapState([
     // 映射 this.count 为 store.state.count
@@ -179,4 +179,19 @@ export default {
         })
     },
 }
+```
+
+### 对象扩展支持
+
+ npm install babel-plugin-transform-object-rest-spread
+`npm install babel-plugin-transform-object-rest-spread --save-dev`
+`npm install --save-dev @babel/plugin-proposal-object-rest-spread`
+`npm install babel-preset-env --save-dev`
+
+```js
+// babel.config.js
+// 补充："transform-object-rest-spread"
+module.exports = {
+    "plugins": ["transform-object-rest-spread"]
+};
 ```

@@ -42,7 +42,16 @@ updated: 2019-12-02 10:56:59
   + `import FastClick from 'fastclick';`
   + `FastClick.attach(document.body);`
 + vue-router
+  + vue add router
 + vuex: 前台数据缓存
+  + vue add vuex
++ font-awesome
+  + `import 'font-awesome/css/font-awesome.min.css'`
+  + `<i class="fa fa-car fa-lg"></i>`
+  + 5.x版比较重载，谨慎使用
+
+npm install webpack-bundle-analyzer –save-dev
+npm run build –report
 
 ## 常规配置
 
@@ -116,4 +125,37 @@ module.exports = {
   }
 };
 
+```
+
+### 懒加载
+
+```js
+// 按需加载路由
+const percenter = () => import('views/percenter/main.vue');
+
+const routes = [
+    {
+        path: '/',
+        name: 'MainPage',
+        component: () => import('../views/MainPage')
+    }
+];
+
+// 移除移动端页面点击延迟: 异步加载
+import('fastclick').then(FastClick => {
+    FastClick.attach(document.body);
+});
+// 多个组件同时异步
+Promise.all([
+    import("./assets/js/eslibs"),
+    import('bootstrap/dist/css/bootstrap.min.css'),
+]).then(responses => {
+    let eslibs = responses[0].default;
+}
+
+(() => {
+    require.ensure([], function (require) {
+        require('./router_view.js');
+    });
+})();
 ```
