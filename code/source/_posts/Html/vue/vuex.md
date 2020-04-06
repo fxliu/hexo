@@ -12,6 +12,10 @@ updated: 2019-12-02 10:56:59
 
 ## 基础
 
+`vue add vuex`
+
+### 自定义store
+
 ```js
 // 简单的store，自己直接定义一个外变量，然后挂载到所有vue即可
 var store = {
@@ -27,6 +31,8 @@ var store = {
     }
 }
 ```
+
+### Store缓存
 
 ```js
 import Vue from 'vue'
@@ -135,6 +141,8 @@ const store = new Vuex.Store({
 })
 ```
 
+### 混入
+
 ```js
 // store 映射
 // 引用的大括号必须有
@@ -181,17 +189,16 @@ export default {
 }
 ```
 
-### 对象扩展支持
-
- npm install babel-plugin-transform-object-rest-spread
-`npm install babel-plugin-transform-object-rest-spread --save-dev`
-`npm install --save-dev @babel/plugin-proposal-object-rest-spread`
-`npm install babel-preset-env --save-dev`
+### 监控
 
 ```js
-// babel.config.js
-// 补充："transform-object-rest-spread"
-module.exports = {
-    "plugins": ["transform-object-rest-spread"]
-};
+// 不支持直接监控混入对象
+export default {
+    watch: {
+        '$store.state.area': function(n, o) {
+            // console.log("GoodsList area watch: ", n, o);
+            this.reload();
+        }
+    },
+}
 ```

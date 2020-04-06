@@ -68,3 +68,22 @@ data: {
 }
 </script>
 ```
+
+## 插件
+
+```js
+// utils.js
+export default {
+  getUrlKey:function(name){
+    let parames = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href);
+    if(parames)
+        return decodeURIComponent(parames[1].replace(/\+/g, '%20'));
+    return "";
+  }
+}
+// 引入
+import utils from './components/utils'
+Vue.prototype.$utils = utils;
+// .vue使用
+let code = this.$utils.getUrlKey('code');
+```

@@ -44,16 +44,6 @@ import {dateFormat} from 'vux';
 let d2 = dateFormat(d, 'YYYY-MM-DD');
 ```
 
-## 数组
-
-```js
-// 遍历
-for(let j = 0,len=arr.length; j < len; j++) {
-}
-// 清空
-arr.splice(0,arr.length);
-```
-
 ## 对象
 
 ```js

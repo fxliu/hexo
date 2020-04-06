@@ -44,7 +44,6 @@ updated: 2019-12-02 10:56:59
 + vue-router
   + vue add router
 + vuex: 前台数据缓存
-  + vue add vuex
 + font-awesome
   + `import 'font-awesome/css/font-awesome.min.css'`
   + `<i class="fa fa-car fa-lg"></i>`

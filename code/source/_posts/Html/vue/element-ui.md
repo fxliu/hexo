@@ -47,7 +47,8 @@ import Element from 'element-ui'
 import {
     Button,
     Loading,
-    Message
+    Message,
+    InfiniteScroll,
 } from 'element-ui'
 
 Vue.component(Button.name, Button);
@@ -55,4 +56,5 @@ Vue.component(Button.name, Button);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 
+Vue.use(InfiniteScroll);
 ```
