@@ -279,3 +279,9 @@ public class OkHttpUtil {
 ## APP升级
 
 + [AutoUpdateProject](https://github.com/MZCretin/AutoUpdateProject)
++ [ApkUpdater](https://github.com/hss01248/ApkUpdater)
+
+## 其他
+
++ `https://github.com/lingochamp/FileDownloader`
+  + 流利说技术团队开源的Android 文件下载引擎，稳定、高效、灵活、简单易用

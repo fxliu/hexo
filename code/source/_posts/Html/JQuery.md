@@ -117,5 +117,7 @@ $.ajax({
     console.log('done');
 }).fail(function () {
     console.log('fail');
+}).always(function () {
+    console.log('always');
 });
 ```

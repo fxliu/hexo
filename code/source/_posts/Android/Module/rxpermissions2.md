@@ -62,7 +62,7 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 
 `implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'`
 
-## rxpermissions2 - 简单应用
+### rxpermissions2 - 简单应用
 
 ```java
 public class ZPermissionUtil {

@@ -48,11 +48,18 @@ updated: 2019-12-02 10:56:59
   + `import 'font-awesome/css/font-awesome.min.css'`
   + `<i class="fa fa-car fa-lg"></i>`
   + 5.x版比较重载，谨慎使用
-
-npm install webpack-bundle-analyzer –save-dev
-npm run build –report
++ cropperjs：图片裁剪
+  + `npm install --save vue-cropperjs`
++ better-scroll：滚轮监控
+  + `npm i --save better-scroll`
 
 ## 常规配置
+
+```js
+// 编译报告：js文件大小
+npm install webpack-bundle-analyzer –save-dev
+npm run build –report
+```
 
 ```js
 // vue.config.js

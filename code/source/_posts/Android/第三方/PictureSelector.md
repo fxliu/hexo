@@ -17,6 +17,10 @@ updated: 2020-03-28 19:30:25
 + [图片选择器](https://github.com/qingmei2/RxImagePicker)
   + 响应式图片选择器，支持相机+相册， 灵活应用于各种需求嵌入
   + 知乎主题 + 微信主题
++ [Matisse](https://github.com/zhihu/Matisse)
+  + 这是一个漂亮的本地图片、视频选择器
++ [spruce-android](https://github.com/willowtreeapps/spruce-android)
+  + 安卓动画库
 
 ## PictureSelector
 
