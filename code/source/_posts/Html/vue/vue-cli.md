@@ -29,8 +29,11 @@ updated: 2019-12-02 10:56:59
   + 安装：`npm install postcss-px-to-viewport --save-dev`
 + element
 + bootstrap4
+  + `npm i bootstrap --save`
+  + `import 'bootstrap/dist/css/bootstrap.min.css'`
 + bootstrapvue
   + 响应式移动框架，基于bootstrap4
+  + 负载较大
 + jquery
   + `npm install jquery --save`
   + 配置到`vue.config.js`，见常规配置
