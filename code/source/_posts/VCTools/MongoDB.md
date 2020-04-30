@@ -127,6 +127,8 @@ mongoc_cursor_t* CMongoClient::Query()
     // 设置查询字段
     bson_t opts;
     bson_init(&opts);
+    BSON_APPEND_INT64(&opts, "skip", dwSkip);
+    BSON_APPEND_INT64(&opts, "limit", dwLimit);
     // 设置显示字段
     bson_t opts_project;
     BSON_APPEND_DOCUMENT_BEGIN(&opts, "projection", &opts_project);
