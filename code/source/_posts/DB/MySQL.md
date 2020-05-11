@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS olcustomer(
     grade int NOT NULL default 0 COMMENT '等级',
     uptm datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     primary key(icafe,uid)
-)COMMENT='刷卡人员列表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='刷卡人员列表';
 -- 删除
 DROP TABLE IF EXISTS tn;
 -- 快速清空表
