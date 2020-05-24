@@ -66,74 +66,86 @@ npm run build –report
 
 ```js
 // vue.config.js
+// vue.config.js
 let path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  pages: {
-    index: {
-      entry: 'src/main.js',
-      filename: 'index.html',
-      template: process.env.NODE_ENV === 'production' ? 'public/index_dev.html' : 'public/index_build.html'
+    publicPath: process.env.NODE_ENV === 'production' ? '/wechat/mobile/' : '',
+    assetsDir: process.env.NODE_ENV === 'production' ? './online_sales/' : '',
+    productionSourceMap: false,
+    pages: {
+        index: {
+            entry: 'src/main.js',
+            filename: process.env.NODE_ENV === 'production' ? 'online_sales.html' : 'index.html',
+            template: process.env.NODE_ENV === 'production' ? 'src/index_build.html' : 'src/index_dev.html'
+        },
+        // 多页
+        // subpage: 'src/subpage.js',       // 默认对应 public/subpage.html
     },
-    // 多页
-    // subpage: 'src/subpage.js',       // 默认对应 public/subpage.html
-  },
-  devServer: {
-    port: 9000,
-    open: true, // 编译后自动打开
-    // PHP 请求中转
-    proxy: {
-      '/api': {
-        // host替换
-        // target:'http://localhost:80/trunk/src/test',
-        target: 'http://localhost:80/',
-        changeOrigin: true, // needed for virtual hosted sites
-        // ws: true, // proxy websockets
-        pathRewrite: {
-          // 路径替换
-          '^/api/': '/trunk/src/test/api/',
+    lintOnSave: process.env.NODE_ENV === 'development',
+    devServer: {
+        port: 9000,
+        // open: true, // 编译后自动打开
+        proxy: {
+            '/online_sales/api': {
+                // host替换
+                // target:'http://localhost:80/online_sales/trunk/3_client/netizen/mall/src/test',
+                target: 'http://localhost:80/',
+                changeOrigin: true, // needed for virtual hosted sites
+                // ws: true, // proxy websockets
+                pathRewrite: {
+                    // 路径替换
+                    '/online_sales/api/': '/online_sales/trunk/3_client/netizen/mall/src/test/api/',
+                }
+            },
+            '/mobile/api': {
+                // host替换
+                // target:'http://localhost:80/online_sales/trunk/3_client/netizen/mall/src/test',
+                target: 'http://localhost:80/',
+                changeOrigin: true, // needed for virtual hosted sites
+                // ws: true, // proxy websockets
+                pathRewrite: {
+                    // 路径替换
+                    '/mobile/api/': '/online_sales/trunk/3_client/netizen/mall/src/test/api/',
+                }
+            }
         }
-      }
-    }
-  },
-  configureWebpack: {
-    plugins: [
-      // jquery组件挂在
-      new webpack.ProvidePlugin({
-        $:"jquery",
-        jQuery:"jquery",
-        "windows.jQuery":"jquery"
-      })
-    ]
-  },
-  css: {
-    loaderOptions: {
-      postcss: {
+    },
+    configureWebpack: {
         plugins: [
-          // postcss-px-to-viewport
-          require("postcss-px-to-viewport")({
-            unitToConvert: 'px',
-            viewportWidth: 750,
-            unitPrecision: 3,
-            propList: ['*'],
-            viewportUnit: 'vw',
-            fontViewportUnit: 'vw',
-            selectorBlackList: [],
-            minPixelValue: 1,
-            mediaQuery: false,
-            replace: true,
-            landscape: false,
-            landscapeUnit: 'vw',
-            landscapeWidth: 1334,
-            exclude: /(\/|\\)(node_modules)(\/|\\)/,
-          })
-        ]
-      }
+            new webpack.ProvidePlugin({
+                $:"jquery",
+                jQuery:"jquery",
+                "windows.jQuery":"jquery"
+            })
+        ],
+    },
+    css: {
+        loaderOptions: {
+            postcss: {
+                plugins: [
+                    require("postcss-px-to-viewport")({
+                        unitToConvert: 'px',
+                        viewportWidth: 375,
+                        unitPrecision: 5,       // 指定`px`转换为视窗单位值的小数位数
+                        propList: ['*'],
+                        viewportUnit: 'vw',
+                        fontViewportUnit: 'vw',
+                        selectorBlackList: [],
+                        minPixelValue: 1,       // 小于1px的不转换
+                        mediaQuery: false,
+                        replace: true,
+                        landscape: false,
+                        landscapeUnit: 'vw',
+                        landscapeWidth: 667,
+                        exclude: /(\/|\\)(node_modules)(\/|\\)/,
+                    })
+                ]
+            }
+        }
     }
-  }
 };
-
 ```
 
 ### 懒加载

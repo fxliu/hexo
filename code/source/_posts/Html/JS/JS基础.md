@@ -85,6 +85,15 @@ tools.dateFormat = function (date, fmt = 'YYYY-MM-DD HH:mm:ss') {
     }
     return fmt;
 };
+
+
+var sdtime1 = new Date('2018-03-22 16:14:55')
+
+var sdtime2 = sdtime1.setHours(sdtime1.getHours() -1)//小时
+var sdtime3=new Date().setDate((new Date().getDate()-7))//7天
+var sdtime4=new Date().setMonth((new Date().getMonth()-1))//一个月
+var sdtime5=new Date().setFullYear((new Date().getFullYear()-1))//一年
+
 ```
 
 ## 对象
