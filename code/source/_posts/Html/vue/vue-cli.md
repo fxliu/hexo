@@ -28,6 +28,7 @@ updated: 2019-12-02 10:56:59
   + 如果要配置目标浏览器，可使用 package.json 的 browserslist 字段。
   + 安装：`npm install postcss-px-to-viewport --save-dev`
 + element
+  + 插件安装
 + bootstrap4
   + `npm i bootstrap --save`
   + `import 'bootstrap/dist/css/bootstrap.min.css'`
@@ -39,6 +40,8 @@ updated: 2019-12-02 10:56:59
   + 配置到`vue.config.js`，见常规配置
   + 代码引用：
     + `import $ from 'jquery'`
++ axios
+  + 插件安装
 + lodash
 + fastclick
   + `npm install --save fastclick`
@@ -55,6 +58,17 @@ updated: 2019-12-02 10:56:59
   + `npm install --save vue-cropperjs`
 + better-scroll：滚轮监控
   + `npm i --save better-scroll`
+
+## lint
+
+```json
+// package.json
+    "rules": {
+      "vue/no-unused-components": "off",
+      "vue/no-unused-vars": "off",
+      "no-unused-vars": "off"
+    }
+```
 
 ## 常规配置
 

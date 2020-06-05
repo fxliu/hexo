@@ -16,6 +16,27 @@ div {
     width: 160px;
     height: 160px;
     background-size: cover;
-    background-image: 'url(' + url/base64 + ')'
+    background-image: 'url(' + url/base64 + ')';
+    background-repeat: no-repeat;   /* 不重复 */
+    background-position: center;    /* 居中显示 */
+}
+background-size: 63px;  /* 指定大小：第二个参数默认auto */
+background-size: %50;   /* 指定大小：第二个参数默认auto */
+background-size: cover;     /* 等比拉伸 */
+background-size: contain;   /* 拉伸 */
+background-position
+```
+
+## 动态效果
+
+```less
+.btn {
+    color: #10aeff;
+    &:active {
+        color: #181741;
+    }
+    &:visited {
+        color: #181741;
+    }
 }
 ```

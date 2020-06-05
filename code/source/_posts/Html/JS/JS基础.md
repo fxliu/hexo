@@ -20,16 +20,6 @@ let b = `${a} world`;
 js_obj = JSON.parse(json_str);
 // json对象 -> js字符串
 json_str = JSON. stringify(js_obj);
-
-// encodeUrl
-function urlEncode(param) {
-    var paramStr = '';
-    for (let k in param) {
-        paramStr += paramStr ? '&':'';
-        paramStr += encodeURIComponent(k) + '=' + encodeURIComponent(param[k]);
-    }
-    return paramStr;
-};
 ```
 
 ```js
