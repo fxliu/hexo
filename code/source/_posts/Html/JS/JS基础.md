@@ -29,6 +29,8 @@ d1.setFullYear(d.getFullYear()+10);
 // 毫秒
 let date = new Date();
 console.log(date, date.getMilliseconds());
+// 时间戳
+Math.floor(new Date() / 1000);
 // vux的日期格式化
 import {dateFormat} from 'vux';
 let d2 = dateFormat(d, 'YYYY-MM-DD');

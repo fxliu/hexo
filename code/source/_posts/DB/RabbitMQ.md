@@ -15,8 +15,12 @@ updated: 2020-01-13 15:09:10
 # 队列数据量
 rabbitmqctl list_queues
 rabbitmqctl list_queues | awk '{if($2!=0) {print $0}}'
+rabbitmqctl list_queues | awk '{if($2>10) {print $0}}'
 rabbitmqctl list_queues | grep 3701028953
 rabbitmqctl list_connections | awk '{if($1=="weixin_new") {print $0}}'
+
+ps -aux | grep 'netbar_report' | awk '{print $2}' | xargs kill
+
 ```
 
 ## 安装
@@ -185,3 +189,113 @@ firewall-cmd --reload
 + 重启rabbitmq
   + `systemctl daemon-reload`
   + `systemctl restart rabbitmq-server`
+
+### 集群重启
+
+```sh
+# 集群重启时，最后一个挂掉的节点应该第一个重启
+# 如果因特殊原因（比如同时断电），而不知道哪个节点最后一个挂掉。可用以下方法重启：
+# 先在一个节点上执行
+rabbitmqctl force_boot
+service rabbitmq-server start
+#在其他节点上执行
+service rabbitmq-server start
+#查看cluster状态是否正常（要在所有节点上查询）。
+rabbitmqctl cluster_status
+#如果有节点没加入集群，可以先退出集群，然后再重新加入集群。
+
+#上述方法不适合内存节点重启，内存节点重启的时候是会去磁盘节点同步数据，如果磁盘节点没起来，内存节点一直失败。
+```
+
+### 退出集群
+
+```sh
+#假设要把rabbitmq2退出集群, 在rabbitmq2上执行
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
+
+#在集群主节点上执行
+rabbitmqctl forget_cluster_node rabbit@rabbitmq2
+```
+
+### 重装
+
+```sh
+# erlang
+yum remove erlang
+yum install erlang-R16B-03.18.el7.x86_64.rpm
+# RabbitMQ
+yum remove rabbitmq-server
+yum install rabbitmq-server-3.3.5-34.el7.noarch.rpm
+# rabbitmqctl status
+
+# 指定nodename: 创建 /etc/rabbitmq/rabbitmq-env.conf, 并添加如下字符串
+NODENAME=rabbitmq@dianduweixin-ecs1
+
+# 测试启动
+rabbitmq-server start
+# 如果提示权限不够: chmod -R 777 /var/lib/rabbitmq/mnesia/
+# 启动成功的话, Ctrl+C关闭, systemctrl启动即可
+```
+
+## Windows
+
+```sh
+# 官网下载并安装Erlang Windows环境 - 路径中不能包含空格
+# 官网下载并安装rabbitmq-server Windows环境 - 路径中不能包含空格
+
+# 服务停止|开启
+rabbitmq-service.bat stop|start
+
+# 配置文件路径: C:\Users\%USERNAME%\AppData\Roaming
+
+# 命令行: http://www.rabbitmq.com/manpages.html
+# 启用Web插件 - 需要重启服务: http://localhost:15672/
+rabbitmq-plugins enable rabbitmq_management
+
+# 安装服务 - Windows版安装后, 默认安装服务并启动
+rabbitmq-service.bat install
+# 删除服务
+rabbitmq-service.bat remove
+# 其他参数
+help/start/strop/disable/enable
+
+# rabbitmqctl:
+# 将 %HOMEDRIVE%%HOMEPATH%\.erlang.cookie 或者 %USERPROFILE%\.erlang.cookie
+# 拷贝到 C:\Windows\System32\config\systemprofile\.erlang.cookie ，然后重新启动
+
+# 否则rabbitmqctl不可用: TCP connection succeeded but Erlang distribution failed
+# 增加用户
+rabbitmqctl.bat add_user user password
+rabbitmqctl set_user_tags user administrator
+rabbitmqctl set_permissions -p / user ".*" ".*" ".*"
+# 删除用户
+rabbitmqctl.bat delete_user user
+# 其他命令
+```
+
+## 配置文件
+
+```sh
+# rabbitmq.config默认是没有生成的，只有一个rabbitmq.config.example，需要自己建一个，其实就是把.example拿掉就是了
+# rabbitmq.config目录并非安装目录下面的etc, 默认是在 C:\Users\%USERNAME%\AppData\Roaming\RabbitMQ 下
+# 调整心跳: 去掉{heartbeat, 86400} 前面的%%. 注意 如果当前大节点下面就这一个节点，后面逗号是必须拿掉的。
+# 修改了配置文件后，停止服务 -> 重装服务 -> 启动服务, 才能生效
+```
+
+## rabbitmqadmin.py
+
+```sh
+# http://server-name:15672/cli 页面下载 rabbitmqadmin
+# 拷贝到 /usr/local/bin 路径，并增加可执行权限，chmod 777 rabbitmqadmin
+rabbitmqadmin --help
+# 显示rabbitmqadmin的各种命令
+rabbitmqadmin help subcommands
+
+# 清空队列
+rabbitmqadmin.py --host=127.0.0.1 --port=15672 --username=lfx --password=liufuxiang purge queue name=olcustomer_history
+rabbitmqadmin.py --host=wx.dnndo.com --ssl --port=15443 --username=sys --password=c2s0iltx6DHZLrdW5V3SBFmb purge queue name=test
+# 删除队列
+rabbitmqadmin.py --host=wx.dnndo.com --ssl --port=15443 --username=sys --password=c2s0iltx6DHZLrdW5V3SBFmb delete queue name=test
+```

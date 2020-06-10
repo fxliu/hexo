@@ -68,7 +68,7 @@ export default new Vuex.Store({
             state.hello = "hello " + name;
         },
         // 用户信息入口
-        user(userInfo) {
+        user(state, userInfo) {
             // 组件调用：this.$store.commit('user',{"name":"","cert":""})
             state.user.name = userInfo.name;
             state.user.cert = userInfo.cert;
