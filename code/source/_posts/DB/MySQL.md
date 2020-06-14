@@ -326,5 +326,5 @@ SELECT
   type
 FROM
   card_num_real
-WHERE  aes_decrypt(UNHEX(card_num),'nrewso41yh9u0xjb')='230125198402221036'
+WHERE  aes_decrypt(UNHEX(card_num),'asfasdf')='230125198402221036'
 ```
