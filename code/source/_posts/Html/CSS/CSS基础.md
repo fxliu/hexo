@@ -19,6 +19,7 @@ div {
     background-image: 'url(' + url/base64 + ')';
     background-repeat: no-repeat;   /* 不重复 */
     background-position: center;    /* 居中显示 */
+    filter: opacity(0.95);          /* 透明度 */
 }
 background-size: 63px;  /* 指定大小：第二个参数默认auto */
 background-size: %50;   /* 指定大小：第二个参数默认auto */
