@@ -17,6 +17,10 @@ updated: 2019-12-02 10:56:59
 
 ## 常规组件
 
+`npm install --registry=https://registry.npm.taobao.org`
+
++ esbalse
+  + `npm i esbase`
 + less, less-loader
   + `npm install less less-loader --save-dev`
 + [postcss-px-to-viewport](https://www.npmjs.com/package/postcss-px-to-viewport)

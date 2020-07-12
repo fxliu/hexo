@@ -25,6 +25,39 @@ updated: 2019-10-27 ‏‎16:15:33
 
 ```
 
+## windows
+
+```bat
+:: 并发
+:: 查看编译模块，mpm_*** 代表MPM模块
+httpd -l
+
+:: 配置 mpm_winnt
+:: conf/httpd.conf 查找下属配置项，去掉该行前面的注释符号"#"
+Include conf/extra/httpd-mpm.conf
+:: conf/extra/httpd-mpm.conf
+:: ThreadsPerChild: 每个子进程的最大并发线程数, 推荐设置：小型网站=1000 中型网站=1000~2000 大型网站=2000~3500
+:: MaxRequestsPerChild: 每个子进程允许处理的请求总数, 该值设为0表示不限制请求总数(子进程永不结束)
+<IfModule mpm_winnt_module>
+ThreadsPerChild      2000
+MaxRequestsPerChild    0 #推荐设置：小=10000 中或大=20000~100000
+</IfModule>
+```
+
+```bat
+:: 日志分割
+:: 开启日志模块：conf/httpd.conf 查找下属配置项，去除前面的注释符号
+LoadModule log_config_module modules/mod_log_config.so
+
+:: 找到以下一行注释 #
+CustomLog "logs/access.log" common
+:: 按天分割日志改为
+:: -l: 使用本地时间代替GMT时间作为时间基准
+CustomLog "|bin/rotatelogs.exe -l logs/%Y_%m_%d.access.log 86400" common
+:: 按天日志大小分割改为
+CustomLog "|bin/rotatelogs.exe -l logs/%Y_%m_%d.access.log 2M" common
+```
+
 ## goaccess
 
 ```sh
