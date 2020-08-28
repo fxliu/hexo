@@ -13,6 +13,7 @@ updated: 2019-12-03 18:01:16
 ## 开源库
 
 + [libusb](https://github.com/libusb/libusb)
++ [hidapi](https://github.com/libusb/hidapi)
 
 ## 基础使用
 
