@@ -22,5 +22,13 @@ updated: 2019-12-12 09:49:15
 ## OpenSSL
 
 ```C++
-
+// CURL
+#pragma comment(lib, "curl/libcurl.lib")
+// SSL: 编译方法见openssl
+#pragma comment(lib, "Crypt32.lib")
+#pragma comment(lib, "curl/libeay32.lib")
+#pragma comment(lib, "curl/ssleay32.lib")
+// SSL依赖库
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "wldap32.lib")
 ```
