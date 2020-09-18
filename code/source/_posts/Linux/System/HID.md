@@ -42,3 +42,16 @@ ar -r libhidapi-hidraw.a hid.o
 gcc -o libtest.so test.o -shared -fPIC -Lhidapi -lhidapi-hidraw -ludev
 g++ -o libESCOSSP.so ESCOSSP.o ***.o hidapi/libhidapi-hidraw.a -ludev -shared -fPIC
 ```
+
+## udev
+
+```sh
+# https://mirrors.edge.kernel.org/pub/linux/utils/kernel/hotplug/
+./configure --host=arm-linux-gnueabihf --prefix=./build CC=arm-linux-gnueabihf-gcc AR=arm-linux-gnueabihf-ar
+# 依赖 blkid ，编译失败
+
+# https://github.com/gentoo/eudev
+# release：http://dev.gentoo.org/~blueness/eudev/
+./autogen.sh
+./configure --host=arm-linux-gnueabihf --prefix=/home/lfx/eudev-master/build CC=arm-linux-gnueabihf-gcc AR=arm-linux-gnueabihf-ar --disable-blkid --disable-kmod
+```

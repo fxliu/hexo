@@ -12,12 +12,7 @@ updated: 2019-12-12 09:49:15
 ## Demo
 
 + [CURL](https://github.com/fxliu/VCDemo/tree/master/NET/CUrl)
-
-## 简单案例
-
-```C++
-
-```
++ `es:\svn\bar_machine\trunk\C++\Demo\EidDemo`
 
 ## OpenSSL
 

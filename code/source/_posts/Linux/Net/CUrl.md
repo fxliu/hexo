@@ -24,6 +24,9 @@ sudo apt remove libcurl4-openssl-dev
 # 官网下载源码包: 静态 + SSL，去掉FTP, TFTP, TELNET, SMTP, SMB, RTSP, POP3, IMAP, GOPHER, DICT等模块
 ./configure --enable-shared=no --enable-static --with-ssl --disable-debug --disable-ftp --disable-tftp --disable-telnet --disable-smtp --disable-smb --disable-rtsp --disable-pop3 --disable-imap --disable-gopher --disable-dict
 
+make
+make install
+
 # ubuntu /usr/local/lib/pkgconfig/libcurl.pc
 -lcurl -lssl -lcrypto -lz -lpthread
 -static
