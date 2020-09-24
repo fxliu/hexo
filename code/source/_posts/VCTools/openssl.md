@@ -30,6 +30,8 @@ cd c:\openssl-1.0.1e
 :: 运行configure，--prefix 指定编译目录(保存编译结果，需给已存在目录的全路径), no-asm表示不用汇编
 :: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
 perl Configure VC-WIN32 --prefix=E:\build_release
+
+perl Configure VC-WIN32 --prefix=E:\openssl-1.1.1.h -static no-shared
 ```
 
 ```bat
@@ -63,16 +65,19 @@ nmake -f ms\nt.mak clean
 
 ```bat
 :: openssl-1.1
-:: 编译参数调整 - makefile: CNF_CFLAGS=... /MD -> /MT
+:: makefile 文件搜索编译属性：动态 /MD，静态 /MT
 nmake
 nmake clean
 
 nmake build_libs
 nmake libclean
 
-nmake install_sw
-nmake install
-nmake uninstall
+:: 正常无需安装，直接再根目录复制 libs 使用即可
+:: nmake install_sw
+:: nmake install
+:: nmake uninstall
+
+:: 与1.1不同，
 ```
 
 ```pm
@@ -130,16 +135,15 @@ C++ Standard Library：
 #include "openssl/aes.h"
 
 // SSL依赖库
-#pragma comment(lib, "IPHLPAPI.lib")
-#pragma comment(lib, "Snmpapi.lib")
-#pragma comment(lib, "netapi32.lib")
-
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wldap32.lib")
 #pragma comment(lib, "Crypt32.lib")
 // SSL库
 #pragma comment(lib, "libeay32.lib")
 #pragma comment(lib, "ssleay32.lib")
+// SSL 1.1 库
+#pragma comment(lib, "libcrypto.lib")
+#pragma comment(lib, "libssl.lib")
 ```
 
 ### CFB 128 NoPadding

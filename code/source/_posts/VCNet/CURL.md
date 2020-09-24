@@ -9,6 +9,10 @@ date: 2019-12-18 16:26:15
 updated: 2019-12-18 16:26:15
 ---
 
+## window 源码编译
+
+`projects\Windows下有VS工程，直接使用即可`
+
 ## Demo
 
 + [CURL](https://github.com/fxliu/VCDemo/tree/master/NET/CUrl)
@@ -33,11 +37,14 @@ curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 ```C++
 // CURL
 #pragma comment(lib, "curl/libcurl.lib")
-// SSL: 编译方法见openssl
-#pragma comment(lib, "Crypt32.lib")
-#pragma comment(lib, "curl/libeay32.lib")
-#pragma comment(lib, "curl/ssleay32.lib")
 // SSL依赖库
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wldap32.lib")
+#pragma comment(lib, "Crypt32.lib")
+// SSL库
+#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "ssleay32.lib")
+// SSL 1.1 库
+#pragma comment(lib, "libcrypto.lib")
+#pragma comment(lib, "libssl.lib")
 ```
