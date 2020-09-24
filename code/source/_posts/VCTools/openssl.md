@@ -27,16 +27,19 @@ updated: 2020-01-04 18:01:30
 
 :: perl编译根目录必须是openssl的根目录
 cd c:\openssl-1.0.1e
-:: 运行configure，--prefix 指定编译目录(保存编译结果), no-asm表示不用汇编
+:: 运行configure，--prefix 指定编译目录(保存编译结果，需给已存在目录的全路径), no-asm表示不用汇编
 :: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
-perl Configure VC-WIN32 --prefix=.\build_release
+perl Configure VC-WIN32 --prefix=E:\build_release
+```
+
+```bat
+:: openssl-1.0
 :: 创建MakeFile, perl中如果使用no-asm，这里替换为 ms\do_nasm.bat
 ms\do_ms.bat
 
 :: 64位
 :; Configure参数调整：VC-WIN64A、debug-VC-WIN64A
 :: ms\do_win64a.bat
-
 
 :: 编译动态库- 默认/MD
 nmake -f ms\ntdll.mak
@@ -56,6 +59,47 @@ nmake -f ms\nt.mak install
 nmake -f ms\ntdll.mak clean
 :: 清除上次静态库的编译，以便重新编译：清理静态库
 nmake -f ms\nt.mak clean
+```
+
+```bat
+:: openssl-1.1
+:: 编译参数调整 - makefile: CNF_CFLAGS=... /MD -> /MT
+nmake
+nmake clean
+
+nmake build_libs
+nmake libclean
+
+nmake install_sw
+nmake install
+nmake uninstall
+```
+
+```pm
+## 错误处理：Can't locate Win32/Console.pm in @INC
+## 修改文件：D:\Perl64\site\lib\ActivePerl\Config.pm, 大约400行位置
+#my $console;
+sub _warn {
+#    my($msg) = @_;
+#    unless (-t STDOUT) {
+#    print "\n$msg\n";
+#    return;
+#    }
+#    require Win32::Console;
+#    unless ($console) {
+#    $console = Win32::Console->new(Win32::Console::STD_OUTPUT_HANDLE());
+#    }
+#    my($col,undef) = $console->Size;
+#    print "\n";
+#    my $attr = $console->Attr;
+#    $console->Attr($Win32::Console::FG_RED | $Win32::Console::BG_WHITE);
+#    for (split(/\n/, "$msg")) {
+#    $_ .= " " while length() < $col-1;
+#    print "$_\n";
+#    }
+#    $console->Attr($attr);
+#    print "\n";
+}
 ```
 
 ### 编译配置
