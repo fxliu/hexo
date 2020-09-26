@@ -159,3 +159,4 @@ protected void onPause() {
 [nfcard](https://github.com/sinpolib/nfcard)
     + Support PBOC/EMV,北京市政一卡通,武汉通,长安通,Felica,ISO14443
 [nfcard-android](https://github.com/PlatformaSoft/nfcard-android)
+[身份证](es:svn\cloud_visitor\trunk\4_android\guard\idcardsdk)
