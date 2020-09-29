@@ -6,12 +6,17 @@ categories:
     - Android
 description: RxJava
 date: 2020-03-15 22:00:20
-updated: 2020-03-15 22:00:20
+updated: 2020-09-28 14:36:15
 ---
 
 ## 基础应用
 
 + 创建被观察者`Observable`，并在订阅接口`subscribe`中发布时间
+
+```gradle
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
+```
 
 ### 被观察者
 

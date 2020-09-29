@@ -27,4 +27,7 @@ adb -s emulator-5555 shell ls
 :: 单个设备时，可以不指定-s
 adb shell ls
 adb shell lsusb
+
+:: 保留在shell中
+adb shell
 ```

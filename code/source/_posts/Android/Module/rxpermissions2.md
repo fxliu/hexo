@@ -11,6 +11,11 @@ updated: 2020-03-25 09:07:46
 
 ## 原生：权限动态申请
 
++ build.gradle -> buildscript.repositories / allprojects.repositories
+  + `maven { url 'https://jitpack.io' }`
++ build.gradle -> dependencies
+  + `implementation 'com.github.tbruyelle:rxpermissions:0.12'`
+
 ```java
 public class PermissionUtl {
     private static String TAG = PermissionUtl.class.getSimpleName();
