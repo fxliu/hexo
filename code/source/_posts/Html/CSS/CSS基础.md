@@ -40,4 +40,20 @@ background-position
         color: #181741;
     }
 }
+
+## 渐进色
+
+```css
+// radial-gradient: 径向渐变
+// farthest-corner: 是颜色渐进方式，后面的百分比是中心点位置
+// shape size at position, col1, col2...
+// shape: ellipse (默认): 指定椭圆形的径向渐变, circle ：指定圆形的径向渐变
+// size: 定义渐变的大小, farthest-corner | closest-side | closest-corner | farthest-side
+// position: 定义渐变中心点, center | top | bottom
+div {
+    background-color: #1989fa;
+    background-image: radial-gradient(farthest-corner at 50% 0, #85d5fd, #1989fa);
+}
+```
+
 ```
