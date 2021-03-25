@@ -79,7 +79,7 @@ class MyTcpHandler(SocketServer.BaseRequestHandler):
 
     def finish(self):
         print 'finish'
-1
+
 if __name__ == '__main__':
     # 实例化socketserver，并传送服务器ip、port和子类
     # 单进程，单线程
