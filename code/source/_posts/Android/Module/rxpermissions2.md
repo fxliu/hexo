@@ -63,6 +63,27 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 }
 ```
 
+```java
+// 写法2
+private void requestPermission() {
+    if (!ZPermissionUtil.getInstance().isPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        ZPermissionUtil.getInstance().requestPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+    } else {
+        init();
+    }
+}
+
+@Override
+public void onPermissionsSuccess() {
+    init();
+}
+
+@Override
+public void onPermissionsFail() {
+    finish();
+}
+```
+
 ## rxpermissions2
 
 `implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'`
