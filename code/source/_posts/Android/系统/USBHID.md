@@ -64,6 +64,13 @@ android {
 include $(call all-subdir-makefiles)
 ```
 
+```makefile
+LOCAL_PATH:= $(call my-dir)
+
+include $(LOCAL_PATH)/libsdk.mk
+include $(LOCAL_PATH)/libtest.mk
+```
+
 + **创建文件：jni/Application.mk**
 
 ```makefile

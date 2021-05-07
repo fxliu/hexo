@@ -86,7 +86,19 @@ public void onPermissionsFail() {
 
 ## rxpermissions2
 
-`implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'`
+```gradle
+    // 基于rxjava2版本
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+```
+
+```gradle
+    // 基于rxjava3版本
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
+    implementation 'com.github.tbruyelle.rxpermissions:0.1.2'
+    // import com.tbruyelle.rxpermissions3.RxPermissions;
+```
 
 ### rxpermissions2 - 简单应用
 
