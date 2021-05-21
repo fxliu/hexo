@@ -84,6 +84,16 @@ public void onPermissionsFail() {
 }
 ```
 
+## hipermission
+
+```gradle
+    implementation 'me.weyye.hipermission:library:1.0.7'
+```
+
+### hipermission - 应用
+
++ [GitHub](https://github.com/AboutAndroid/HiPermission)
+
 ## rxpermissions2
 
 ```gradle
