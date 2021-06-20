@@ -106,7 +106,9 @@ public void onPermissionsFail() {
     // 基于rxjava3版本
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
-    implementation 'com.github.tbruyelle.rxpermissions:0.1.2'
+    // implementation 'com.github.tbruyelle.rxpermissions:0.1.2'
+    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+    // maven { url 'https://jitpack.io' }
     // import com.tbruyelle.rxpermissions3.RxPermissions;
 ```
 

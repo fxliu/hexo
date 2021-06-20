@@ -14,6 +14,7 @@ updated: 2020-09-26 16:56:17
 
 [UsbManager](es:svn\bar_machine\trunk\C++\EIDSDK\Android\EsEidDemo)
 [android_mk](https://developer.android.google.cn/ndk/guides/android_mk)
+[Android串口通讯](https://github.com/kongqw/AndroidSerialPort)
 
 ## libusb
 
