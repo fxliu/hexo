@@ -19,7 +19,7 @@ updated: 2019-12-02 10:56:59
 
 `npm install --registry=https://registry.npm.taobao.org`
 
-+ esbalse
++ esbase
   + `npm i esbase`
 + less, less-loader
   + `npm install less less-loader --save-dev`
