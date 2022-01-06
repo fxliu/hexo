@@ -29,6 +29,19 @@ make clean
 make uninstall
 ```
 
+```sh
+# openssl-1.0.2l.tar - SV806备记
+export CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-
+# linux-generic32 表示32位系统
+# no-asm: 在交叉编译过程中不使用汇编代码代码加速编译过程.原因是它的汇编代码是对arm格式不支持的
+# shared: 生成动态连接库
+# no-async: 交叉编译工具链没有提供GNU C的ucontext库
+./Configure linux-generic32 no-asm shared no-async --prefix=/opt/hisi-linux/x86-arm/arm-himix200-linux/target/usr
+
+make
+make install
+```
+
 ## SM2
 
 `基于OpenSSL1.1: https://github.com/greendow/SM2-encrypt-and-decrypt`

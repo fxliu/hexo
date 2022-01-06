@@ -43,6 +43,19 @@ gcc -o libtest.so test.o -shared -fPIC -Lhidapi -lhidapi-hidraw -ludev
 g++ -o libESCOSSP.so ESCOSSP.o ***.o hidapi/libhidapi-hidraw.a -ludev -shared -fPIC
 ```
 
+```sh
+# SV806环境备记 - 基于udev
+./bootstrap
+./configure --host=arm-himix200-linux --prefix=/opt/hisi-linux/x86-arm/arm-himix200-linux/target/usr CC=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-gcc CXX=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-g++
+# 补充环境 - README.txt
+sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
+sudo apt-get install autotools-dev autoconf automake libtool
+# 只编译linux版
+cd linux
+make
+make install
+```
+
 ## udev
 
 ```sh
@@ -54,4 +67,14 @@ g++ -o libESCOSSP.so ESCOSSP.o ***.o hidapi/libhidapi-hidraw.a -ludev -shared -f
 # release：http://dev.gentoo.org/~blueness/eudev/
 ./autogen.sh
 ./configure --host=arm-linux-gnueabihf --prefix=/home/lfx/eudev-master/build CC=arm-linux-gnueabihf-gcc AR=arm-linux-gnueabihf-ar --disable-blkid --disable-kmod
+```
+
+```sh
+# SV806环境备记
+./configure --host=arm-himix200-linux --prefix=/opt/hisi-linux/x86-arm/arm-himix200-linux/target/usr CC=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-gcc CXX=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-g++ --disable-manpages 
+# 编译整个eudev-3.2.2
+make
+# 只安装./src/libudev
+cd libudev
+make install
 ```
