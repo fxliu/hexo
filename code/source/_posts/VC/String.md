@@ -15,10 +15,10 @@ updated: 2019-10-10 15:21:28
 #include<shlwapi.h>
 CString GetRunPath()
 {
-    TCHAR szPath[MAX_PATH] = {0};
-    GetModuleFileName(NULL,szPath,sizeof(szPath));
-    PathRemoveFileSpec(szPath);
-    return szPath;
+  TCHAR szPath[MAX_PATH] = {0};
+  GetModuleFileName(NULL,szPath,sizeof(szPath));
+  PathRemoveFileSpec(szPath);
+  return szPath;
 }
 ```
 
