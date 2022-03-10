@@ -31,3 +31,11 @@ adb shell lsusb
 :: 保留在shell中
 adb shell
 ```
+
+```bat
+:: 安装APK
+adb install xx.apk
+:: -r 覆盖安装
+adb -r install xx.apk
+
+```
