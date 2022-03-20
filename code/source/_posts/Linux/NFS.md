@@ -27,5 +27,6 @@ chmod 777 -R /data/imgdb/
 yum -y install nfs-utils
 showmount -e 172.19.189.192  // 查看共享
 mount -t nfs 172.19.189.192:/data/imgdb /data/imgdb   // 手动挂载
+mount -t nfs 192.168.0.201:/home/sun/nfs /es/nfs -o nolock
 echo "172.19.189.192:/data/imgdb /data/imgdb nfs defaults 0 0" >> /etc/fstab   // 开机自动挂载
 ```

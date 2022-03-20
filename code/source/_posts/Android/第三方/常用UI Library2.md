@@ -79,8 +79,11 @@ https://github.com/linuxjava/HorizontalRefreshLayout ★30 - 实现左右刷新
 https://github.com/StevenDXC/DxWaveRefresh ★25 - 波浪效果的下拉刷新
 
 https://github.com/sangenan/DonkeyRefresh ★16 - 仿赶集下拉刷新
-ViewPager
+```
 
+## ViewPager
+
+```txt
 https://github.com/florent37/MaterialViewPager ★5957 - 安卓选项卡插件
 
 https://github.com/DevLight-Mobile-Agency/InfiniteCycleViewPager ★3398 - 无限循环的视图页
@@ -138,8 +141,11 @@ https://github.com/BCsl/GalleryLayoutManager ★125 - Android中Gallery或ViewPa
 https://github.com/xingstarx/InkeVerticalViewPagerLive ★66 - 仿映客上下滑动切换直播demo
 
 https://github.com/BeppiMenozzi/ArcPageIndicator ★32 - 全自定义超简单的页面指示器
-图表Chart
+```
 
+## 图表Chart
+
+```txt
 https://github.com/PhilJay/MPAndroidChart ★15282 - 安卓图表解决方案
 
 https://github.com/lecho/hellocharts-android ★4114 - Android图表库
@@ -173,8 +179,11 @@ https://github.com/mancj/SlimChart ★77 - 轻量级便于使用的图表库
 https://github.com/Cuieney/BarChart-master ★23 - 自动伸缩的chart
 
 https://github.com/Andy671/PianoChartView ★20 - 显示钢琴和弦比例尺图
-菜单Menu
+```
 
+## 菜单Menu
+
+```txt
 https://github.com/levey/AwesomeMenu ★5069 - 与Path的故事菜单具有相同外观的菜单
 
 https://github.com/Yalantis/Context-Menu.Android ★2884 - 独特的动画内容菜单
@@ -212,8 +221,11 @@ https://github.com/AlexLiuSheng/CircleMenuView ★40 - 自定义圆形菜单
 https://github.com/lichenyu10/SlidMenu ★25 - 轮盘样式的Fragment菜单选择控件
 
 https://github.com/Rance935/SectorMenu ★12 - 炫酷的扇形菜单
-浮动菜单
+```
 
+## 浮动菜单
+
+```txt
 https://github.com/Nightonke/BoomMenu ★3479 - 具有炸裂效果的菜单按钮
 
 https://github.com/oguzbilgener/CircularFloatingActionMenu ★1931 - 自定义圆形浮动动画菜单
@@ -235,8 +247,11 @@ https://github.com/crosg/FloatMenuSample ★249 - android 悬浮窗菜单
 https://github.com/xue5455/SmartMenu ★174 - 一个优美的浮动菜单
 
 https://github.com/joelan/WeiboPopupMenu ★14 - 仿微博添加按钮弹出菜单
-对话框
+```
 
+## 对话框
+
+```txt
 https://github.com/afollestad/material-dialogs ★9477 - 安卓Material风格对话框
 
 https://github.com/orhanobut/dialogplus ★3106 - 对话框动画
@@ -284,8 +299,11 @@ https://github.com/t-kurimura/flickabledialog ★48 - 通过轻滑实现取消�
 https://github.com/GitPhoenix/WheelDialogFragment ★15 - 用于时间选择城市选择的对话框
 
 https://github.com/loonggg/BottomSheetPopupDialog ★5 - 底部弹出框
-空白页
+```
 
+## 空白页
+
+```txt
 https://github.com/Kennyc1012/MultiStateView ★760 - 基于状态显示不同内容的Android视图
 
 https://github.com/vlonjatg/progress-activity ★743 - 进度条空视图及错误视图库
@@ -319,8 +337,11 @@ https://github.com/hss01248/PageStateManager ★78 - 页面状态管理
 https://github.com/hcs-xph/HHEmptyView ★35 - 网络加载提示进度封装View
 
 https://github.com/lvleo/DataLoadingLayoutAndroid ★15 - 展示当前数据加载状态的库
-滑动删除
+```
 
+## 滑动删除
+
+```txt
 https://github.com/daimajia/AndroidSwipeLayout ★7804 - 安卓滑动出现子菜单
 
 https://github.com/yanzhenjie/SwipeRecyclerView ★1579 - RecyclerView侧滑菜单
@@ -352,8 +373,11 @@ https://github.com/yanbober/SlideLayout ★176 - 全方向完美滑动处理侧�
 https://github.com/yuqirong/CardSwipeLayout ★172 - RecyclerView卡片滑动布局
 
 https://github.com/alexandrius/accordion-swipe-layout ★69 - Android手风琴滑动布局
-手势操作
+```
 
+## 手势操作
+
+```txt
 https://github.com/nisrulz/sensey ★1890 - 手势交互Android库
 
 https://github.com/alexvasilkov/GestureViews ★1184 - 手势控制和位置动画
@@ -361,8 +385,11 @@ https://github.com/alexvasilkov/GestureViews ★1184 - 手势控制和位置动�
 https://github.com/zhaozhentao/InboxLayout ★641 - 仿谷歌下拉返回效果
 
 https://github.com/pkarira/Swipper ★47 - 控制亮度的自定义视图
-RecyclerView
+```
 
+## RecyclerView
+
+```txt
 https://github.com/CymChad/BaseRecyclerViewAdapterHelper ★6876 - 强大灵活的RecyclerAdapter
 
 https://github.com/wasabeef/recyclerview-animators ★5977 - 轻松创建动画RecyclerView
@@ -500,8 +527,11 @@ https://github.com/yuyuyu123/SwipeCardsRecyclerView ★20 - 基于RecyclerView�
 https://github.com/AndroidMsky/GlideScrollRecyclerView ★19 - RecyclerView优先加载可见item
 
 https://github.com/nukc/RecyclerAdapter ★14 - 简化封装RecyclerView.Adapter
-Card
+```
 
+## Card
+
+```txt
 https://github.com/Ramotion/folding-cell-android ★2556 - 安卓FoldingCell
 
 https://github.com/rubensousa/ViewPagerCards ★2200 - 视图页卡片
@@ -539,8 +569,11 @@ https://github.com/wensefu/StackCardsView ★44 - 堆叠滑动控件
 https://github.com/czy1121/turncardlistview ★30 - 上下翻页的卡片列表
 
 https://github.com/yuyuyu123/SwipeCardsRecyclerView ★20 - 基于RecyclerView的Android组件
-Color
+```
 
+## Color
+
+```txt
 https://github.com/Taishi-Y/InstagramLikeColorTransitionAndroid ★352 - 创建类似渐变颜色过渡的Instagram
 
 https://github.com/skydoves/ColorPickerView ★278 - 从图片中获取颜色
@@ -552,20 +585,29 @@ https://github.com/kizitonwose/colorpreference ★204 - 建立优秀的颜色选
 https://github.com/mathiazhagan01/DrawableColorChange ★81 - drawable颜色修改工具
 
 https://github.com/bassaer/MaterialDesignColors ★54 - 提供MD风格的Android库
-Drawable
+```
 
+## Drawable
+
+```txt
 https://github.com/maoruibin/OneDrawable ★202 - 为View设置具有按下效果的背景
 
 https://github.com/yuanwenbing/SelectorDrawable ★23 - 为按钮设置selector
-Spinner
+```
 
+## Spinner
+
+```txt
 https://github.com/arcadefire/nice-spinner ★955 - Android spinner的重新实现
 
 https://github.com/Lesilva/BetterSpinner ★526 - 好用的Spinner
 
 https://github.com/Jasonchenlijian/MemorySpinner ★125 - 可以记住历史选项的spinner
-布局
+```
 
+## 布局
+
+```txt
 https://github.com/google/flexbox-layout ★7787 - Android盒式布局功能库
 
 https://github.com/hongyangAndroid/AndroidAutoLayout ★4814 - Android屏幕适配方案
@@ -615,8 +657,11 @@ https://github.com/rantianhua/AssembleEssay ★72 - 自定义LayoutManager实现
 https://github.com/PingerOne/FlowLayoutDemo ★19 - 自定义View实现流式布局
 
 https://github.com/CSnowStack/LikeELMLeftLoad ★14 - 仿饿了么左滑跳转
-模糊效果
+```
 
+## 模糊效果
+
+```txt
 https://github.com/kikoso/android-stackblur ★2721 - 图片模糊效果
 
 https://github.com/wasabeef/Blurry ★2534 - Android简易模糊库
@@ -644,8 +689,11 @@ https://github.com/Manabu-GT/EtsyBlur ★506 - 在Etsy应用添加仿玻璃模�
 https://github.com/jrvansuita/GaussianBlur ★289 - 对图片应用高斯模糊
 
 https://github.com/Hitomis/CrazyShadow ★215 - 为 View 添加阴影效果
-TabBar
+```
 
+## TabBar
+
+```txt
 https://github.com/thelong1EU/SpaceTabLayout ★933 - RelativeLayout的自定义实现方式
 
 https://github.com/nshmura/RecyclerTabLayout ★859 - 高效TabLayout库
@@ -653,8 +701,10 @@ https://github.com/nshmura/RecyclerTabLayout ★859 - 高效TabLayout库
 https://github.com/huage2580/ZuiMeiTAG ★232 - 仿最美应用的底栏
 
 https://github.com/jeasonlzy/AlphaIndicatorView ★201 - 仿微信底部tab标签
-AppBar
+```
+## AppBar
 
+```txt
 https://github.com/henrytao-me/smooth-app-bar-layout ★1389 - 视图布局
 
 https://github.com/ToDou/appbarlayout-spring-behavior ★733 - 实现滚动弹簧效果
@@ -662,8 +712,11 @@ https://github.com/ToDou/appbarlayout-spring-behavior ★733 - 实现滚动弹�
 https://github.com/SpikeKing/TestAppBar ★271 - AppBar动画效果
 
 https://github.com/zoonooz/simple-view-behavior ★239 - 简单视图行为
-选择器Picker
+```
 
+## 选择器Picker
+
+```txt
 https://github.com/saiwu-bigkoo/Android-PickerView ★3898 - 精仿iOS的PickerView控件
 
 https://github.com/code-troopers/android-betterpickers ★2461 - 选择器DialogFragments库
@@ -717,8 +770,9 @@ https://github.com/BorealisAgency/NumberPicker ★40 - Android数字选择器视
 https://github.com/limxing/CityPickerWebView ★35 - JS实现的省市县三级联动
 
 https://github.com/huzenan/EasyPickerView ★34 - Android轻量级PickerView
-跑马灯
-
+```
+## 跑马灯
+```txt
 https://github.com/sfsheng0322/MarqueeView ★1568 - 垂直翻页公告
 
 https://github.com/gongwen/MarqueeViewDemo ★896 - 跑马灯View
@@ -732,8 +786,9 @@ https://github.com/guojunustb/VerticalBannerView ★194 - 安卓自定义控件
 https://github.com/SumiMakito/AdvancedTextSwitcher ★193 - 卡片上滚动显示最新评论
 
 https://github.com/chenpengfei88/VerticalMarqueeView ★12 - 新闻向上不断滚动跑马灯效果
-日历时间
-
+```
+## 日历时间
+```txt
 https://github.com/square/android-times-square ★3710 - 从日历视图选择一个单独日期
 
 https://github.com/prolificinteractive/material-calendarview ★2770 - MD风格的日历视图
@@ -797,8 +852,9 @@ https://github.com/MedAmineTazarki/DateRangePicker ★48 - 带数据选择器的
 https://github.com/iballan/TimelyView ★42 - 时间动画视图
 
 https://github.com/jiefly/NubiaTimer ★34 - 高仿Nubia 定时器的自定义view
-主题样式
-
+```
+## 主题样式
+```txt
 https://github.com/Bilibili/MagicaSakura ★1809 - Android多主题库
 
 https://github.com/ximsfei/Android-skin-support ★1525 - 用心的Android 换肤框架
@@ -818,8 +874,9 @@ https://github.com/wutongke/AndroidSkinAnimator ★143 - 仿网易云音乐换�
 https://github.com/zhangke3016/ChangeMode ★66 - Android动态切换夜间模式的实现库
 
 https://github.com/qqliu10u/QSkinLoader ★33 - QSkinLoader换肤框架
-ImageView
-
+```
+## ImageView
+```txt
 https://github.com/vinc3m1/RoundedImageView ★3860 - 支持圆角的快速ImageView。
 
 https://github.com/davemorrissey/subsampling-scale-image-view ★2845 - 安卓自定义图片视图
