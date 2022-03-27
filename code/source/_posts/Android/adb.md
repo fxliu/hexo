@@ -30,6 +30,9 @@ adb shell lsusb
 
 :: 保留在shell中
 adb shell
+
+:: 网络连接
+adb connect 192.168.200.60:5555
 ```
 
 ```bat
