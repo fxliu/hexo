@@ -39,6 +39,6 @@ adb connect 192.168.200.60:5555
 :: 安装APK
 adb install xx.apk
 :: -r 覆盖安装
-adb -r install xx.apk
+adb install -r xx.apk
 
 ```
