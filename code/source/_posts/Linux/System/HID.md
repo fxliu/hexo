@@ -14,6 +14,24 @@ updated: 2020-09-03 10:58:08
 + [hidapi](https://github.com/libusb/hidapi)
 + `es:svn\bar_machine\trunk\C++\EIDSDK\linux\ESCOSSP`
 
+## linux HID驱动支持
+
+```sh
+# 查看USB设备
+lsusb
+# 查看支持的所有类型
+ls /dev
+
+# 设备类型: hidraw, /dev/hidraw0 | /dev/hidraw1
+ls /dev/hidraw*
+
+# 设备类型: hiddev, 非标准的输入设备
+ls /dev/usb/hiddev*
+
+# hidraw: 原生人机交互设备, 应用通过原生接口直接与设备通讯
+# hiddev: 非标准设备解析器, 应用经过hiddev(解析器)与设备通讯
+```
+
 ## eudev
 
 ```sh
