@@ -114,7 +114,7 @@ int enc_utf8_to_unicode_one(const unsigned char* pInput, unsigned long* Unic)
     case 2:
         b1 = *pInput;
         b2 = *(pInput + 1);
-        if ((b2 & 0xE0) != 0x80)
+        if ((b2 & 0xC0) != 0x80)
             return 0;
         *pOutput = (unsigned char)((b1 << 6) + (b2 & 0x3F));
         *(pOutput + 1) = (unsigned char)((b1 >> 2) & 0x07);
