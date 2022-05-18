@@ -18,7 +18,7 @@ updated: 2020-01-04 18:01:30
   + ActivePerl-5.16.2.1602-MSWin32-x86-296513.msi
   + openssl-1.0.1e
 
-### 编译过程
+### 编译过程（1.0）
 
 ```bat
 :: 启动VS"开发人员命令提示"工具：nmake等指令环境
@@ -30,8 +30,6 @@ cd c:\openssl-1.0.1e
 :: 运行configure，--prefix 指定编译目录(保存编译结果，需给已存在目录的全路径), no-asm表示不用汇编
 :: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
 perl Configure VC-WIN32 --prefix=E:\build_release
-
-perl Configure VC-WIN32 --prefix=E:\openssl-1.1.1.h -static no-shared
 ```
 
 ```bat
@@ -63,6 +61,24 @@ nmake -f ms\ntdll.mak clean
 nmake -f ms\nt.mak clean
 ```
 
+### 编译过程(1.1)
+
+```bat
+:: 启动VS"开发人员命令提示"工具：nmake等指令环境
+:: 文件位置：C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio 2015\Visual Studio Tools\VS2015 开发人员命令提示.lnk
+:: 快捷方式指向位置：%comspec% /k ""E:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat""
+
+:: perl编译根目录必须是openssl的根目录
+cd c:\openssl-1.0.1e
+:: 运行configure，--prefix 指定编译目录(保存编译结果，需给已存在目录的全路径), no-asm表示不用汇编
+:: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
+perl Configure VC-WIN32 --prefix=E:\openssl-1.1.1.h -static no-shared
+
+:: 1.1.1o
+:: NASM非必安装项，通过参数屏蔽
+perl Configure VC-WIN32 no-asm --prefix=E:\openssl-1.1.1.h -static no-shared
+```
+
 ```bat
 :: openssl-1.1
 :: makefile 文件搜索编译属性：动态 /MD，静态 /MT
@@ -76,8 +92,6 @@ nmake libclean
 :: nmake install_sw
 :: nmake install
 :: nmake uninstall
-
-:: 与1.1不同，
 ```
 
 ```pm
@@ -184,4 +198,11 @@ BOOL my_cfb128_decrypt(CStringA strIn, CStringA &strOut, unsigned char *ckey, un
   delete szData;
   return !strOut.IsEmpty();
 }
+```
+
+### SM2
+
+```C++
+// https://github.com/greendow/SM2-encrypt-and-decrypt
+
 ```
