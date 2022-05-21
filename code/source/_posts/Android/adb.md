@@ -42,3 +42,11 @@ adb install xx.apk
 adb install -r xx.apk
 
 ```
+
+```bat
+:: 文件传输: PC -> Android
+adb push <local> <remote>
+adb push D:\test.log /data/
+:: 文件传输: Android -> PC
+adb pull <remote> <local>
+```
