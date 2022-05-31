@@ -18,3 +18,6 @@ updated: 2019-09-12 18:14:38
 + [HP-Socket](https://github.com/ldcsaa/HP-Socket)
   + 跨平台
   + 未测试
+
+## svn
++ `svn/eidcard/trunk/Windows/EsSamServer`
