@@ -87,3 +87,51 @@ log-format %h %^ %l %u %^[%d:%t %^] "%r" %s %b "%R" "%^"
 # 是否需要实时刷新
 real-time-html true
 ```
+
+## ab
+
+```sh
+yum install apr-util
+yum install yum-utils
+yum install yum-utils.noarch
+#解压提取ab程序
+yumdownloader httpd-tools*
+rpm2cpio httpd-*.rpm | cpio –idmv
+#也可以直接安装httpd-tools
+yum install httpd-tools
+# ab 只支持http, abs支持https, 直接去官网下Windows版, bin文件夹内有
+```
+
+```sh
+#-n 请求数
+#-c 并发数
+ab -n1000 -c100 http://www.baidu.com/
+
+#请求数一定要大于并发数
+#根据机器性能，通常并发数略小一些测试结果中秒级处理能力显的越高，请求数越多，秒级处理能力数字越准确
+
+Document Length:      #请求文件长度
+Concurrency Level:    #并发数量
+Time taken for tests: #总时间
+Complete requests:    #请求次数
+Failed requests:      #失败请求
+Total transferred:    #共传输字节
+HTML transferred:     #实际传输字节
+Requests per second:  #每秒请求数量-*-
+Time per request:     #用户平均请求等待时间
+Time per request:     #服务器平均处理时间
+Transfer rate:        #每秒获取的数据长度
+```
+
+```sh
+## Post 配置文件
+ab -n1 -c1 -p ab_test_heart.txt -T application/x-www-form-urlencoded http://192.168.1.63/manager/api/sysinfo/
+
+-T 指定数据格式
+-p 指定数据文件
+
+ab_test_heart.txt内容
+info=***
+
+不支持查询HTTP返回值, 使用抓包工具分析吧
+```
