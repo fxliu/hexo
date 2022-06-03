@@ -40,7 +40,12 @@ adb connect 192.168.200.60:5555
 adb install xx.apk
 :: -r 覆盖安装
 adb install -r xx.apk
-
+:: 启动
+adb shell am start  包名/MainActivity
+:: 强制终止
+adb shell am force-stop 包名
+:: 强制终止 并清理运行产生的数据
+adb shell pm clear 包名
 ```
 
 ```bat
