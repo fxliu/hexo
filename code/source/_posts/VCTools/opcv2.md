@@ -80,3 +80,21 @@ while (cap.isOpened())
 
 [opencv2 Demo](https://github.com/fxliu/VCDemo/tree/master/TOOLS/opencv)
 `https://github.com/fxliu/VCDemo/tree/master/TOOLS/opencv`
+
+## opencv4.6 编译
+
++ [官网](https://opencv.org/releases/)
+  + 下载中文安装包即可, 安装后就有源码了
+  + 下载对应版本的[opencv_contrib](https://github.com/opencv/opencv_contrib/tree/4.6.0)
+  + 下载最新版本[cmake](https://cmake.org/download/)
++ 编译
+  + 启动cmake-gui
+  + Browse Source -> D:\opencv\sources
+  + Browse Build -> D:\opencv\build
+  + configure
+    + 选择VS编译环境
+  + search OPENCV_EXTRA_MODULES_PATH -> 选择为opencv_contrib目录中的modules目录
+    + 注意目录字符是/，不要Windows复制粘贴路径，点击目录选择按钮去选择路径
+  + 再次configure
+  + 点击Generate生成
+  + 在build即可找到VS工程文件
