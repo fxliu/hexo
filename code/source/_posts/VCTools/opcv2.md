@@ -11,6 +11,7 @@ updated: 2019-09-07 16:51:20
 
 ## opencv2部署
 
++ [官网](https://opencv.org/releases/)
 + 官网下载windows安装包：2.x版支持x86，3以上只有x64
 + 案例：opencv-2.4.13.6-vc14.exe
   + build\include
@@ -37,7 +38,7 @@ updated: 2019-09-07 16:51:20
 #pragma comment(lib, "gdi32.lib")
 ```
 
-### 简单应用
+### opencv2
 
 ```C++
 VideoCapture cap(0);
@@ -75,7 +76,7 @@ while (cap.isOpened())
 }
 ```
 
-## Demo
+### opencv2 Demo
 
 [opencv2 Demo](https://github.com/fxliu/VCDemo/tree/master/TOOLS/opencv)
 `https://github.com/fxliu/VCDemo/tree/master/TOOLS/opencv`
