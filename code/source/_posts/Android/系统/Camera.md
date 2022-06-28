@@ -9,20 +9,42 @@ date: 2020-02-26 16:57:38
 updated: 2020-03-28 19:30:25
 ---
 
-## 第三方
+## 资料
 
+* [Android官方示例](https://github.com/android/camera-samples)
+
+### CameraX
+
+* [官方开发文档](https://developer.android.google.cn/training/camerax)
+
+### CameraView
+
+* [CameraView](https://www.jianshu.com/p/f63f296a920b)
 + [camera安卓开发文档](https://developer.android.google.cn/training/camera)
-
-+ [cameraview](https://github.com/qingmei2/cameraview)
-  + Camera 1 API on API Level 9-20 and Camera2 on 21 and above
-
 + [camerakit-android](https://github.com/CameraKit/camerakit-android)
+
+### other
+
 + [boxing](https://github.com/bilibili/boxing)
-+ [CameraView](https://github.com/natario1/CameraView)
-+ [CameraView](https://github.com/CJT2325/CameraView)
+    + 基于MVP模式的Android多媒体选择器
+    + 支持多/单图片选择和预览，单图裁剪功能
+    + 支持gif
+    + 支持视频选择功能
+    + 提供图片压缩
+    + 多图生成gif（checkout feature/gif-encode), 见 Bilibili/BurstLinker
++ libyuv
 
+## CameraX
 
-## Camera
+```java
+// 由 Config 类创建预览、分析器、拍摄的类
+// 绑定生命周期，图像预览（Preview）、图像分析（analysis）、图像拍摄（capture）
+CameraX.bindToLifecycle(lifecycleOwner: this, preview, imageCapture, imageAnalyzer);
+// 解除绑定
+CameraX.unbindAll()
+```
+
+## Camera Demo
 
 ```java
 /**
