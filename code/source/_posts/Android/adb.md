@@ -52,6 +52,7 @@ adb shell pm clear 包名
 :: 文件传输: PC -> Android
 adb push <local> <remote>
 adb push D:\test.log /data/
+adb push D:\test.log /storage/emulated/0/
 :: 文件传输: Android -> PC
 adb pull <remote> <local>
 ```
