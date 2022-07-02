@@ -31,13 +31,14 @@ updated: 2022-06-29 16:08:16
 + `createPreviewImpl`创建预览对象
     + SurfaceViewPreview(SurfaceView) / TextureViewPreview(TextureView)
         + SurfaceView = View + Surface + SurfaceHolder
-        + View 控制生命周期，负责把Surface显示到屏幕
-        + Surface 视图数据缓冲管理工具
-        + SurfaceHolder 管理工具接口
+        + `View` 控制生命周期，负责把Surface显示到屏幕
+        + `Surface` 视图数据缓冲管理工具
+        + `SurfaceHolder` 管理工具接口
             + 设置Surface参数：
-                + 数据缓冲类型：holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-            + 设置回调：监控 Surface 创建/销毁/变化，View通过回调接口通知我们Surface状态
-+ 创建摄像头实例：`Camera1`, `Camera2`, `Camera2Api23`
+                + 设置缓冲：`holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)`
+    + 设置回调：监控 Surface 创建/销毁/变化
+        + `surfaceCreated`: Surface 创建成功
+        + `surfaceChanged`: Surface 配置成功 - 此函数回调之后此Surface才能用于创建会话
 + `Attributes`属性配置
     + `adjustViewBounds`保持相机纵横比
     + `facing`摄像头：前置/后置
@@ -48,7 +49,6 @@ updated: 2022-06-29 16:08:16
 ### `start`启动
 + 这里仅分析`Camera2` + `SurfaceView`模型
 + `chooseCameraIdByFacing`: 选择摄像头
-    + `CameraManager`遍历选择对应摄像头
 + `collectCameraInfo`: 计算摄像头分辨率
     + 预览可用分辨率: SurfaceHolder
     + 拍照可用分辨率: JPEG
@@ -94,15 +94,6 @@ updated: 2022-06-29 16:08:16
         + 闪光模式: `updateFlash`
     + 发送循环预览请求
         + `mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, null);`
-        + 回调
-            + 请求开始：`onCaptureStarted`
-            + 部分完成：`onCaptureProgressed`
-            + 请求完成：`onCaptureCompleted`
-            + 丢帧：`onCaptureBufferLost`
-            + 请求失败：`onCaptureFailed`
-            + 请求终止：`onCaptureSequenceAborted`
-                + 通常由`stopRepeating` `abortCaptures`触发
-            + 请求序列完成: `onCaptureSequenceCompleted`
 
 ## CameraCaptureSession
 + capture/captureSingleRequest
@@ -126,14 +117,6 @@ updated: 2022-06-29 16:08:16
     + 当切换到新的session时或关闭CameraDevice时，建议不要调用该方法
     + 直接调用createCaptureSession（未改变的Output Surfaces会被复用）或CameraDevice.close方法
 
-+ supportsOfflineProcessing(Surface surface)
-    + 判断指定的Surface能否支持切到Offline Session。
-+ switchToOffline(Collection offlineSurfaces, Executor executor, CameraOfflineSession.CameraOfflineSessionCallback listener)
-    + 将指定的offlineSurfaces切换到Offline Session去处理。
-+ isReprocessable()	
-    + 判断当前Session能否处理Reprocess CaptureRequest。
-+ getInputSurface()	
-    + 获取Reprocess session的输入Surface。
 + getDevice()
     + 获取当前Session绑定的Camera Device。
 + prepare(Surface surface)
