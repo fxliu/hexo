@@ -11,11 +11,6 @@ updated: 2020-03-25 09:07:46
 
 ## 原生：权限动态申请
 
-+ build.gradle -> buildscript.repositories / allprojects.repositories
-  + `maven { url 'https://jitpack.io' }`
-+ build.gradle -> dependencies
-  + `implementation 'com.github.tbruyelle:rxpermissions:0.12'`
-
 ```java
 public class PermissionUtl {
     private static String TAG = PermissionUtl.class.getSimpleName();
@@ -63,27 +58,6 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 }
 ```
 
-```java
-// 写法2
-private void requestPermission() {
-    if (!ZPermissionUtil.getInstance().isPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-        ZPermissionUtil.getInstance().requestPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-    } else {
-        init();
-    }
-}
-
-@Override
-public void onPermissionsSuccess() {
-    init();
-}
-
-@Override
-public void onPermissionsFail() {
-    finish();
-}
-```
-
 ## hipermission
 
 ```gradle
@@ -96,110 +70,76 @@ public void onPermissionsFail() {
 
 ## rxpermissions2
 
-```gradle
-    // 基于rxjava2版本
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
-```
++ [GitHub](https://github.com/tbruyelle/RxPermissions)
 
 ```gradle
     // 基于rxjava3版本
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
-    // implementation 'com.github.tbruyelle.rxpermissions:0.1.2'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
-    // maven { url 'https://jitpack.io' }
+
+    allprojects {
+        repositories {
+            ...
+            maven { url 'https://jitpack.io' }
+        }
+    }
+
+    dependencies {
+        implementation 'com.github.tbruyelle:rxpermissions:0.12'
+    }
     // import com.tbruyelle.rxpermissions3.RxPermissions;
 ```
 
 ### rxpermissions2 - 简单应用
 
 ```java
-public class ZPermissionUtil {
-    private RxPermissions rxPermissions;
-    private ZPermissionUtil() {}
-
-    private static class RxPermissionUtilHolder {
-        private static final ZPermissionUtil mInstance = new ZPermissionUtil();
-    }
-
-    public static ZPermissionUtil getInstance() {
-        return RxPermissionUtilHolder.mInstance;
-    }
-
-    public void init(Activity activity) {
-        rxPermissions = new RxPermissions(activity);
-    }
-
-    @SuppressLint("CheckResult")
-    public void requestPermissions(final IPermissionsListener listener, final String... permissions) {
-        if (listener == null)
-            throw new RuntimeException("IPermissionsListener not null");
-        rxPermissions.request(permissions)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            listener.onPermissionsSuccess();
-                        } else {
-                            listener.onPermissionsFail();
-                        }
-                    }
-                });
-    }
-
-    public Observable<Boolean> requestPermissions(final String... permissions) {
-        return rxPermissions.request(permissions);
-    }
-
-    public boolean isPermissions(String permission) {
-        return rxPermissions.isGranted(permission);
-    }
-}
-```
-
-```java
-RxPermissions rxPermission = new RxPermissions(FlashActivity.this);
+RxPermissions rxPermission = new RxPermissions(MyActivity.this);
 //请求权限全部结果
-rxPermission.request(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.ACCESS_COARSE_LOCATION)
-        .subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-                if (!granted) {
-                    ToastUtils.showToast("App未能获取全部需要的相关权限，部分功能可能不能正常使用.");
-                }
-                //不管是否获取全部权限，进入主页面
-                initCountDown();
-            }
-        });
+rxPermissions
+    .request(Manifest.permission.CAMERA)
+    .subscribe(granted -> {
+        if (granted) { // Always true pre-M
+           // I can control the camera now
+        } else {
+           // Oups permission denied
+        }
+    });
+rxPermissions
+    .request(Manifest.permission.CAMERA,
+             Manifest.permission.READ_PHONE_STATE)
+    .subscribe(granted -> {
+        if (granted) {
+           // All requested permissions are granted
+        } else {
+           // At least one permission is denied
+        }
+    });
 // 分别请求权限
-rxPermission.requestEach(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.ACCESS_COARSE_LOCATION)
-        .subscribe(new Consumer<Permission>() {
-            @Override
-            public void accept(Permission permission) throws Exception {
-                if (permission.granted) {
-                    // 用户已经同意该权限
-                    Log.d(TAG, permission.name + " is granted.");
-                } else if (permission.shouldShowRequestPermissionRationale) {
-                    // 用户拒绝了该权限，没有选中『不再询问』(Never ask again)
-                    // 那么下次再次启动时，还会提示请求权限的对话框
-                    Log.d(TAG, permission.name + " is denied. More info should be provided.");
-                } else {
-                    // 用户拒绝了该权限，并且选中『不再询问』
-                    Log.d(TAG, permission.name + " is denied.");
-                }
-            }
-        });
+rxPermissions
+    .requestEach(Manifest.permission.CAMERA,
+             Manifest.permission.READ_PHONE_STATE)
+    .subscribe(permission -> { // will emit 2 Permission objects
+        if (permission.granted) {
+           // `permission.name` is granted !
+        } else if (permission.shouldShowRequestPermissionRationale) {
+           // Denied permission without ask never again
+        } else {
+           // Denied permission with ask never again
+           // Need to go to the settings
+        }
+    });
+rxPermissions
+    .requestEachCombined(Manifest.permission.CAMERA,
+             Manifest.permission.READ_PHONE_STATE)
+    .subscribe(permission -> { // will emit 1 Permission object
+        if (permission.granted) {
+           // All permissions are granted !
+        } else if (permission.shouldShowRequestPermissionRationale) {
+           // At least one denied permission without ask never again
+        } else {
+           // At least one denied permission with ask never again
+           // Need to go to the settings
+        }
+    });
 ```

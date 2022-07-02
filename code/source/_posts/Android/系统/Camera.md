@@ -13,16 +13,6 @@ updated: 2020-03-28 19:30:25
 
 * [Android官方示例](https://github.com/android/camera-samples)
 
-### CameraX
-
-* [官方开发文档](https://developer.android.google.cn/training/camerax)
-
-### CameraView
-
-* [CameraView](https://www.jianshu.com/p/f63f296a920b)
-+ [camera安卓开发文档](https://developer.android.google.cn/training/camera)
-+ [camerakit-android](https://github.com/CameraKit/camerakit-android)
-
 ### other
 
 + [boxing](https://github.com/bilibili/boxing)
@@ -33,16 +23,6 @@ updated: 2020-03-28 19:30:25
     + 提供图片压缩
     + 多图生成gif（checkout feature/gif-encode), 见 Bilibili/BurstLinker
 + libyuv
-
-## CameraX
-
-```java
-// 由 Config 类创建预览、分析器、拍摄的类
-// 绑定生命周期，图像预览（Preview）、图像分析（analysis）、图像拍摄（capture）
-CameraX.bindToLifecycle(lifecycleOwner: this, preview, imageCapture, imageAnalyzer);
-// 解除绑定
-CameraX.unbindAll()
-```
 
 ## Camera Demo
 
