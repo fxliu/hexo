@@ -19,7 +19,11 @@ APP_ABI := armeabi-v7a, arm64-v8a
 
 # 编译参数
 APP_LDFLAGS := -llog
+APP_CPPFLAGS += -std=c++11
 APP_CPPFLAGS += -fexceptions -frtti
+APP_CPPFLAGS += -fPIC -frtti -fpermissive -fvisibility=hidden
+#APP_OPTIM := release
+#APP_PLATFORM := android-16
 
 # 依赖环境
 APP_STL := c++_shared
