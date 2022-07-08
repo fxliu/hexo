@@ -5,8 +5,8 @@ tags:
 categories: 
   - Tools
 description: MarkDown, md
-date: 2019‎-09-02 ‏‎13:27:37
-updated: 2019‎-09-02 ‏‎13:27:37
+date: 2019-09-02 13:27:37
+updated: 2019-09-02 13:27:37
 ---
 
 ## 常用规则
