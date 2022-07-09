@@ -14,6 +14,11 @@ updated: 2022-06-30 18:58:52
 + [AndroidCamera2API详解](https://blog.csdn.net/qq_42194101/category_11338722.html)
 + [极客笔记-AndroidCamera2API](https://deepinout.com/android-camera-official-documentation)
 
+### 工程
+
++ [lib_escamera](\svn\esface\trunk\Android\SeetaFace6Demo\lib_escamera)
+  + SurfaceView + Camera2
+
 ## 流程
 
 + 打开摄像头：`CameraManager`
