@@ -97,7 +97,7 @@ LOCAL_CFLAGS += -fvisibility-inlines-hidden -fvisibility=hidden -fno-common
 LOCAL_CPPFLAGS := -std=c++11 -fvisibility-inlines-hidden -fvisibility=hidden -fno-common
 # 系统库
 LOCAL_LDLIBS := -llog
-# 第三方库
+# 第三方静态库
 LOCAL_STATIC_LIBRARIES := ssl crypto
 # 目标名称
 LOCAL_MODULE := lib_eididcard_sdk
