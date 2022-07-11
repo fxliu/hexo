@@ -62,6 +62,7 @@ updated: 2022-06-30 18:58:52
     + `mCaptureSession.setRepeatingRequest(mCaptureRequest.build(), mCaptureCallback, null);`
 
 ## openCamera
+
 + 第二次打开，会自动关闭第一次句柄，触发StateCallback.onDisconnected
 + 回调
   + onClosed: 底层真正关闭CameraDevice后回调
@@ -117,6 +118,24 @@ map.getOutputSizes(SurfaceTexture.class);
   + ImageFormat.JPEG / ImageFormat.RAW12 / ImageFormat.YUV_420_888 / PixelFormat.RGB_888
 + class
   + `SurfaceHolder.class` / `SurfaceTexture.class`
+
+## 显示控制
+
+```java
+// 摄像头方向 - int 0/90/180/270
+characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+// UI显示方向 - Surface.ROTATION_0/90/180/270
+mSurfaceView.getDisplay().getRotation();
+// 视频大小 - 摄像头根据该参数适配分辨率
+// 这里的[w,h]根据摄像头分辨率设置
+mSurfaceView.getHolder().setFixedSize(w, h);
+// UI 区域大小 - 视频拉伸显示到UI区域
+// 这里的[w,h]根据UI设置, 需要考虑偏转
+ViewGroup.LayoutParams layoutParams = mSurfaceView.getLayoutParams();
+layoutParams.width = w;
+layoutParams.height = h;
+mSurfaceView.setLayoutParams(layoutParams);
+```
 
 ## 会话
 ### 会话请求回调(CaptureCallback)
