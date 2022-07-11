@@ -99,6 +99,8 @@ mCameraCharacteristics = mCameraManager.getCameraCharacteristics(mCameraId);
 StreamConfigurationMap map = mCameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 // 返回指定格式支持的输出流Size列表
 map.getOutputSizes(ImageFormat.JPEG);
+map.getOutputSizes(SurfaceHolder.class);
+map.getOutputSizes(SurfaceTexture.class);
 ```
 
 + `isOutputSupportedFor`
