@@ -98,3 +98,43 @@ while (cap.isOpened())
   + 再次configure
   + 点击Generate生成
   + 在build即可找到VS工程文件
+
+## 轮廓获取/比对
+
+```c++
+// 二值化
+threshold(mat, mat, 127, 255, cv::THRESH_BINARY_INV);
+// 提取轮廓 - 一系列坐标点
+std::vector<std::vector<cv::Point>> curContours;
+// 轮廓从属关系
+std::vector<cv::Vec4i> dstHierarchy;
+findContours(mat, curContours, dstHierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+for(int idx = 0; idx < curContours.size(); idx++) {
+    std::vector<cv::Point> &dstContour1 = curContours[idx];
+    if(dstContour1.size() > 5) {
+        SDK_LOGE("--------------------------------------------------------");
+        for(int subIdx = 0; subIdx < dstContour1.size(); subIdx++)
+            SDK_LOGE("dstContour1: %d, %d", dstContour1[subIdx].x, dstContour1[subIdx].y);
+        SDK_LOGE("--------------------------------------------------------");
+        lastContours.push_back(dstContour1);
+    }
+}
+// 轮廓相似度
+threshold(mat, mat, 127, 255, cv::THRESH_BINARY_INV);
+std::vector<std::vector<cv::Point>> dstContours2;
+std::vector<cv::Vec4i> dstHierarchy;
+findContours(mat, dstContours2, dstHierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+
+int findIdx = 0;
+for(int idx = 0; idx < lastContours.size(); idx++) {
+    std::vector<cv::Point> &dstContour1 = lastContours[idx];
+    for(int subIdx = 0; subIdx < dstContours2.size(); subIdx++) {
+        std::vector<cv::Point> &dstContour2 = dstContours2[subIdx];
+        double gSimilarity = matchShapes(dstContour1, dstContour2, cv::CONTOURS_MATCH_I3, 0);
+        if(gSimilarity < 0.2) {
+            SDK_LOGE("dstContour: idx = %d, v = %f", idx, gSimilarity);
+            findIdx += 1;
+        }
+    }
+}
+```
