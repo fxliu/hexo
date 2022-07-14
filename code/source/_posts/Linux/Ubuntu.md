@@ -21,6 +21,8 @@ sudo reboot
 
 ### 阿里源
 
++ 可能导致包依赖环境异常，尽量不使用
+
 ```sh
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 sudo gedit /etc/apt/sources.list

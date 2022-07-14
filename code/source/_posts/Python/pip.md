@@ -9,6 +9,20 @@ date: 2019-10-31 09:07:37
 updated: 2019-10-31 09:07:37
 ---
 
+## 虚拟环境
+
+```sh
+# venv
+apt -y install python3-venv
+
+# 创建虚拟环境
+python3 -m venv ./my_venv
+# 激活
+source ./my_venv/bin/activate
+# 退出
+deactivate
+```
+
 ## 国内镜像
 
 + 清华镜像: https://pypi.tuna.tsinghua.edu.cn/simple
