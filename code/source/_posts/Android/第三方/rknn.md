@@ -43,6 +43,12 @@ updated: 2022-07-14 17:46:43
   * https://blog.csdn.net/didiaopao/article/details/119954291
 
 ```sh
+adb root
+adb shell
+mount -o remount,rw /vendor
+
+cd /vendor/lib64
+echo librknnrt.so >> ../etc/public.libraries.txt
 ```
 
 
@@ -50,6 +56,12 @@ updated: 2022-07-14 17:46:43
 ## ONNX
 
 * 推理模型
+* https://zhuanlan.zhihu.com/p/523627210
+* 简化器：https://github.com/daquexian/onnx-simplifier
+* onnx模型
+  * ultraface：https://github.com/onnx/models/tree/main/vision/body_analysis/ultraface
+  * mtcnn-opencv：https://github.com/linxiaohui/mtcnn-opencv
+
 
 ## 转换
 

@@ -22,7 +22,8 @@ add_library(
         lib_***_sdk
 
         # Sets the library as a shared library.
-        SHARED
+        # SHARED
+        STATIC
 
         # Provides a relative path to your source file(s).
         # Json
