@@ -33,7 +33,6 @@ updated: 2022-07-14 17:46:43
 
 ## YOLOv5
 
-* 
 * 基于COCO数据集预训练的物体检测架构和模型
 * 物体检测预训练方法 - 可用于训练物体检测，例如人脸
 * 官方提供的基于COCO训练结果，包含80种物体分类识别
@@ -41,17 +40,6 @@ updated: 2022-07-14 17:46:43
 * 口罩检测训练: 
   * https://blog.csdn.net/Blueeyedboy521/article/details/125658327
   * https://blog.csdn.net/didiaopao/article/details/119954291
-
-```sh
-adb root
-adb shell
-mount -o remount,rw /vendor
-
-cd /vendor/lib64
-echo librknnrt.so >> ../etc/public.libraries.txt
-```
-
-
 
 ## ONNX
 
@@ -78,3 +66,15 @@ echo librknnrt.so >> ../etc/public.libraries.txt
     * [[128, 128, 128]] 表示一个输入的3通道的值减去128
   * std_values: 输入的归一化值
     * [[128, 128, 128]] 表示设置一个输入的三个通道的值减去均值后在除以128。
+
+## 测试备记
+
+```shell
+adb root
+adb shell
+mount -o remount,rw /vendor
+
+ls /data/user/0/com.esface.rknndemo/files/
+adb pull /data/user/0/com.esface.rknndemo/files/out.jpg C:\Users\sun.DNNDO-LFX\Desktop\onnx\
+```
+
