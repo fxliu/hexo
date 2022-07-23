@@ -54,4 +54,9 @@ byteBuffer.get(bytes);
 byteBuffer.get(bytes, 0, 10);// 提取10个字节到bytes的0位置
 ```
 
-
+```java
+// byte[] copy
+byte[] arr = {1, 2, 3};
+byte[] destArr = new byte[arr.length];
+System.arraycopy(arr, 0, destArr, 0, arr.length);
+```
