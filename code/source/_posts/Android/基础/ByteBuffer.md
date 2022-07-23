@@ -15,7 +15,7 @@ updated: 2022-07-23 13:47:18
 position  // 当前读取的位置。
 mark      // 为某一读过的位置做标记，便于某些时候回退到该位置。
 capacity  // 初始化时候的容量。
-limit     // 当写数据到buffer中时，limit一般和capacity相等，当读数据时，limit代表buffer中有效数据的长度。
+limit     // limit一般和capacity相等，代表可读写上线。
 ```
 
 ```java
@@ -47,9 +47,11 @@ ByteBuffer.remaining()  此方法最给力，返回剩余可读长度
 // byte[] -> ByteBuffer
 ByteBuffer buffer=ByteBuffer.allocate(bytes.length);
 buffer.put(bytes);
+buffer.put(bytes, 0, 10);   // bytes从0开始提取10个字节写入到buffer
 // ByteBuffer -> byte[]
 byte[] bytes = new byte[byteBuffer.remaining()];
 byteBuffer.get(bytes);
+byteBuffer.get(bytes, 0, 10);// 提取10个字节到bytes的0位置
 ```
 
 
