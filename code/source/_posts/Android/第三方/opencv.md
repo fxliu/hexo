@@ -27,7 +27,11 @@ Imgproc.cvtColor(mat, rgbMat, Imgproc.COLOR_GRAY2RGB);
 byte[] bytes = new byte[mat.width() * mat.height() * mat.channels()];
 mat.get(0, 0, bytes);
 
-// YUV -> Mat
+// byte -> Mat
+Mat mat = new Mat(w, h, CvType.CV_8UC3);
+mat.put(0, 0, rgbBytes);
+
+// YUV -> Mat：灰度图
 static public Mat getImageGrayMat_YUV420(Image image) {
     if (image.getFormat() != ImageFormat.YUV_420_888)
         return null;
@@ -38,7 +42,49 @@ static public Mat getImageGrayMat_YUV420(Image image) {
     }
     return new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC1, planes[0].getBuffer());
 }
+// YUV -> Mat: 彩图, Mat做中转
+static public Mat getImageMat_YUV420(Image image) {
+    if (image.getFormat() != ImageFormat.YUV_420_888)
+        return null;
+    Image.Plane[] planes = image.getPlanes();
+    if (planes.length < 2) {
+        Log.e(TAG, "getImageGrayBytes_YUV420: planes.length=" + planes.length);
+        return null;
+    }
+    int cols = image.getWidth();
+    int rows = image.getHeight();
+    // YUV420_NV12格式
+    Mat yuvMat = new Mat(rows * 3 / 2, cols, CvType.CV_8UC1);
+    Mat yuvMatY = yuvMat.rowRange(0, rows);
+    Mat yuvMatUV = yuvMat.rowRange(rows, rows * 3 / 2);
+    // 摄像头数据提取
+    Mat mY = new Mat(rows, cols, CvType.CV_8UC1, image.getPlanes()[0].getBuffer());
+    Mat mUV = new Mat(rows / 2, cols, CvType.CV_8UC1, image.getPlanes()[1].getBuffer());
+    mY.copyTo(yuvMatY);
+    mUV.copyTo(yuvMatUV);
+    return yuvMat;
+}
+// YUV -> Mat: 彩图, byte[]做中转
+static public Mat getImageMat_YUV420(Image image) {
+    if (image.getFormat() != ImageFormat.YUV_420_888)
+        return null;
+    Image.Plane[] planes = image.getPlanes();
+    if (planes.length < 2) {
+        Log.e(TAG, "getImageGrayBytes_YUV420: planes.length=" + planes.length);
+        return null;
+    }
+    Image.Plane[] planes = image.getPlanes();
+    ByteBuffer buffer1 = planes[0].getBuffer();
+    ByteBuffer buffer2 = planes[1].getBuffer();
 
+    byte[] bytes = new byte[(int)(image.getWidth() * image.getHeight() * 3 / 2)];
+    buffer1.get(bytes, 0, buffer1.remaining());
+    buffer2.get(bytes, image.getWidth() * image.getHeight(), buffer2.remaining());
+
+    Mat yuvMat = new Mat(image.getHeight() * 3 / 2, image.getWidth(), CvType.CV_8UC1);
+    yuvMat.put(0, 0, bytes);
+    return yuvMat;
+}
 // 保存成文件
 static public void saveMat(Context context, String fileName, Mat mat) {
     String strPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
@@ -65,5 +111,15 @@ byte[] resetImage(Mat mat, int orientation, boolean flip) {
     byte[] imageBuf = new byte[mat.width() * mat.height()];
     mat.get(0, 0, imageBuf);
     return imageBuf;
+}
+
+// mat -> bitmap
+private void show(Mat mat) {
+    if (mShowView != null) {
+        Bitmap bitmap;
+        bitmap = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.RGB_565);
+        Utils.matToBitmap(mat, bitmap);
+        new Handler(context.getMainLooper()).post(() -> mShowView.setImageBitmap(bitmap));
+    }
 }
 ```
