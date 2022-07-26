@@ -33,3 +33,10 @@ mTextWidth = mTextPaint.measureText(mExampleString);
 Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
 mTextHeight = fontMetrics.bottom;
 ```
+
+```java
+@Override
+protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    super.onLayout(changed, left, top, right, bottom);
+}
+```
