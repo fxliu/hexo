@@ -45,30 +45,6 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
   $(LIBUSB_ROOT_REL)/native.cpp
 
-# libusb
-LOCAL_SRC_FILES += \
-  $(LIBUSB_ROOT_REL)/libusb/core.c \
-  $(LIBUSB_ROOT_REL)/libusb/descriptor.c \
-  $(LIBUSB_ROOT_REL)/libusb/hotplug.c \
-  $(LIBUSB_ROOT_REL)/libusb/io.c \
-  $(LIBUSB_ROOT_REL)/libusb/sync.c \
-  $(LIBUSB_ROOT_REL)/libusb/strerror.c \
-  $(LIBUSB_ROOT_REL)/libusb/os/linux_usbfs.c \
-  $(LIBUSB_ROOT_REL)/libusb/os/events_posix.c \
-  $(LIBUSB_ROOT_REL)/libusb/os/threads_posix.c \
-  $(LIBUSB_ROOT_REL)/libusb/os/linux_netlink.c
-
-# hidapi
-LOCAL_SRC_FILES += \
-  $(LIBUSB_ROOT_REL)/hidapi/hidapi.c \
-  $(LIBUSB_ROOT_REL)/hidapi/es_hidapi.cpp
-
-# jsoncpp
-LOCAL_SRC_FILES += \
-  $(LIBUSB_ROOT_REL)/json/json_reader.cpp \
-  $(LIBUSB_ROOT_REL)/json/json_value.cpp \
-  $(LIBUSB_ROOT_REL)/json/json_writer.cpp
-
 # mongoose
 LOCAL_SRC_FILES += \
   $(LIBUSB_ROOT_REL)/mongoose/mongoose.c
@@ -76,25 +52,13 @@ LOCAL_SRC_FILES += \
 # include
 LOCAL_C_INCLUDES += \
   $(LOCAL_PATH) \
-  $(LIBUSB_ROOT_ABS)/libusb \
-  $(LIBUSB_ROOT_ABS)/libusb/os \
-  $(LIBUSB_ROOT_ABS)/hidapi \
   $(LIBUSB_ROOT_ABS)/mongoose \
-  $(LIBUSB_ROOT_ABS)/Platform \
-  $(LIBUSB_ROOT_ABS)/Public \
-  $(LIBUSB_ROOT_ABS)/SdkPublic \
-  $(LIBUSB_ROOT_ABS)/EsUsbHid \
-  $(LIBUSB_ROOT_ABS)/EsUsbJava \
-  $(LIBUSB_ROOT_ABS)/EsUsbUart \
-  $(LIBUSB_ROOT_ABS)/EsEidSdk
 
 LOCAL_EXPORT_C_INCLUDES := \
   $(LIBUSB_ROOT_ABS)/libusb \
   $(LIBUSB_ROOT_ABS)/openssl
 # 编译参数
 LOCAL_CFLAGS := -pthread
-LOCAL_CFLAGS += -fvisibility-inlines-hidden -fvisibility=hidden -fno-common
-LOCAL_CPPFLAGS := -std=c++11 -fvisibility-inlines-hidden -fvisibility=hidden -fno-common
 # 系统库
 LOCAL_LDLIBS := -llog
 # 第三方静态库
@@ -102,4 +66,21 @@ LOCAL_STATIC_LIBRARIES := ssl crypto
 # 目标名称
 LOCAL_MODULE := lib_eididcard_sdk
 include $(BUILD_SHARED_LIBRARY)
+```
+
+```makefile
+# so：仅参与编译，并不打包该so文件，避免多aar包含相同文件导致冲突
+LOCAL_C_INCLUDES += ${LOCAL_PATH}/../../../../opencv/native/jni/include/
+LOCAL_LDLIBS += -L${LOCAL_PATH}/../../../../opencv/native/libs/$(TARGET_ARCH_ABI)/ -lopencv_java4 -lomp
+```
+
+```makefile
+# so
+include $(CLEAR_VARS)
+LOCAL_MODULE := ts-prebuilt
+LOCAL_SRC_FILES := ${LOCAL_PATH}/../../../libs/$(TARGET_ARCH_ABI)/libtennis.so
+LOCAL_EXPORT_C_INCLUDES := ${LOCAL_PATH}/SeetaFace6/TenniS/include/
+include $(PREBUILT_SHARED_LIBRARY)
+
+LOCAL_SHARED_LIBRARIES += ts-prebuilt
 ```

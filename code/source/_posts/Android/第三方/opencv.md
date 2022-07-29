@@ -123,3 +123,10 @@ private void show(Mat mat) {
     }
 }
 ```
+
+## 工程依赖
+
+### Android.mk
+
+```makefile
+```

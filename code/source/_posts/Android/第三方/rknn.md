@@ -65,7 +65,7 @@ updated: 2022-07-14 17:46:43
   * mean_values: 输入的均值
     * [[128, 128, 128]] 表示一个输入的3通道的值减去128
   * std_values: 输入的归一化值
-    * [[128, 128, 128]] 表示设置一个输入的三个通道的值减去均值后在除以128。
+    * [[128, 128, 128]] 表示设置一个输入的三个通道的值减去均值后在除以128
 
 ## 测试备记
 
@@ -76,5 +76,33 @@ mount -o remount,rw /vendor
 
 ls /data/user/0/com.esface.rknndemo/files/
 adb pull /data/user/0/com.esface.rknndemo/files/out.jpg C:\Users\sun.DNNDO-LFX\Desktop\onnx\
+```
+
+## tf2onnx
+
+```py
+# import the necessary packages
+from tensorflow.keras.models import load_model, save_model
+import tf2onnx
+import onnx
+
+# load the face mask detector model from disk
+print("[INFO] loading face mask detector model...")
+model = load_model("mask_detector.model")
+onnx_model, _ = tf2onnx.convert.from_keras(model, opset=12)
+
+# 校对input张量
+onnx_model.graph.input[0].type.tensor_type.shape.dim[0].dim_value = 1
+onnx_model.graph.output[0].type.tensor_type.shape.dim[0].dim_value = 1
+
+# 校对input入口 Transpose层 [1, 224, 224, 3] -> [1, 3, 224, 224]
+onnx_model.graph.input[0].type.tensor_type.shape.dim[1].dim_value = 3
+onnx_model.graph.input[0].type.tensor_type.shape.dim[3].dim_value = 224
+
+onnx_model.graph.node[0].attribute[0].ints[1] = 1
+onnx_model.graph.node[0].attribute[0].ints[2] = 2
+onnx_model.graph.node[0].attribute[0].ints[3] = 3
+
+onnx.save(onnx_model, 'mask_detector.onnx')
 ```
 
