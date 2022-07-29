@@ -17,26 +17,42 @@ getBackground().setAlpha(0);
 ```
 
 ```java
-// TextPaint
-private TextPaint mTextPaint;
-private float mTextWidth;
-private float mTextHeight;
-// Create
-mTextPaint = new TextPaint();
-mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-mTextPaint.setTextAlign(Paint.Align.LEFT);
-// 属性
-mTextPaint.setTextSize(mExampleDimension);
-mTextPaint.setColor(mExampleColor);
-// 计算文字区域大小
-mTextWidth = mTextPaint.measureText(mExampleString);
-Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-mTextHeight = fontMetrics.bottom;
-```
+public class EsFaceRectView extends View {
+    private final TextPaint mTextPaint = new TextPaint();
 
-```java
-@Override
-protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-    super.onLayout(changed, left, top, right, bottom);
+    public EsFaceRectView(Context context) {
+        super(context);
+        init();
+    }
+
+    public EsFaceRectView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public EsFaceRectView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        // TextPaint
+        mTextPaint.setTextSize(27);
+        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        mTextPaint.setColor(Color.YELLOW);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    // 重绘
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawText("hello world", 100, 100, mTextPaint);
+    }
 }
 ```
