@@ -24,6 +24,8 @@ ByteBuffer allocateDirect(int capacity) //创建一个direct的ByteBuffer，这�
 // wrap：地址引用
 ByteBuffer wrap(byte [] array)
 ByteBuffer wrap(byte [] array, int offset, int length)
+// wrap对象可以通过 array() 获取对象内部数组
+
 // get: 从ByteBuffer中读取
 // put: 写入到ByteBuffer
 ```
