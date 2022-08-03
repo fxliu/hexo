@@ -59,3 +59,371 @@ intent.setAction("START_READ_IDCARD");
 intent.putExtra("DEBUG", true);
 startService(intent);
 ```
+
+## 应用
+
+```java
+// 服务启动
+public final class SvrManager {
+    @SuppressLint("StaticFieldLeak")
+    private static Context sApp;
+
+    private static final Map<Class<? extends Service>, IBinder> svrBind = new HashMap<>();
+
+    public static void initialize(@NonNull Context app) {
+        sApp = app;
+    }
+
+    public static boolean IsSvrRunning(Context context, String svrName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> infos = am.getRunningServices(1000);
+
+        for (ActivityManager.RunningServiceInfo info : infos) {
+            if (info.service.getClassName().equals(svrName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void startServiceSafely(Context context, Class<?> cls) {
+        if (!IsSvrRunning(context, cls.getName())) {
+            Intent eidIntent = new Intent(context, cls);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                context.startForegroundService(eidIntent);
+            else
+                context.startService(eidIntent);
+        }
+    }
+
+    public static void restartEidService(Context context) {
+        Intent eidIntent = new Intent(context, EidIDCardService.class);
+        eidIntent.setAction(EidIDCardService.ACTION_RESTART);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context.startForegroundService(eidIntent);
+        else
+            context.startService(eidIntent);
+    }
+
+    public static void startServiceMayBind(@NonNull final Class<? extends Service> serviceClass) {
+        startServiceSafely(sApp, serviceClass);
+        if (svrBind.get(serviceClass) == null) {
+            final Intent intent = new Intent(sApp, serviceClass);
+            ServiceConnection connection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    svrBind.put(serviceClass, service);
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    svrBind.remove(serviceClass);
+                    startServiceSafely(sApp, serviceClass);
+                    sApp.bindService(intent, this, Context.BIND_AUTO_CREATE);
+                }
+            };
+            sApp.getApplicationContext().bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    static IBinder getBind(@NonNull final Class<? extends Service> serviceClass) {
+        return svrBind.get(serviceClass);
+    }
+}
+
+```
+
+```java
+// 服务
+public final class EidIDCardService extends Service {
+    private static final String ID = "eid_channel";
+    private static final String NAME = "eid";
+    public static final String ACTION_RESTART = "com.eseid.eid_idcard_svr";
+    private boolean restart = false;
+    private UsbMonitor usbMonitor;
+    // 双服务监控
+    private static final Thread watchThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    XLog.d("EidIDCardService: Watch Working");
+                    for (int i = 0; i < 60; i++) {
+                        SvrManager.startServiceMayBind(WatchDogService.class);
+                        Thread.sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    // SDK多线程
+    final EidIDCard eidIDCard = new EidIDCard();
+    private final Thread eidIDCardThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    XLog.d("EidIDCardService: Working");
+                    for (int i = 0; i < 60; i++) {
+                        if (restart) {
+                            eidIDCard.stop();
+                            restart = false;
+                        }
+                        eidIDCard.run(getApplicationContext());
+                        Thread.sleep(1000);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    public EidIDCardService() {
+    }
+
+    private synchronized void start() {
+        if (watchThread.isAlive() && eidIDCardThread.isAlive()) {
+            EidMsg.sendLogD("EidIDCardService: isAlive");
+            return;
+        }
+        EidMsg.sendLogI("EidIDCardService: start");
+        if (usbMonitor == null) {
+            usbMonitor = new UsbMonitor(getApplicationContext());
+            usbMonitor.monitor(usbMonitorCB);
+        }
+
+        if (Build.VERSION.SDK_INT >= 26)
+            setForeground(getApplicationContext());
+
+        if (!EsProperties.init(getApplicationContext()))
+            XLog.e("EsProperties.init Error");
+
+        if (!watchThread.isAlive()) {
+            XLog.d("watchThread Start");
+            watchThread.start();
+        }
+        if (!eidIDCardThread.isAlive()) {
+            XLog.d("eidIDCardThread Start");
+            eidIDCardThread.start();
+        }
+
+        //守护 Service 组件的启用状态, 使其不被禁用
+        getPackageManager().setComponentEnabledSetting(
+                new ComponentName(getPackageName(), EidIDCardService.class.getName()),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        EidMsg.init(getApplicationContext());
+        XLog.d("EidIDCardService: onCreate");
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Context context = getApplicationContext();
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+            Notification notification = new NotificationCompat.Builder(context, "default")
+                    .setContentTitle("读证服务")
+                    .setContentText("读证服务运行中...")
+                    .setSmallIcon(R.mipmap.ic_launcher_notification)
+//                .setAutoCancel(true) // 打开程序后图标消失
+                    .setOngoing(true)
+                    .setContentIntent(pendingIntent)
+                    .build();
+//            manager.notify(1, notification);
+            startForeground(1, notification);
+        }
+        start();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        XLog.d("EidIDCardService: onBind");
+        start();
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if(intent != null) {
+            String strAction = intent.getAction();
+            if (strAction != null && strAction.equals(ACTION_RESTART)) {
+                restart = true;
+                XLog.d("EidIDCardService: ACTION_RESTART");
+            }
+        }
+        start();
+        return START_STICKY;    // 被kill掉后自动重启
+        // return super.onStartCommand(intent, flags, startId);
+    }
+
+    public void onDestroy() {
+        EidMsg.sendLogW("EidIDCardService: onDestroy");
+        XLog.w("EidIDCardService: onDestroy");
+        super.onDestroy();
+    }
+
+    @TargetApi(26)
+    private void setForeground(Context context) {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_HIGH);
+        manager.createNotificationChannel(channel);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        Notification notification = new Notification.Builder(this, ID)
+                .setContentTitle("读证服务")
+                .setContentText("读证服务运行中...")
+                .setSmallIcon(R.mipmap.ic_launcher_notification)
+//                .setAutoCancel(true) // 打开程序后图标消失
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        startForeground(1, notification);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // USB监控
+    private final static int hidVendorId = 0x0483;
+    private final static int hidProductId = 0xE806;
+    private final UsbMonitor.MonitorCB usbMonitorCB = new UsbMonitor.MonitorCB() {
+        boolean isMonitor(UsbDevice usbDevice, int devModeIdx) {
+            int vid = 0, pid = 0;
+            if (EidStruct.isUsbHid(devModeIdx)) {
+                vid = hidVendorId;
+                pid = hidProductId;
+            }
+            return (usbDevice.getProductId() == pid && usbDevice.getVendorId() == vid);
+        }
+
+        @Override
+        public void attached(UsbDevice usbDevice) {
+            int devModeIdx = EidStruct.getDevModeIdx(EsProperties.getDevMode());
+            if (!isMonitor(usbDevice, devModeIdx))
+                return;
+            if (usbDevice.getProductId() == hidProductId) {
+                XLog.w("USBHID 设备上线");
+            }
+            // 禁用root模式, 提高兼容性
+            // RootCmd.execRootCmdSilent("chmod -R 777 /dev/bus/usb");
+            restart = true;
+        }
+
+        @Override
+        public void detached(UsbDevice usbDevice) {
+            int devModeIdx = EidStruct.getDevModeIdx(EsProperties.getDevMode());
+            if (!isMonitor(usbDevice, devModeIdx))
+                return;
+            if (usbDevice.getProductId() == hidProductId) {
+                XLog.w("USBHID 设备掉线");
+            }
+            XLog.e("USBHID 设备掉线");
+            restart = true;
+        }
+    };
+}
+```
+
+```java
+// 双服务监控 包活机制
+public class WatchDogService extends Service {
+    private static final String ID = "eid_watch_channel";
+    private static final String NAME = "eid_watch";
+
+    // job多线程，定时检查 EidIDCardService 是否存在
+    private static final Thread watchThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    XLog.d("WatchDogService: Watch Working");
+                    for (int i = 0; i < 60; i++) {
+                        SvrManager.startServiceMayBind(EidIDCardService.class);
+                        Thread.sleep(1000);
+                    }
+                } catch (Exception e) {
+                    XLog.d(e);
+                }
+            }
+        }
+    });
+
+    public WatchDogService() {
+    }
+
+    private void start() {
+        if (watchThread.isAlive()) {
+            return;
+        }
+        EidMsg.sendLogD("WatchDogService: start");
+
+        if (Build.VERSION.SDK_INT >= 26)
+            setForeground(getApplicationContext());
+
+        XLog.d("watchThread Start");
+        watchThread.start();
+
+        //守护 Service 组件的启用状态, 使其不被禁用
+        getPackageManager().setComponentEnabledSetting(
+                new ComponentName(getPackageName(), WatchDogService.class.getName()),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        EidMsg.init(getApplicationContext());
+        XLog.d("WatchDogService: onCreate");
+        start();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        XLog.d("WatchDogService: onBind");
+        start();
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        XLog.d("WatchDogService: onStartCommand");
+        start();
+        return START_STICKY;    // 被kill掉后自动重启
+        // return super.onStartCommand(intent, flags, startId);
+    }
+
+    public void onDestroy() {
+        EidMsg.sendLogW("WatchDogService: start");
+        XLog.w("WatchDogService: onDestroy");
+        super.onDestroy();
+    }
+
+    @TargetApi(26)
+    private void setForeground(Context context) {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_HIGH);
+        manager.createNotificationChannel(channel);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        Notification notification = new Notification.Builder(this, ID)
+                .setContentTitle("EID")
+                .setContentText("EID监控服务运行中...")
+                .setSmallIcon(R.mipmap.ic_launcher)
+//                .setAutoCancel(true) // 打开程序后图标消失
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        startForeground(1, notification);
+    }
+}
+```
