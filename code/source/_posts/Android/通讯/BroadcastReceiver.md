@@ -13,7 +13,7 @@ updated: 2022-08-03 20:12:12
 
 Android 四大组件之一，系统广播
 
-## 接收
+## 静态注册 + 接收
 
 ```xml
 <manifest ...>
@@ -41,6 +41,47 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // 收到重启消息
         Log.d(intent.getAction());
+    }
+}
+```
+
+## 动态注册+接收
+
+```java
+public final class EidMsg extends BroadcastReceiver {
+    private static final String TAG = EidMsg.class.getSimpleName();
+    // 自定义消息Action
+    private static final String ACTION_LOG = "com.eseid.eid_idcard_svr.idcard";
+    // ---------------------------------------------------------------------------------------------
+    // 发送，静态函数，直接调用函数发送即可
+    public static void sendLog(int level, String log) {
+        Intent intent = new Intent(ACTION_LOG);
+        intent.putExtra("level", level);
+        intent.putExtra("log", log);
+        context.sendBroadcast(intent);
+    }
+    // ---------------------------------------------------------------------------------------------
+    // 接收：EidMsg 本身即为一个接收器
+    public void init(Context context, UserCheckCardCB userCheckCardCB) {
+        mUserCheckCardCB = userCheckCardCB;
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_LOG);
+        context.registerReceiver(this, filter);
+    }
+    // 取消注册
+    public void unregister(Context context) {
+        context.unregisterReceiver(this);
+    }
+    // 消息接收
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        switch (intent.getAction()) {
+            case ACTION_LOG:
+                int level = intent.getIntExtra("level", 0);
+                String log = intent.getStringExtra("log");
+                mUserCheckCardCB.onLog(level, log);
+                break;
+        }
     }
 }
 ```
