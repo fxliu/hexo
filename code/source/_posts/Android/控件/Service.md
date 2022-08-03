@@ -26,6 +26,9 @@ updated: 2020-02-08 19:18:01
 ## 基础
 
 ```xml
+<!-- 前台服务 -->
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 <!--AndroidManifest.xml：<activity> 同级注册服务-->
 <service android:name=".MyService" />
 <activity .../>

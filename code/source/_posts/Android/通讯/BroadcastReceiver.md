@@ -17,6 +17,9 @@ Android 四大组件之一，系统广播
 
 ```xml
 <manifest ...>
+    <!-- 监听系统重启广播 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
     <application ...>
         <!-- Android系统重启广播接收 -->
         <receiver
