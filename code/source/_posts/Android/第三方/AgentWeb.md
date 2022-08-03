@@ -13,13 +13,30 @@ updated: 2020-02-23 08:49:51
 
 [AgentWeb-GitHub-包含Demo](https://github.com/Justson/AgentWeb)
 
+## 引入
+
 ```gradle
-// build.gradle(app)
-implementation 'com.just.agentweb:agentweb:4.1.2' // (必选)
-implementation 'com.just.agentweb:filechooser:4.1.2'// (可选)
-implementation 'com.download.library:Downloader:4.1.2'// (可选)
-// Demo\sample\libs目录有 alipaySdk-20180601.jar // (可选)
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+```gradle
+// Support
+ implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha' // (必选)
+ implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha' // (可选)
+ implementation 'com.github.Justson:Downloader:v5.0.0' // (可选)
 // AgentWeb会尝试加载所有组件，可选功能没有时，会报错，忽略即可
+```
+
+```gradle
+// Androidx
+ implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx' // (必选)
+ implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx' // (可选)
+ implementation 'com.github.Justson:Downloader:v5.0.0-androidx' // (可选)
 ```
 
 ```pro
@@ -33,6 +50,14 @@ implementation 'com.download.library:Downloader:4.1.2'// (可选)
 
 -dontwarn me.nereo.multi_image_selector.**
 -keep class me.nereo.multi_image_selector.** { *; }
+```
+
+```makefile
+# 取消AgentWeb混淆
+-keep class com.just.agentweb.** {
+    *;
+}
+-dontwarn com.just.agentweb.**
 ```
 
 ## 使用
