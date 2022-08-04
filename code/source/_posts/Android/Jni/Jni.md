@@ -88,6 +88,10 @@ jbyte* szData = env->GetByteArrayElements(arr, nullptr);
 len = env->GetArrayLength(arr);
 // 释放
 env->ReleaseByteArrayElements(arr, szData, 0);
+
+// jbyteArray/jintArray/j*Array -> 强转C++指针
+jbyte *szData = (jbyte *)env->GetPrimitiveArrayCritical(arr, 0);
+env->ReleasePrimitiveArrayCritical(arr, szData, 0);
 ```
 
 ## 回调
