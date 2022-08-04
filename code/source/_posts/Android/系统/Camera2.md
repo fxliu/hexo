@@ -61,82 +61,6 @@ updated: 2022-06-30 18:58:52
   + 发送请求 - 循环发送
     + `mCaptureSession.setRepeatingRequest(mCaptureRequest.build(), mCaptureCallback, null);`
 
-## openCamera
-
-+ 第二次打开，会自动关闭第一次句柄，触发StateCallback.onDisconnected
-+ 回调
-  + onClosed: 底层真正关闭CameraDevice后回调
-  + onDisconnected: 
-    + openCamera失败触发
-    + 摄像头被拔出
-    + 高优先级APP抢占
-    + 收到该回调，需要执行`CameraDevice.close`
-  + onError: 底层出现错误，无法正常出图
-    + 收到该回调，需要执行`CameraDevice.close`
-  + onOpened: 打开成功
-
-```java
-CameraManager mCameraManager;
-mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-// 摄像头数量
-final String[] ids = mCameraManager.getCameraIdList();
-
-// 摄像头能力检查: CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL
-CameraCharacteristics characteristics = mCameraManager.getCameraCharacteristics(id);
-Integer level = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-
-// 摄像头位置检查: CameraController.Facing.FACING_FRONT / FACING_BACK / FACING_EXTERNAL
-Integer internal = characteristics.get(CameraCharacteristics.LENS_FACING);
-
-// Camera设备支持的功能列表
-int [] capabilities = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES);
-```
-
-## StreamConfigurationMap
-
-```java
-// 摄像头输出流配置信息：比如支持图像格式，支持分辨率等
-mCameraCharacteristics = mCameraManager.getCameraCharacteristics(mCameraId);
-StreamConfigurationMap map = mCameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-// 返回指定格式支持的输出流Size列表
-map.getOutputSizes(ImageFormat.JPEG);
-map.getOutputSizes(SurfaceHolder.class);
-map.getOutputSizes(SurfaceTexture.class);
-```
-
-+ `isOutputSupportedFor`
-  + 是否支持指定 class/surface/format
-+ `getOutputSizes`
-  + 获取支持指定 class/format 的输出流size
-+ `getOutputMinFrameDuration` / `getOutputStallDuration`
-  + 指定 class/format 的最小/高帧率
-+ `getHighSpeedVideoSizes`
-  + 高帧率流
-+ `getHighResolutionOutputSizes`
-  + 高分辨率流
-+ format
-  + ImageFormat.JPEG / ImageFormat.RAW12 / ImageFormat.YUV_420_888 / PixelFormat.RGB_888
-+ class
-  + `SurfaceHolder.class` / `SurfaceTexture.class`
-
-## 显示控制
-
-```java
-// 摄像头方向 - int 0/90/180/270
-characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-// UI显示方向 - Surface.ROTATION_0/90/180/270
-mSurfaceView.getDisplay().getRotation();
-// 视频大小 - 摄像头根据该参数适配分辨率
-// 这里的[w,h]根据摄像头分辨率设置
-mSurfaceView.getHolder().setFixedSize(w, h);
-// UI 区域大小 - 视频拉伸显示到UI区域
-// 这里的[w,h]根据UI设置, 需要考虑偏转
-ViewGroup.LayoutParams layoutParams = mSurfaceView.getLayoutParams();
-layoutParams.width = w;
-layoutParams.height = h;
-mSurfaceView.setLayoutParams(layoutParams);
-```
-
 ## 会话
 ### 会话请求回调(CaptureCallback)
   + mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, null);
@@ -148,3 +72,102 @@ mSurfaceView.setLayoutParams(layoutParams);
   + 请求终止：`onCaptureSequenceAborted`
       + 通常由`stopRepeating` `abortCaptures`触发
   + 请求序列完成: `onCaptureSequenceCompleted`
+
+## Camera2
+
+```java
+// 权限
+static final private String[] mCameraPermissions = new String[]{
+        Manifest.permission.CAMERA
+};
+// CameraManager
+private final CameraManager mCameraManager;
+mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+// 摄像头
+CameraDevice mCamera;
+CameraCharacteristics mCharacteristics;
+// 会话
+CameraCaptureSession mCaptureSession;
+// openCamera
+mCharacteristics = mCameraManager.getCameraCharacteristics(cameraId);
+mCameraManager.openCamera(cameraId, mCameraStateCallback, null);
+CameraDevice.StateCallback mCameraStateCallback = new CameraDevice.StateCallback() {
+    @Override
+    public void onOpened(@NonNull CameraDevice camera) {
+        Log.d(TAG, "CameraDevice.StateCallback: onOpened");
+        mCamera = camera;
+    }
+
+    @Override
+    public void onDisconnected(@NonNull CameraDevice camera) {
+        Log.e(TAG, "CameraDevice.StateCallback: onDisconnected");
+        stop();
+    }
+
+    @Override
+    public void onError(@NonNull CameraDevice camera, int error) {
+        Log.e(TAG, "CameraDevice.StateCallback: onError, id=" + camera.getId() + ", err=" + error);
+        stop();
+    }
+};
+// createCaptureSession: 传入多个 Surface
+public void startCaptureSession(List<EsSurfaceImpl> readers) {
+    try {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            List<OutputConfiguration> configurations = new Vector<>();
+            for (EsSurfaceImpl reader : readers)
+                configurations.add(new OutputConfiguration(reader.getSurface()));
+            SessionConfiguration sessionConfiguration = new SessionConfiguration(
+                    SessionConfiguration.SESSION_REGULAR,
+                    configurations,
+                    Runnable::run,
+                    mSessionCallback
+            );
+            mCamera.createCaptureSession(sessionConfiguration);
+        } else {
+            List<Surface> surfaces = new Vector<>();
+            for (EsSurfaceImpl reader : readers)
+                surfaces.add(reader.getSurface());
+            mCamera.createCaptureSession(surfaces, mSessionCallback, null);
+        }
+    } catch (CameraAccessException e) {
+        e.printStackTrace();
+    }
+}
+CameraCaptureSession.StateCallback mSessionCallback = new CameraCaptureSession.StateCallback() {
+    @Override
+    public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+        Log.d(TAG, "StateCallback.onConfigured");
+        mCaptureSession = cameraCaptureSession;
+    }
+
+    @Override
+    public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
+        Log.e(TAG, "Failed to configure capture session.");
+    }
+};
+// createCaptureRequest
+public CaptureRequest.Builder createCaptureRequest(List<EsSurfaceImpl> readers, int templateType) {
+    try {
+        CaptureRequest.Builder builder = mCamera.createCaptureRequest(templateType);
+        // builder.set(CaptureRequest.JPEG_ORIENTATION, mCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION));
+        for (EsSurfaceImpl reader : readers)
+            builder.addTarget(reader.getSurface());
+        return builder;
+    } catch (CameraAccessException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+// setRepeatingRequest
+public void sendRequest(CaptureRequest request, boolean bRepeating, CameraCaptureSession.CaptureCallback listener) {
+    try {
+        if (bRepeating)
+            mCaptureSession.setRepeatingRequest(request, listener, null);
+        else
+            mCaptureSession.capture(request, listener, null);
+    } catch (CameraAccessException e) {
+        e.printStackTrace();
+    }
+}
+```
