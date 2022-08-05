@@ -11,6 +11,8 @@ updated: 2022-08-04 17:41:24
 
 ## 说明
 
+[LearnOpenGL-中文](https://learnopengl-cn.github.io/)
+[LearnOpenGL-GitHub](https://github.com/LearnOpenGL-CN/LearnOpenGL-CN)
 [开发者文档: opengl](https://developer.android.google.cn/guide/topics/graphics/opengl)
 
 + 构建OpenGL ES环境：关键元素
