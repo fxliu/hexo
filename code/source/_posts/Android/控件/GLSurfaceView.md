@@ -22,3 +22,10 @@ updated: 2022-08-04 17:41:24
     + 渲染器接口
     + 渲染器在单独的线程中运行，渲染与UI完全解耦
     + 数据直接跨线程发送给渲染器即可
+
+## Demo
+
+[OpenCamera](https://github.com/moo611/opencamera-for-android)
++ 基于opengles+glsurfaceview,能实现实时滤镜，拍照，录制短视频，美颜磨皮等功能
+[AndroidOpenGLDemo](https://github.com/doggycoder/AndroidOpenGLDemo)
++ 基础应用的各种效果集合

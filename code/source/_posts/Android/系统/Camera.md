@@ -24,6 +24,11 @@ updated: 2020-03-28 19:30:25
     + 多图生成gif（checkout feature/gif-encode), 见 Bilibili/BurstLinker
 + libyuv
 
+## 性能提升
+
++ camera.addCallbackBuffer
+    + 需要利用 onPreviewFrame 采集数据时, 可以提前设定图片缓冲区, 并持续复用
+
 ## Camera Demo
 
 ```java
