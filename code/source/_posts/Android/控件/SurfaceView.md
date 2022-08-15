@@ -62,3 +62,8 @@ Canvas canvas = holder.lockCanvas();
 canvas.drawBitmap(bitmap, 0, 0, new Paint());
 holder.unlockCanvasAndPost(canvas);
 ```
+
+## GPU
+
+* [demo](\svn\esface\trunk\Android\GLSurfaceViewDemo)
+    * lib_essurface
