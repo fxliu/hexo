@@ -12,6 +12,9 @@ updated: 2020-03-28 19:30:25
 ## 资料
 
 * [Android官方示例](https://github.com/android/camera-samples)
+* [demo](\svn\cloud_visitor\trunk\4_android\guard\)
+  * \com\es\util\CameraUtils
+
 
 ### other
 
