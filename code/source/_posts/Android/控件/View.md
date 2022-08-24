@@ -18,7 +18,9 @@ getBackground().setAlpha(0);
 
 ```java
 public class EsFaceRectView extends View {
+    private final Paint mPaint = new Paint();
     private final TextPaint mTextPaint = new TextPaint();
+    private final Path mPath = new Path();
 
     public EsFaceRectView(Context context) {
         super(context);
@@ -41,6 +43,15 @@ public class EsFaceRectView extends View {
         mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextAlign(Paint.Align.LEFT);
         mTextPaint.setColor(Color.YELLOW);
+        // Paint
+        mPaint.setColor(Color.YELLOW);
+        mPaint.setStyle(Paint.Style.STROKE);    // 实线, Paint.Style.FILL 实心
+        mPaint.setStrokeWidth(4);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        // Path
+        mPath.moveTo(0, 0);
+        mPath.rLineTo(100, 100);
     }
 
     @Override
@@ -52,6 +63,7 @@ public class EsFaceRectView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawPath(mPath, mPaint);
         canvas.drawText("hello world", 100, 100, mTextPaint);
     }
 }
