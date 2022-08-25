@@ -9,6 +9,28 @@ date: 2020-02-07 22:12:34
 updated: 2020-02-07 22:12:34
 ---
 
+## base
+
+```java
+// 无损转换(ARGB_8888)
+// bitmap -> byte[]
+byte[] bytes = new byte[bitmap.getByteCount()];
+bitmap.copyPixelsToBuffer(ByteBuffer.wrap(bytes));
+// byte[] -> bitmap
+bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(bytes));
+// getPixels: 反馈int[], 每一个元素包含一个rgba
+// 可通过Color获取指定像素的RGB: (byte)Color.blue(clr), (byte)Color.green(clr), (byte)Color.red(clr)
+```
+
+```java
+// byte[] -> bitmap
+Bitmap bitmap = BitmapFactory.decodeByteArray(bmp, 0, bmp.length);
+// bitmap -> byte[]
+ByteArrayOutputStream out = new ByteArrayOutputStream();
+img.compress(Bitmap.CompressFormat.JPEG, 100, out);
+String imgBase64 = Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP);
+```
+
 ## baidu BitmapUtil
 
 ```java
