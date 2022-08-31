@@ -80,6 +80,7 @@ target_link_libraries(
 ```
 
 ```makefile
+# android jni工程挂载
 # opencv
 set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/OpenCV-android-sdk/sdk/native/jni/abi-${CMAKE_ANDROID_ARCH_ABI})
 find_package(OpenCV REQUIRED)
@@ -92,12 +93,19 @@ target_link_libraries(
 ```
 
 ```makefile
+# 动态so加载
+# rga
 set(RGA_LIB ${CMAKE_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}/librga.so)
 include_directories(${CMAKE_SOURCE_DIR}/rga/include)
+
+# opencv
+set(OPENCV_LIB ${CMAKE_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java4.so)
+include_directories(${CMAKE_SOURCE_DIR}/opencv/native/jni/include)
 
 target_link_libraries(
         ...
         ${RGA_LIB}
+        ${OPENCV_LIB}
         ...
 )
 ```
