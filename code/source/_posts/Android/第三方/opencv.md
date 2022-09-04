@@ -28,7 +28,7 @@ byte[] bytes = new byte[mat.width() * mat.height() * mat.channels()];
 mat.get(0, 0, bytes);
 
 // byte -> Mat
-Mat mat = new Mat(w, h, CvType.CV_8UC3);
+Mat mat = new Mat(h, w, CvType.CV_8UC3);
 mat.put(0, 0, rgbBytes);
 
 // YUV -> Mat：灰度图
