@@ -27,6 +27,14 @@ protected void onCreate(Bundle savedInstanceState) {
 ### 属性
 
 ```xml
+<activity
+    android:noHistory="true"
+    android:excludeFromRecents="true">
+    无历史 + 不再显示到任务列表
+</activity>
+```
+
+```xml
 <!--Standard-标准模式: 默认模式, 每次调用都启动一个新的activity-->
 <activity android:name=".MainActivity" android:launchMode="standard" > ... </activity>
 <!--singleTop-栈顶复用模式: 如果activity处于栈顶, 则直接使用, 否则创建新的-->

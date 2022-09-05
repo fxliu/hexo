@@ -18,7 +18,7 @@ adb shell getprop > 1.log
 adb shell setprop debug.facepass.log.level 2
 
 # 提取日志
-adb logcat
+adb shell logcat
 ```
 
 ## logcat

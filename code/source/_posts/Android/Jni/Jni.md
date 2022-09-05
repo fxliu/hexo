@@ -64,6 +64,8 @@ Java_com_eseid_sdk_EidJni_Test(JNIEnv *env, jobject ) {
 
 ## 类型转化
 
++ 封装[svn](\svn\esface\trunk\Android\libs\lib_stface\src\main\jni\JTools)
+
 ```c++
 // std::string -> jsting：注意必须是字符串
 std::string hello = "Hello from C++";

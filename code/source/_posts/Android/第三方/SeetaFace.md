@@ -64,28 +64,46 @@ cd /d %~dp0\SeetaFace\index-master\SeetaMaskDetector\craft
 build.win.vc14.all.cmd
 ```
 
+````
+@set pwd=%~dp0
+
+@if not exist %pwd%build\ md %pwd%build\
+@if not exist %pwd%build\arm64-v8a\ md %pwd%build\arm64-v8a\
+@if not exist %pwd%build\armeabi-v7a\ md %pwd%build\armeabi-v7a\
+
+@call:build %pwd% OpenRoleZoo libORZ_static.a
+@call:build %pwd% SeetaAuthorize libStAuthorize.so
+@call:build %pwd% TenniS libtennis.so
+@call:build %pwd% FaceBoxes\FaceDetector libStDetector600.so
+@call:build %pwd% FaceTracker6\FaceTracking libStTracking600.so
+@call:build %pwd% FaceRecognizer6\FaceRecognizer libStRecognizer610.so
+@call:build %pwd% Landmarker\Landmarker libStLandmarker600.so
+
+@exit /B 1
+
+:build
+@set pwd=%~1
+@set pro=%pwd%%~2
+@set fn=%~3
+cd /d %pro%\android\jni\
+@echo ----------------%pro%----------------
+@call D:\Android\Sdk\ndk\21.4.7075529\ndk-build.cmd clean
+@call D:\Android\Sdk\ndk\21.4.7075529\ndk-build.cmd -j16
+@copy /Y %pro%\android\obj\local\arm64-v8a\%fn% %pwd%build\arm64-v8a\
+@copy /Y %pro%\android\obj\local\armeabi-v7a\%fn% %pwd%build\armeabi-v7a\
+@cd /d %pwd%
+:: 函数结束标记
+goto:eof
 ```
-cd /d %~dp0\SeetaFace\index-master\OpenRoleZoo\android\jni
-D:\Android\Sdk\ndk\23.1.7779620\ndk-build.cmd -j16
-
-cd /d %~dp0\SeetaFace\index-master\SeetaAuthorize\android\jni
-D:\Android\Sdk\ndk\23.1.7779620\ndk-build.cmd -j16
-
-cd /d %~dp0\SeetaFace\index-master\TenniS\android\jni
-D:\Android\Sdk\ndk\23.1.7779620\ndk-build.cmd -j16
 
 cd /d %~dp0\SeetaFace\index-master\FaceAntiSpoofingX6\FaceAntiSpoofingX\android\jni
-cd /d %~dp0\SeetaFace\index-master\FaceBoxes\FaceDetector\android\jni
-cd /d %~dp0\SeetaFace\index-master\FaceRecognizer6\FaceRecognizer\android\jni
-cd /d %~dp0\SeetaFace\index-master\FaceTracker6\FaceTracking\android\jni
-cd /d %~dp0\SeetaFace\index-master\Landmarker\Landmarker\android\jni
 cd /d %~dp0\SeetaFace\index-master\PoseEstimator6\PoseEstimation\android\jni
 cd /d %~dp0\SeetaFace\index-master\QualityAssessor3\QualityAssessor\android\jni
 cd /d %~dp0\SeetaFace\index-master\SeetaAgePredictor\AgePredictor\android\jni
 cd /d %~dp0\SeetaFace\index-master\SeetaEyeStateDetector\EyeStateDetector\android\jni
 cd /d %~dp0\SeetaFace\index-master\SeetaGenderPredictor\GenderPredictor\android\jni
 cd /d %~dp0\SeetaFace\index-master\SeetaMaskDetector\MaskDetector\android\jni
-```
+````
 
 ## 模型设置
 
