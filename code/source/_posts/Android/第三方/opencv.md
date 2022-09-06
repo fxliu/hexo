@@ -122,6 +122,12 @@ private void show(Mat mat) {
         new Handler(context.getMainLooper()).post(() -> mShowView.setImageBitmap(bitmap));
     }
 }
+
+// bitmap -> map
+Mat mat = new Mat();
+Utils.bitmapToMat(bitmap, mat);
+if(mat.channels() == 4)
+    Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGBA2RGB);
 ```
 
 ## 工程依赖
