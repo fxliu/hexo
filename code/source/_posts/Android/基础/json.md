@@ -15,6 +15,12 @@ updated: 2022-08-25 10:25:59
 // String -> Json
 String jsonStr = "{\"password\":\"123456\",\"username\":\"张三\"}";
 JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+// String -> Json: ["hard_version", "soft_version", "devid"]
+JSONArray array = new JSONArray(params);
+for(int i = 0; i < array.length(); i++) {
+    Log.e(TAG, "getCardReaderInfo: " + array.getString(i));
+}
+
 // Json -> String
 System.out.println("java--->json \n " + jsonObject.toString());
 // get
