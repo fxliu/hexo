@@ -13,12 +13,14 @@ updated: 2022-09-16 19:59:41
 
 [libuvc](https://github.com/libuvc/libuvc)
 
+## 相关
+
++ [libstreaming](https://github.com/saki4510t/libstreaming)
+  + RTSP Server+Client
+
 ## Android Demo
 
-+ [AndroidUSBCamera](https://github.com/jiangdongguo/AndroidUSBCamera)
 + [UVCCamera](https://github.com/saki4510t/UVCCamera)
-  + [UvcCameraDemo](https://github.com/yorkZJC/UvcCameraDemo)
-    + 基于[saki4510t/UVCCamera]实现, 具有拍照、录像、获取实时流的基本功能
-  + [android_uvc_camera](https://github.com/shengjunhu/android_uvc_camera)
-    + 基于[saki4510t/UVCCamera]实现
-+ [AndroidUVCCameraStudio](https://github.com/jameskkk/AndroidUVCCameraStudio)
+  + 原始开源库 - 有BUG, 不维护了, 导致无法使用
++ [AndroidUSBCamera](https://github.com/jiangdongguo/AndroidUSBCamera)
+  + 修正库, 当前还可用
