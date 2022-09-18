@@ -113,3 +113,39 @@ target_link_libraries(
         ...
 )
 ```
+
+### makefile 嵌套
+
+```makefile
+# cpp\CMakeLists.txt
+# cpp\libusb\CMakeLists.txt
+
+# cpp\libusb\CMakeLists.txt
+include_directories(${CMAKE_SOURCE_DIR}/libusb)
+add_library(
+        libusb
+        SHARED
+        core.c
+        descriptor.c
+        hotplug.c
+        io.c
+        sync.c
+        strerror.c
+        os/linux_usbfs.c
+        os/events_posix.c
+        os/threads_posix.c
+        os/linux_netlink.c)
+find_library(
+        log-lib
+        log)
+target_link_libraries(
+        libusb
+        ${log-lib})
+
+# cpp\CMakeLists.txt
+add_subdirectory(./libusb)
+target_link_libraries(
+        ...
+        libusb
+        ...)
+```
