@@ -21,6 +21,13 @@ adb shell setprop debug.facepass.log.level 2
 adb shell logcat
 ```
 
++ Assert        FF6B68
++ Debug         3AB3FB
++ Error         FC3630
++ Info          30b051
++ Verbose       BBBBBB
++ Warning       FDBA2C
+
 ## logcat
 
 ```sh
