@@ -12,11 +12,13 @@ updated: 2019-12-18 16:26:15
 ## window 源码编译
 
 `projects\Windows下有VS工程，直接使用即可`
++ 如果缺少`.vcxproj`导致工程无法正常加载
+  + 双击执行`projects\generate.bat`, 即可
 
 ## Demo
 
 + [CURL](https://github.com/fxliu/VCDemo/tree/master/NET/CUrl)
-+ `es:\svn\bar_machine\trunk\C++\Demo\EidDemo`
++ `es:\svn\bar_machine\trunk\C++\BarMachine\tool_kits\Public`
 
 ## 设置
 

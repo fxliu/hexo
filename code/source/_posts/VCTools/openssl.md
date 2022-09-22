@@ -73,10 +73,19 @@ cd c:\openssl-1.0.1e
 :: 运行configure，--prefix 指定编译目录(保存编译结果，需给已存在目录的全路径), no-asm表示不用汇编
 :: VC-WIN32 代表release版，debug-VC-WIN32 代表Debug版
 perl Configure VC-WIN32 --prefix=E:\openssl-1.1.1.h -static no-shared
+perl Configure VC-WIN64 --prefix=E:\openssl-1.1.1.h -static no-shared
 
 :: 1.1.1o
-:: NASM非必安装项，通过参数屏蔽
+:: NASM 非必安装项，通过参数屏蔽
 perl Configure VC-WIN32 no-asm --prefix=E:\openssl-1.1.1.h -static no-shared
+:: 1.1.1q
+:: NASM 非必安装项，通过参数屏蔽
+:: no-shared 即为静态库, 无需static参数
+D:\Perl5.10.1\bin\perl.exe Configure VC-WIN32 no-asm --prefix=E:\openssl-1.1.1.q --openssldir=E:\openssl-1.1.1.q no-shared
+D:\Perl5.10.1\bin\perl.exe Configure VC-WIN64A no-asm --prefix=E:\openssl-1.1.1.q --openssldir=E:\openssl-1.1.1.q no-shared
+:: 2015必须启动64环境编译x64版本
+:: 必须nmake clean, 否则可能残留x86编译结果
+D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvars64.bat
 ```
 
 ```bat
