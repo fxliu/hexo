@@ -29,5 +29,8 @@ gcc EsWlt.cpp -g0 -fPIC -shared -fvisibility=hidden -fvisibility-inlines-hidden 
 
 + 查看依赖的库
   + `objdump -x xxoo.so | grep NEEDED`
+  + `readelf -d es_idcard_demo`
 + 查看缺失的库
   + `ldd xxoo.so`
++ 查看导出
+  + `nm -D xxxoo.so`
