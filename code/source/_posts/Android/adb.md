@@ -56,3 +56,29 @@ adb push D:\test.log /storage/emulated/0/
 :: 文件传输: Android -> PC
 adb pull <remote> <local>
 ```
+
+## 内存溢出
+
+```sh
+# 查看所有支持项
+dumpsys –l
+
+# meminfo
+# https://www.proyy.com/7006950034935660574.html
+dumpsys meminfo com.eseid.eid_idcard_svr.watch
+dumpsys meminfo com.eseid.eid_idcard_svr.eid
+
+# 查看到系统所有的注册信息
+dumpsys content
+
+# 获取所有进程的内存使用的排行榜
+procrank
+
+# 查看更加详细的内存信息
+cat /proc/meminfo
+
+# 查看可用内存，缺省单位KB。该命令比较简单、轻量，专注于查看剩余内存情况。
+free
+
+showmap
+```
