@@ -58,6 +58,11 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 }
 ```
 
+## XXPermissions
+
++ https://github.com/getActivity/XXPermissions
+    + 权限申请封装 - 一条语句搞定功能相关所有权限申请
+
 ## hipermission
 
 ```gradle
