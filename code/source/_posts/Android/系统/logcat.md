@@ -81,3 +81,9 @@ S Silent
 
 + 屏蔽特定内容的日志: `^(?!.*(AAA|BBB)).*$`
     + ?! 表示非捕获元，匹配后面不是我们指定的内容的字符
+
+## AndroidStudio Logcat
+
+```sh
+过滤器: package:mine -tag:fpsdk-jni -tag:chatty
+```
