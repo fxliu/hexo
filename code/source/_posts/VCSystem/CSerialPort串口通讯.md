@@ -6,8 +6,8 @@ tags:
 categories: 
   - VC
 description: 串口
-date: 2019-10-27 ‏‎15:35:33
-updated: 2019-10-27 ‏‎15:35:33
+date: 2019-10-27 15:35:33
+updated: 2019-10-27 15:35:33
 ---
 
 ## API
@@ -56,6 +56,7 @@ typedef struct _DCB {
 ## Demo
 
 [CSerialPort](https://github.com/fxliu/VCDemo/tree/master/SYSTEM/CSerialPort)
+[svn](\svn\eidcard\trunk\Windows\EidSdk)
 
 ## GitHub第三方库
 

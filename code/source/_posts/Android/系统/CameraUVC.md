@@ -26,4 +26,4 @@ updated: 2022-09-16 19:59:41
   + 修正库, 当前还可用
   + [中文文档](https://juejin.cn/post/7115229806844706847)
 + [UVCAndroid](https://github.com/shiyinghan/UVCAndroid)
-  + 未校验
+  + 有更新, 可用
