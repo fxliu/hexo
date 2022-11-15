@@ -8,7 +8,6 @@ description: NFC
 date: 2020-02-03 08:44:37
 updated: 2020-02-03 08:44:37
 ---
-
 ## 权限
 
 ```xml
@@ -152,6 +151,25 @@ protected void onPause() {
     if (m_nfcAdapter != null) // 解绑NFC
         m_nfcAdapter.disableReaderMode(this);
 }
+```
+
+## M1
+
+```java
+    void testM1(Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        MifareClassic mifareClassic = MifareClassic.get(tag);
+        try {
+            int block = 2;
+            int sector = 2 / 4;
+            mifareClassic.connect();
+            mifareClassic.authenticateSectorWithKeyA(sector, MifareClassic.KEY_DEFAULT);
+            byte[] d = mifareClassic.readBlock(block);
+            Log.e(TAG, "testM1: " + HexUtil.Hex2String(d));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 ```
 
 ## 读卡
