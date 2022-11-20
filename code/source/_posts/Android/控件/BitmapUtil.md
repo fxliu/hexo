@@ -8,7 +8,6 @@ description: BitmapUtil
 date: 2020-02-07 22:12:34
 updated: 2020-02-07 22:12:34
 ---
-
 ## base
 
 ```java
@@ -29,6 +28,24 @@ Bitmap bitmap = BitmapFactory.decodeByteArray(bmp, 0, bmp.length);
 ByteArrayOutputStream out = new ByteArrayOutputStream();
 img.compress(Bitmap.CompressFormat.JPEG, 100, out);
 String imgBase64 = Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP);
+```
+
+## Base64 互转
+
+```java
+    public static String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null)
+            return null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] bitmapBytes = baos.toByteArray();
+        return Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+    }
+
+    public static Bitmap base64ToBitmap(String base64) {
+        byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
 ```
 
 ## baidu BitmapUtil
