@@ -8,7 +8,6 @@ description: 网络, NET, HTTP
 date: 2020-02-11 15:38:28
 updated: 2020-02-11 15:38:28
 ---
-
 ## 简单GET
 
 ```xml
@@ -128,7 +127,7 @@ client.post("https://**", requestParams, new FileAsyncHttpResponseHandler(new Fi
 
 [官方文档](https://square.github.io/okhttp/)
 
-`implementation "com.squareup.okhttp3:okhttp:4.9.0"`
+`implementation "com.squareup.okhttp3:okhttp:4.10.0"`
 
 ### 简单使用
 
@@ -151,6 +150,9 @@ Request request = new Request.Builder()
         .url("https://t.dnndo.com/lfx_test.php")
         .post(requestBody)
         .build();
+// 请求: 同步
+Response response = mClient.newCall(request).execute();
+response.body().string();
 // 请求: 异步
 client.newCall(request).enqueue(new Callback() {
     @Override
