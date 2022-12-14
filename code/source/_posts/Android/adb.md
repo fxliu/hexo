@@ -8,7 +8,6 @@ description: adb
 date: 2020-09-25 15:53:56
 updated: 2020-09-25 15:53:56
 ---
-
 ## 基本使用
 
 ```bat
@@ -40,6 +39,8 @@ adb connect 192.168.200.60:5555
 adb install xx.apk
 :: -r 覆盖安装
 adb install -r xx.apk
+:: apk安装包 -> 查看包名
+aapt dump badging D:\test\xxx.apk
 :: 启动
 adb shell am start  包名/MainActivity
 :: 强制终止
