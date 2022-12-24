@@ -8,13 +8,15 @@ description: opencv
 date: 2022-07-23 00:22:28
 updated: 2022-07-23 00:22:28
 ---
-
 ## 基础使用
 
 ```java
 // 加载本地文件
 String strImage = new File(context.getFilesDir(), "lfx.jpg").getAbsolutePath();
 Mat mat = Imgcodecs.imread(strImage);
+
+// 裁剪
+Mat mat = lastMat.submat(t, b, l, r);
 
 // 改变大小
 Imgproc.resize(mat, mat, new org.opencv.core.Size(w, h));
@@ -135,4 +137,5 @@ if(mat.channels() == 4)
 ### Android.mk
 
 ```makefile
+
 ```
