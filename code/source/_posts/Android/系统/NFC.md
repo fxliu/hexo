@@ -61,64 +61,96 @@ updated: 2020-02-03 08:44:37
 ### 事件
 
 ```java
-    NfcAdapter m_nfcAdapter;
-    PendingIntent m_nfcPi;
-    IntentFilter[] m_nfcIfs;
-    String[][] m_techLists;
+public class EsNfcUtil {
+    // 硬件是否支持
+    static public boolean isSupport(Context context) {
+        return NfcAdapter.getDefaultAdapter(context) != null;
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // ...
-        m_nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (null == m_nfcAdapter) {
-            m_textDes.setText("设备不支持NFC功能");
-        } else if (!m_nfcAdapter.isEnabled()) {
-            m_textDes.setText("请先开启设备NFC功能");
-        } else {
-            m_textDes.setText("请放置身份证到设备背面");
-        }
-        // 用于页面绑定：仅软件启动时绑定NFC事件
-        m_nfcPi = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_UPDATE_CURRENT);
-        m_nfcIfs = new IntentFilter[]{new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
-        m_techLists = new String[][]{new String[]{NfcB.class.getName()}, new String[]{IsoDep.class.getName()}};
-        // ...
+    // NFC功能是否启用
+    static public boolean isEnable(Context context) {
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
+        if (nfcAdapter == null)
+            return false;
+        return nfcAdapter.isEnabled();
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (m_nfcAdapter != null) // 绑定NFC事件
-            m_nfcAdapter.enableForegroundDispatch(this, m_nfcPi, m_nfcIfs, m_techLists);
-            // m_nfcAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("test", "onPause");
-        if (m_nfcAdapter != null) // 解绑NFC
-            m_nfcAdapter.disableForegroundDispatch(this);
-    }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        //获取到Tag标签对象
-        Tag mTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+    // ---------------------------------------------------------------------------------------------
+    // 绑定 A/B 卡监听
+    static public NfcAdapter enableReaderMode(Activity activity, NfcAdapter.ReaderCallback readerCallback) {
         try {
-            String[] techList = mTag.getTechList();
-            Log.w("test", "标签支持的tachnology类型：");
-            for (String tech : techList) {
-                Log.w("test", tech);
-            }
-            byte[] id = tag.getId();     // 卡片ID
-            // byte[] id = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-        } catch (NullPointerException e) {
+            NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+            if (nfcAdapter == null)
+                return null;
+            if (!nfcAdapter.isEnabled())
+                return null;
+            Bundle options = new Bundle();
+            //对卡片的检测延迟300ms
+            options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 300);
+            int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_NFC_A;
+            nfcAdapter.enableReaderMode(activity, readerCallback, READER_FLAGS, options);
+            return nfcAdapter;
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
-    public void onSetting(View view) {
-        // 根据包名打开对应的设置界面：开关NFC位置
-        Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-        startActivity(intent);
+
+    static public void disableReaderMode(Activity activity) {
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+        if (nfcAdapter == null)
+            return;
+        if (!nfcAdapter.isEnabled())
+            return;
+        nfcAdapter.disableReaderMode(activity);
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // 绑定NFC刷证事件, 当此窗口启动时, 刷证不会弹出APP选择
+    // 集成到: onResume
+    @SuppressLint("UnspecifiedImmutableFlag")
+    static public boolean enableDispatch(Activity activity) {
+        if (!isEnable(activity))
+            return false;
+        Intent intent = new Intent(activity, activity.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pi;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pi = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pi = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        IntentFilter[] ifs = new IntentFilter[]{new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
+        String[][] techLists = new String[][]{
+                new String[]{NfcB.class.getName()},
+                new String[]{NfcA.class.getName()}
+        };
+        NfcAdapter.getDefaultAdapter(activity).enableForegroundDispatch(activity, pi, ifs, techLists);
+        return true;
+    }
+
+    // 集成到: onPause
+    static public boolean disableDispatch(Activity activity) {
+        if (!isEnable(activity))
+            return false;
+        NfcAdapter.getDefaultAdapter(activity).disableForegroundDispatch(activity);
+        return true;
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // 事件判定
+    static public boolean isTech(Intent intent) {
+        if (intent == null || intent.getAction() == null)
+            return false;
+        return intent.getAction().equals("android.nfc.action.TECH_DISCOVERED");
+    }
+
+    static public Tag getTechTag(Intent intent) {
+        if (!isTech(intent))
+            return null;
+        return intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+    }
+}
+
 ```
 
 ```java
