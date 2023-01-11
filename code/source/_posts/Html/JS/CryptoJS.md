@@ -69,3 +69,33 @@ console.log(CfbEnc('1234567812345678'));
 console.log(CfbDec(CfbEnc('1234567812345678')));
 
 ```
+
+## ApiPost
+
+```js
+# 预执行脚本
+const reqData = {
+   "username": "13210001000", 
+   "password": "123456",
+   "equip": "Android VOG-AL00"
+};
+const str = randomStr(16);
+let req = str + JSON.stringify(reqData);
+let info = CfbEnc(req);
+
+console.error('上报原文：' + req);
+console.error('上报密文：' + info)
+
+// 动态添加一个键为info 值为 加密字符串 的body参数
+apt.setRequestBody("info", info);
+
+function randomStr(length=16) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+```
