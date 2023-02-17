@@ -60,3 +60,25 @@ CStringA Uncode2String(char *d)
   return str;
 }
 ```
+
+```c++
+std::string std_vsprintf(const char* pszFmt, va_list args)
+{
+	int nLength = std::vsnprintf(nullptr, 0, pszFmt, args);
+	nLength += 1;		// 补充\0
+	char* pszBuffer = new char[nLength];
+	std::vsnprintf(pszBuffer, nLength, pszFmt, args);
+	std::string str(pszBuffer);
+	delete[] pszBuffer;
+	return std::move(str);
+}
+
+std::string std_sprintf(const char* pszFmt, ...) {
+	std::string str;
+	va_list args;
+	va_start(args, pszFmt);
+	str = std_vsprintf(pszFmt, args);
+	va_end(args);
+	return std::move(str);
+}
+```
