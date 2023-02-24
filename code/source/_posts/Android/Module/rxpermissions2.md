@@ -60,8 +60,91 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 
 ## XXPermissions
 
-+ https://github.com/getActivity/XXPermissions
-    + 权限申请封装 - 一条语句搞定功能相关所有权限申请
++ [github](https://github.com/getActivity/XXPermissions)
+  + 权限申请封装 - 一条语句搞定功能相关所有权限申请
++ [简书博文](https://www.jianshu.com/p/c69ff8a445ed)
+
++ settings.gradle
+
+```gradle
+dependencyResolutionManagement {
+    repositories {
+        // JitPack 远程仓库：https://jitpack.io
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
++ build.gradle
+
+```gradle
+android {
+    // 支持 JDK 1.8
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.github.getActivity:XXPermissions:16.6'
+}
+```
+
++ AndroidX 兼容, gradle.properties 文件添加项
+```properties
+# 表示将第三方库迁移到 AndroidX
+android.enableJetifier = true
+```
+
++ Android 10 分区存储特性, AndroidManifest.xml 中加入
+```xml
+<manifest>
+    <application>
+        <!-- 告知 XXPermissions 当前项目已经适配了分区存储特性 -->
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
+    </application>
+</manifest>
+```
+
++ Java应用示例
+
+```java
+XXPermissions.with(this)
+        // 申请单个权限
+        .permission(Permission.RECORD_AUDIO)
+        // 申请多个权限
+        .permission(Permission.Group.CALENDAR)
+        // 设置权限请求拦截器（局部设置）
+        //.interceptor(new PermissionInterceptor())
+        // 设置不触发错误检测机制（局部设置）
+        //.unchecked()
+        .request(new OnPermissionCallback() {
+
+            @Override
+            public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                if (!allGranted) {
+                    toast("获取部分权限成功，但部分权限未正常授予");
+                    return;
+                }
+                toast("获取录音和日历权限成功");
+            }
+
+            @Override
+            public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                if (doNotAskAgain) {
+                    toast("被永久拒绝授权，请手动授予录音和日历权限");
+                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                    XXPermissions.startPermissionActivity(context, permissions);
+                } else {
+                    toast("获取录音和日历权限失败");
+                }
+            }
+        });
+```
 
 ## hipermission
 
