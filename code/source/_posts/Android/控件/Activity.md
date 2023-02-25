@@ -68,6 +68,19 @@ protected void onCreate(Bundle savedInstanceState) {
 </LinearLayout>
 ```
 
+```xml
+<!-- 强制竖屏 -->
+<manifest>
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+    </application>
+</manifest>
+```
+
 ### 生命周期
 
 ```java
