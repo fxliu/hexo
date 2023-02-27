@@ -49,7 +49,12 @@ project("lib***")
 # 隐藏符号
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-
+# 打印日志
+MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] "message to display" ...)
+# SEND_ERROR 产生错误，生成过程被跳过
+# STATUS 输出前缀为—(杠)的信息
+# FATAL_ERROR 立即终止所有 cmake 过程
+message(STATUS "PROJECT_NAME: " ${PROJECT_NAME})
 ```
 
 ## 基础使用
@@ -70,6 +75,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}
 ${CMAKE_SOURCE_DIR}
 # ABI
 ${CMAKE_ANDROID_ARCH_ABI}
+
+# 当前操作系统
+
 ```
 
 * 工具函数
