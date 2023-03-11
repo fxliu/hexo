@@ -20,7 +20,11 @@ protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     // 绑定：res/layout/activity_main.xml
     setContentView(R.layout.activity_main);
-    // ...
+    // 隐藏标题栏
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+        actionBar.hide();
+    }
 }
 ```
 
