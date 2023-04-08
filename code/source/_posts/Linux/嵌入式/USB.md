@@ -179,7 +179,7 @@ iInterface: 指向字符串描述符中相应的字符串内容, 用于描述该
 #define LOBYTE(x)  ((uint8_t)(x & 0x00FF))
 #define HIBYTE(x)  ((uint8_t)((x & 0xFF00) >>8))
 
-#define USB_SIZ_DEVICE_DESC                     18
+#define USB_SIZ_DEVICE_DESC                     0x12
 #define USBD_VID                                0x0483
 #define USBD_PID                                0x5740
 // 设备描述符
@@ -209,12 +209,12 @@ __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
   0x01                        /*bNumConfigurations*/
 } ; /* USB_DeviceDescriptor */
 
-#define USB_CDC_CONFIG_DESC_SIZ         (67)
+#define USB_CDC_CONFIG_DESC_SIZ         0x43  // 67
 #define CDC_IN_EP                       0x81  /* EP1 for data IN */
 #define CDC_OUT_EP                      0x01  /* EP1 for data OUT */
 #define CDC_CMD_EP                      0x82  /* EP2 for CDC commands */
-#define CDC_DATA_MAX_PACKET_SIZE        64    /* Endpoint IN & OUT Packet size */
-#define CDC_CMD_PACKET_SZE              8     /* Control Endpoint Packet size */
+#define CDC_DATA_MAX_PACKET_SIZE        0x40  /* Endpoint IN & OUT Packet size */
+#define CDC_CMD_PACKET_SZE              0x08  /* Control Endpoint Packet size */
 // 配置描述符
 __ALIGN_BEGIN uint8_t usbd_cdc_CfgDesc[USB_CDC_CONFIG_DESC_SIZ]  __ALIGN_END =
 {
@@ -318,7 +318,7 @@ __ALIGN_BEGIN uint8_t usbd_cdc_CfgDesc[USB_CDC_CONFIG_DESC_SIZ]  __ALIGN_END =
 > 只有数据接口的串口
 
 ```c++
-#define USB_SIZ_DEVICE_DESC                     18
+#define USB_SIZ_DEVICE_DESC                     0x12
 // 设备描述符
 __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
 {
@@ -349,8 +349,8 @@ __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
 #define CDC_IN_EP                       0x81  /* EP1 for data IN */
 #define CDC_OUT_EP                      0x02  /* EP1 for data OUT */
 #define CDC_CMD_EP                      0x82  /* EP2 for CDC commands */
-#define USB_CDC_CONFIG_DESC_SIZ         (32)
-#define CDC_DATA_MAX_PACKET_SIZE        64   /* Endpoint IN & OUT Packet size */
+#define USB_CDC_CONFIG_DESC_SIZ         0x20  // 32
+#define CDC_DATA_MAX_PACKET_SIZE        0x40  /* Endpoint IN & OUT Packet size */
 // 配置描述符
 /* USB CDC device Configuration Descriptor */
 __ALIGN_BEGIN uint8_t usbd_cdc_CfgDesc[USB_CDC_CONFIG_DESC_SIZ]  __ALIGN_END =
@@ -402,7 +402,7 @@ __ALIGN_BEGIN uint8_t usbd_cdc_CfgDesc[USB_CDC_CONFIG_DESC_SIZ]  __ALIGN_END =
 ## HID
 
 ```c++
-#define USB_SIZ_DEVICE_DESC                     18
+#define USB_SIZ_DEVICE_DESC                     0x12
 // 设备描述符
 __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
 {
@@ -427,8 +427,8 @@ __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
   0x01            //bNumConfigurations
 } ; /* USB_DeviceDescriptor */
 
-#define HID_REPORT_DESC_SIZE          0x22
-#define USB_HID_CONFIG_DESC_SIZ       0x2C
+#define HID_REPORT_DESC_SIZE          0x22  // 44
+#define USB_HID_CONFIG_DESC_SIZ       0x29  // 41
 // 配置描述符
 __ALIGN_BEGIN uint8_t USBD_HID_CfgDesc[USB_HID_CONFIG_DESC_SIZ] __ALIGN_END =
 {
@@ -505,8 +505,61 @@ __ALIGN_BEGIN uint8_t HID_ReportDesc[HID_REPORT_DESC_SIZE] __ALIGN_END =
   0xb1, 0x02,  //Feature (Data, Variable, Absolute,Buffered Bytes)
   0xc0   //End Collection
 };
+```
 
-#define HID_KEY_REPORT_DESC_SIZE    63
+## USB键盘
+
+```c++
+#define USB_HID_CONFIG_DESC_SIZ       0x29  // 44
+#define HID_KEY_REPORT_DESC_SIZE      0x3F  // 63
+// 配置描述符
+__ALIGN_BEGIN uint8_t USBD_HID_CfgDesc[USB_HID_CONFIG_DESC_SIZ] __ALIGN_END =
+{
+  //configuration desc
+  0x09,                                 //Length = 9
+  0x02,                                 //DescriptorType = Configuration
+  USB_HID_CONFIG_DESC_SIZ, 0x00,        //TotalLength = (9 for Configuration; 9 for Interface; 54 for CCID; 7 for Bulk-in, 7 for Bulk-Out Endpoint)
+  0x01,                                 //NumInterfaces = 1
+  0x01,                                 //ConfigurationValue = 1
+  0x00,                                 //iConfiguration string index(Non)
+  0x80,                                 //SelfPower = 0; RemoteWakeup = 0
+  0x32,                                 //MaxPower = 100mA
+                                        
+  //interface desc                      
+  0x09,                                 //Length = 9
+  0x04,                                 //DescriptorType = Interface
+  0x00,                                 //InerfaceNumber = 0
+  0x00,                                 //AlternateSetting = 0
+  0x02,                                 //NumEndpoint = 2(bulk-IN, bulk-OUT)
+  0x03,                                 //Class = Human Interface Device 
+  0x01,                                 //InterfaceSubClass = 0x00(No subclass)     
+  0x01,                                 //InterfaceProtocol = 0x00(None) 
+  0x00,                                 //iInterface string index(Non)
+  
+  //HID descriptor
+  0x09,0x21,                            //Length, Type
+  0x00,0x01,                            //HID Class Specification compliance ?0x10 0x01
+  0x00,                                 //Country localization (=none)
+  0x01,                                 //number of descriptors to follow
+  0x22,                                 //And it's a Report descriptor
+  HID_KEY_REPORT_DESC_SIZE,0x00,        //Report descriptor length 
+
+  // Endpoint desc
+  0x07,                                 //Length = 7
+  0x05,                                 //DescriptorType = Endpoint    
+  0x81,                                 //In; Ep1
+  0x03,                                 //Endpoint type = interrupt
+  0x08, 0x00,                           //MaxPacketSize = 64
+  0x01,                                 //Poll
+
+  0x07,                                 //Length = 7
+  0x05,                                 //DescriptorType = Endpoint    
+  0x01,                                 //Out; Ep2
+  0x03,                                 //Endpoint type = interrupt
+  0x08, 0x00,                           //MaxPacketSize = 64
+  0x01,                                 //Interval(ignore)
+} ;
+
 // HID - 报告描述符 - USB键盘
 __ALIGN_BEGIN uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE] __ALIGN_END =
 {
