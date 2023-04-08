@@ -580,4 +580,34 @@ __ALIGN_BEGIN uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE] __ALIGN_E
 #define KEY_R_WIN    0x80
 // 1B: 灯语, 前5bit有效, 后3bit对齐用
 // 6B: 按键, 最多描述6个按键被按下
+// 按键值对应
+u8* KeyMap(u8 n, u8* data) {
+  u8 keymap[37]={
+    0x27,0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,0x26, //0-9
+    0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11,
+    0x12,0x13,0x14,0x15,0x16,0x17,0x018,0x19,0x1A,0x1B,0x1C,0x1D
+  };
+  if('0'<= n && n<='9'){
+    data[2] = keymap[n-'0'];
+    data[0] = 0;
+  }
+  else if('a'<=n && n<='z'){
+    data[2] = keymap[n-'a'+10];
+    data[0] = 0;
+  }
+  else if('A'<=n && n<='Z'){
+    // LeftShift
+    data[2] = keymap[n-'A'+10];
+    data[0] = KEY_L_SHIFT;
+  }
+  else if('\n' == n) {
+    data[2] = 0x28;
+    data[0] = 0;
+  }
+  else {
+    data[0] = 0;
+    data[2] = 0;
+  }
+  return data;
+}
 ```
