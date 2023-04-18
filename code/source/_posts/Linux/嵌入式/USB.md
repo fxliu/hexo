@@ -28,14 +28,14 @@ updated: 2023-04-07 16:12:33
 
 ```c++
   /* Interface Association Descriptor(IAD Descriptor)  */ 
-	0x08,      /*   bLength  */
-	0x0B,      /*   bDescriptorType*/
-	0x00,      /*   bFirstInterface*/
-	0x02,      /*   bInterfaceCount*/
-	0x02,      /*   bFunctionClass --CDC*/
-	0x02,      /*   bFunctionSubClass*/
-	0x01,      /*   bFunctionProtocoll*/
-	0x00,      /*   iFunction */
+  0x08,      /*   bLength  */
+  0x0B,      /*   bDescriptorType*/
+  0x00,      /*   bFirstInterface*/
+  0x02,      /*   bInterfaceCount*/
+  0x02,      /*   bFunctionClass: CDC*/
+  0x02,      /*   bFunctionSubClass*/
+  0x01,      /*   bFunctionProtocoll*/
+  0x00,      /*   iFunction */
 ```
 
 ## 设备描述符
@@ -84,17 +84,17 @@ __ALIGN_BEGIN uint8_t USBD_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALI
 {
   USB_LEN_DEV_QUALIFIER_DESC,   // bLength: 固定值
   0x06,                         // bDescriptorType: 固定值
-  0x00,                       /*bcdUSB: USB2.0 */
+  0x00,                         // bcdUSB: USB2.0
   0x02,
 
-  0x02,                       /*bDeviceClass: 串口*/
-  0x00,                       /*bDeviceSubClass*/
-  0x00,                       /*bDeviceProtocol*/
+  0x02,                         // bDeviceClass: 串口
+  0x00,                         // bDeviceSubClass
+  0x00,                         // bDeviceProtocol
 
-  0x40,                       /*bMaxPacketSize*/
+  0x40,                         // bMaxPacketSize
 
-  0x01,                       // bNumConfigurations: 其他速度配置的数量
-  0x00,                       // 保留
+  0x01,                         // bNumConfigurations: 其他速度配置的数量
+  0x00,                         // 保留
 };
 ```
 
