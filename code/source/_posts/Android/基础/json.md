@@ -30,4 +30,57 @@ jsonObject.put("username", "宋发元");
 jsonObject.put("age", 24);
 ```
 
-## 
+## JsonObject
+
+```java
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
+
+public class JsonBuilder {
+    JsonObject object;
+
+    public JsonBuilder() {
+        object = new JsonObject();
+    }
+
+    public JsonObject build() {
+        return object;
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    public JsonBuilder put(String n, String v) {
+        object.addProperty(n, v);
+        return this;
+    }
+
+    public JsonBuilder put(String n, int v) {
+        object.addProperty(n, v);
+        return this;
+    }
+
+    public JsonBuilder put(String n, float v) {
+        object.addProperty(n, v);
+        return this;
+    }
+
+    public JsonBuilder put(String n, JsonObject v) {
+        object.add(n, v);
+        return this;
+    }
+
+    public JsonBuilder put(String n, JSONObject v) {
+        put(n, JsonParser.parseString(v.toString()).getAsJsonObject());
+        return this;
+    }
+
+    String getString(String key) {
+        return object.get(key).getAsString();
+    }
+
+    int getInt(String key) {
+        return object.get(key).getAsInt();
+    }
+}
+```
