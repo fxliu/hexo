@@ -14,6 +14,9 @@ updated: 2020-03-28 19:30:25
 + [PictureSelector](https://github.com/LuckSiege/PictureSelector)
   + 相机 + 相册 + 多种主题
   + 持续更新
++ [EasyPhotos](https://github.com/HuanTanSheng/EasyPhotos)
+  + 相册
+  + 支持Android 11
 + [图片选择器](https://github.com/qingmei2/RxImagePicker)
   + 响应式图片选择器，支持相机+相册， 灵活应用于各种需求嵌入
   + 知乎主题 + 微信主题
