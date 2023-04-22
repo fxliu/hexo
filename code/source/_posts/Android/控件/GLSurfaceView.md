@@ -37,3 +37,4 @@ updated: 2022-08-04 17:41:24
 + 基于opengles+glsurfaceview,能实现实时滤镜，拍照，录制短视频，美颜磨皮等功能
 [AndroidOpenGLDemo](https://github.com/doggycoder/AndroidOpenGLDemo)
 + 基础应用的各种效果集合
+[lib_essurface](svn\esface\trunk\Android\libs\lib_essurface)
