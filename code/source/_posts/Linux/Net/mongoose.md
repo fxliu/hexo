@@ -1,14 +1,15 @@
 ---
-title: CURL
+title: mongoose
 tags: 
-  - CURL
+  - mongoose
 categories: 
   - linux
-description: CURL
+description: mongoose
 date: 2020-11-05 16:41:39
 updated: 2020-11-05 16:41:39
 ---
 
 ## Demo
 
-`es:svn\bar_machine\trunk\C++\EIDSDK\linux\esaio\es_idcard`
++ [mongoose](https://github.com/cesanta/mongoose)
++ `es:svn\bar_machine\trunk\C++\EIDSDK\linux\esaio\es_idcard`

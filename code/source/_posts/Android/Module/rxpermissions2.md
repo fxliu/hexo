@@ -88,7 +88,7 @@ android {
 
 dependencies {
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:16.6'
+    implementation 'com.github.getActivity:XXPermissions:18.0'
 }
 ```
 
