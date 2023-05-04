@@ -170,6 +170,10 @@ client.newCall(request).enqueue(new Callback() {
     }
 });
 ```
+```java
+// Response response: 说明
+response.body();    // body只能调用一次
+```
 
 ### 拦截器
 
