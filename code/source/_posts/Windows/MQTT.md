@@ -16,7 +16,7 @@ updated: 2023-05-04 18:09:36
 
 ```sh
 # 命令行: /emqx/bin/
-# 启动
+# 启动: 指令有参数输出, 不用管, 直接HTTP访问控制台即可
 emqx start
 # 停止
 emqx stop
