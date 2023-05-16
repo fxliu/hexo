@@ -61,3 +61,31 @@ sudo systemctl status ssh   # q退出
 sudo systemctl enable ssh
 sudo systemctl disable ssh
 ```
+
+## Android-NDK
+
+```sh
+# 旧版本NDK下载地址: https://developer.android.google.cn/ndk/downloads/older_releases?hl=zh-cn
+
+# NDK下载安装
+wget -c http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+chmod 777 android-ndk-r10c-linux-x86_64.bin
+# bin文件直接执行就是解压缩, 如果是zip包直接解压即可
+./android-ndk-r10c-linux-x86_64.bin
+
+# 当前用户环境变量
+sudo gedit ~/.bashrc
+export NDK=/home/sun/ijkPlayer/android-ndk-r10e
+export PATH=${PATH}:$NDK
+# 保存并使之生效
+source  ~/.bashrc
+# 验证 - 指令存在即认为好使
+ndk-build
+```
+
+```sh
+# SDK下载安装
+sudo apt install android-sdk
+sudo apt install android-tools-adb
+sudo apt install android-tools-fastboot
+```
