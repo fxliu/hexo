@@ -29,12 +29,14 @@ emqx stop
 # 管理 -> 监听器 -> 通常开启TCP即可
 ```
 
-## MQTT客户端
+## MQTTX客户端
 
-* [MQTT](https://www.emqx.com/zh/products/mqttx)
+* [MQTTX](https://www.emqx.com/zh/products/mqttx)
   * 下载windows安装包即可
+* [MQTTX-CLI](https://mqttx.app/zh/cli)
+  * 命令行终端
 
-## MQTT使用
+## MQTTX使用
 
 * 连接: 添加连接
   * 名称随意, ClientID随意
@@ -47,3 +49,15 @@ emqx stop
   * 必须是异常退出才会触发
   * 客户端正常退出, 不触发遗嘱
 
+## MQTTX-CLI使用
+
+* [使用文档](https://mqttx.app/zh/docs/cli)
+
+```sh
+# 连接
+mqttx conn -h 'broker.emqx.io' -p 1883 -u 'admin' -P 'public'
+# 订阅
+mqttx sub -t 'hello' -h 'broker.emqx.io' -p 1883
+# 发布
+mqttx pub -t 'hello' -h 'broker.emqx.io' -p 1883 -m 'Hello from MQTTX CLI'
+```
