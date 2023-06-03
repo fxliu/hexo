@@ -85,6 +85,13 @@ protected void onCreate(Bundle savedInstanceState) {
 </manifest>
 ```
 
+```java
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);     //设置屏幕为横屏, 设置后会锁定方向
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //设置屏幕为竖屏, 设置后会锁定方向
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);   //方向未定义, 设置后放弃锁定方向
+```
+
 ### 生命周期
 
 ```java
