@@ -38,3 +38,28 @@ if (is_resource($process)) {
     proc_close($process);
 }
 ```
+
+```php
+function exec($cmd, $data)
+{
+    $stdout = tmpfile();
+    $descriptorspec = array(
+        0 => array("pipe", "r"),    //标准输入，子进程从此管道读取数据
+        1=> $stdout
+    );
+    $process = proc_open($cmd, $descriptorspec, $pipes);
+    if (is_resource($process)) {
+        // 后置输入HEX数据
+        fwrite($pipes[0], $data);
+        fclose($pipes[0]);
+        // 关闭进程
+        proc_close($process);
+        // 分析结果 - 并反馈
+        fseek($stdout, 0);
+        $re = stream_get_contents($stdout);
+        fclose($stdout);
+        return $re;
+    }
+    return "";
+}
+```
