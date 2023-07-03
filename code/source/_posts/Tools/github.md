@@ -1,4 +1,4 @@
----
+
 title: Git
 tags: 
   - Git
@@ -292,3 +292,11 @@ git config --global credential.helper store
 # 增加远程地址的时候带上密码也是可以的。(推荐)
 # http://yourname:password@git.oschina.net/name/project.git
 ```
+
+## 内嵌子模块
+
+```sh
+git submodule init
+git submodule update
+```
+

@@ -8,6 +8,7 @@ description: BitmapUtil
 date: 2020-02-07 22:12:34
 updated: 2020-02-07 22:12:34
 ---
+
 ## base
 
 ```java
